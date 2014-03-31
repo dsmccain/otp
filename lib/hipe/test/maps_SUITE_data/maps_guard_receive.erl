@@ -2,6 +2,8 @@
 -export([test/0]).
 
 test() ->
+    {skip, "Not yet supported by HiPE."};
+test() ->
     M0  = #{ id => 0 },
     Pid = spawn_link(fun() -> guard_receive_loop() end),
     Big = 36893488147419103229,

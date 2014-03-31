@@ -172,15 +172,18 @@ run(TestCase, Dir, _OutDir) ->
     %% 			  {ok, _} = file:copy(Src, Dst)
     %% 		  end, DataFiles),
     %% try
-    ok = TestCase:test(),
-    HiPEOpts = try TestCase:hipe_options() catch error:undef -> [] end,
-    {ok, TestCase} = hipe:c(TestCase, HiPEOpts),
-    ok = TestCase:test(),
-    case is_llvm_opt_available() of
-	true ->
-	    {ok, TestCase} = hipe:c(TestCase, [to_llvm|HiPEOpts]),
-	    ok = TestCase:test();
-	false -> ok
+    case TestCase:test() of
+	{skip, Comment} -> {skip, Comment};
+	ok ->
+	    HiPEOpts = try TestCase:hipe_options() catch error:undef -> [] end,
+	    {ok, TestCase} = hipe:c(TestCase, HiPEOpts),
+	    ok = TestCase:test(),
+	    case is_llvm_opt_available() of
+		true ->
+		    {ok, TestCase} = hipe:c(TestCase, [to_llvm|HiPEOpts]),
+		    ok = TestCase:test();
+		false -> ok
+	    end
     end.
     %% after
     %% 	lists:foreach(fun (DF) -> ok end, % = file:delete(DF) end,

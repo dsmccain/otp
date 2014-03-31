@@ -2,6 +2,8 @@
 -export([test/0]).
 
 test() ->
+    {skip, "Not yet supported by HiPE."};
+test() ->
     M = maps:new(),
     X = id(fondue),
     M1 = #{ a := 1 } = M#{a => 1},

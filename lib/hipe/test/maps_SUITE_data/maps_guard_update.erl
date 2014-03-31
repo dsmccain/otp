@@ -2,6 +2,8 @@
 -export([test/0]).
 
 test() ->
+    {skip, "Not yet supported by HiPE."};
+test() ->
     error  = map_guard_update(#{},#{}),
     first  = map_guard_update(#{}, #{x=>first}),
     second = map_guard_update(#{y=>old}, #{x=>second,y=>old}),

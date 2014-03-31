@@ -2,6 +2,8 @@
 -export([test/0]).
 
 test() ->
+    {skip, "Not yet supported by HiPE."};
+test() ->
 	{1, "a"} = map_guard_sequence_1(#{seq=>1,val=>id("a")}),
 	{2, "b"} = map_guard_sequence_1(#{seq=>2,val=>id("b")}),
 	{3, "c"} = map_guard_sequence_1(#{seq=>3,val=>id("c")}),

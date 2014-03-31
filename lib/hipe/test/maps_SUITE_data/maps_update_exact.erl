@@ -2,6 +2,8 @@
 -export([test/0]).
 
 test() ->
+    {skip, "Not yet supported by HiPE."};
+test() ->
     M0 = id(#{1=>a,2=>b,3.0=>c,4=>d,5=>e}),
 
     M1 = M0#{1:=42,2:=100,4:=[a,b,c]},

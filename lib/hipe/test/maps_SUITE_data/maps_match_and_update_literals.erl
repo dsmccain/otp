@@ -2,6 +2,8 @@
 -export([test/0]).
 
 test() ->
+    {skip, "Not yet supported by HiPE."};
+test() ->
     Map = #{x=>0,y=>"untouched",z=>"also untouched",q=>1},
     #{x:=16,q:=21,y:="untouched",z:="also untouched"} = loop_match_and_update_literals_x_q(Map, [
 	    {1,2},{3,4},{5,6},{7,8}

@@ -2,6 +2,8 @@
 -export([test/0]).
 
 test() ->
+    {skip, "Not yet supported by HiPE."};
+test() ->
     Map = #{x=>1,y=>2,z=>3,q=>4},
     #{x:="d",q:="4"} = loop_update_literals_x_q(Map, [
 		{"a","1"},{"b","2"},{"c","3"},{"d","4"}

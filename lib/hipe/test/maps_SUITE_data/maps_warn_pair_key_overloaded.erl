@@ -2,6 +2,8 @@
 -export([test/0]).
 
 test() ->
+    {skip, "Not yet supported by HiPE."};
+test() ->
     #{ "hi1" := 42 } = id(#{ "hi1" => 1, "hi1" => 42 }),
 
     #{ "hi1" := 1337, "hi2" := [2], "hi3" := 3 } = id(#{
