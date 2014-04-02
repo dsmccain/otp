@@ -1133,10 +1133,7 @@ trans_fun([{test, has_map_fields, {f, FLbl}, Map, {list, KeyList}}|
   FalseLabel = map_label(FLbl),
   {TestInstructions, Env2} =
     trans_has_map_fields(MapVar, FalseLabel, Env1, KeyList),
-  [MapMove,
-   TestInstructions |
-    trans_fun(Instructions, Env2)];
-
+  [MapMove, TestInstructions | trans_fun(Instructions, Env2)];
 %%--------------------------------------------------------------------
 %%--- ERROR HANDLING ---
 %%--------------------------------------------------------------------
@@ -1520,7 +1517,6 @@ trans_type_test2(function2, Lbl, Arg, Arity, Env) ->
 %%
 %% Handles the has_map_fields test instruction
 %%
-%% -spec trans_has_map_fields(icode_var(), icode_lbl(), A, [
 trans_has_map_fields(_MapVar, _FalseLabel, Env, []) ->
   {[], Env};
 trans_has_map_fields(MapVar, FalseLabel, Env, [Key|Keys]) ->
@@ -1528,14 +1524,12 @@ trans_has_map_fields(MapVar, FalseLabel, Env, [Key|Keys]) ->
   PassLabel = mk_label(new),
   %% Is var the right variable type?
   BoolVar = hipe_icode:mk_new_var(),
-  {ResList, Env2} = trans_has_map_fields(MapVar, FalseLabel, Env1, Keys),
   BifCall = hipe_icode:mk_call([BoolVar], maps, is_key, [KeyVar, MapVar],
 			       remote),
-  TrueTest = hipe_icode:mk_if('=:=',
-			      [BoolVar, hipe_icode:mk_const(true)],
+  TrueTest = hipe_icode:mk_if('=:=', [BoolVar, hipe_icode:mk_const(true)],
 			      hipe_icode:label_name(PassLabel), FalseLabel),
+  {ResList, Env2} = trans_has_map_fields(MapVar, FalseLabel, Env1, Keys),
   {[Move, BifCall, TrueTest, PassLabel | ResList], Env2}.
-
 
 %%-----------------------------------------------------------------------
 %% trans_puts(Code, Environment) -> 
