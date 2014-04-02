@@ -2,8 +2,6 @@
 -export([test/0]).
 
 test() ->
-    {skip, "Not yet supported by HiPE."};
-test() ->
     F = fun
 	(#{ "hi" := first,  v := V}) -> {1,V};
 	(#{ "hi" := second, v := V}) -> {2,V}

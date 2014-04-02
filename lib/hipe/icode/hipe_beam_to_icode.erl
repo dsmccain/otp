@@ -1134,6 +1134,13 @@ trans_fun([{test, has_map_fields, {f, FLbl}, Map, {list, KeyList}}|
   {TestInstructions, Env2} =
     trans_has_map_fields(MapVar, FalseLabel, Env1, KeyList),
   [MapMove, TestInstructions | trans_fun(Instructions, Env2)];
+trans_fun([{get_map_elements, {f, FLbl}, Map, {list, KVPs}}|
+	   Instructions], Env) ->
+  {MapMove,MapVar,Env1} = mk_move_and_var(Map,Env),
+  FalseLabel = map_label(FLbl),
+  {GetInstructions, Env2} =
+    trans_get_map_elements(MapVar, FalseLabel, Env1, KVPs),
+  [MapMove, GetInstructions | trans_fun(Instructions, Env2)];
 %%--------------------------------------------------------------------
 %%--- ERROR HANDLING ---
 %%--------------------------------------------------------------------
@@ -1530,6 +1537,24 @@ trans_has_map_fields(MapVar, FalseLabel, Env, [Key|Keys]) ->
 			      hipe_icode:label_name(PassLabel), FalseLabel),
   {ResList, Env2} = trans_has_map_fields(MapVar, FalseLabel, Env1, Keys),
   {[Move, BifCall, TrueTest, PassLabel | ResList], Env2}.
+
+%%
+%% Handles the get_map_elements instruction
+%%
+trans_get_map_elements(_MapVar, _FalseLabel, Env, []) ->
+  {[], Env};
+trans_get_map_elements(MapVar, FalseLabel, Env, [Key,Val|KVPs]) ->
+  {Move,KeyVar,Env1} = mk_move_and_var(Key,Env),
+  PassLabel = mk_label(new),
+  BoolVar = hipe_icode:mk_new_var(),
+  ValVar = mk_var(Val),
+  IsKeyCall = hipe_icode:mk_call([BoolVar], maps, is_key, [KeyVar, MapVar],
+			       remote),
+  TrueTest = hipe_icode:mk_if('=:=', [BoolVar, hipe_icode:mk_const(true)],
+			      hipe_icode:label_name(PassLabel), FalseLabel),
+  GetCall = hipe_icode:mk_call([ValVar], maps, get,  [KeyVar, MapVar], remote),
+  {ResList, Env2} = trans_get_map_elements(MapVar, FalseLabel, Env1, KVPs),
+  {[Move, IsKeyCall, TrueTest, PassLabel, GetCall | ResList], Env2}.
 
 %%-----------------------------------------------------------------------
 %% trans_puts(Code, Environment) -> 

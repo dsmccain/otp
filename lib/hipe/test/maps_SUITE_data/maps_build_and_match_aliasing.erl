@@ -2,8 +2,6 @@
 -export([test/0]).
 
 test() ->
-    {skip, "Not yet supported by HiPE."};
-test() ->
     M1 = id(#{a=>1,b=>2,c=>3,d=>4}),
     #{c:=C1=_=_=C2} = M1,
     true = C1 =:= C2,
