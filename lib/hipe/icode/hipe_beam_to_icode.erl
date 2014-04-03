@@ -1125,6 +1125,16 @@ trans_fun([{trim,N,NY}|Instructions], Env) ->
 trans_fun([{line,_}|Instructions], Env) ->
   trans_fun(Instructions,Env);
 %%--------------------------------------------------------------------
+%% Map instructions added in Spring 2014 (R17).
+%%--------------------------------------------------------------------
+trans_fun([{test, has_map_fields, {f, FLbl}, Map, {list, KeyList}}|
+	   Instructions], Env) ->
+  {MapMove,MapVar,Env1} = mk_move_and_var(Map,Env),
+  FalseLabel = map_label(FLbl),
+  {TestInstructions, Env2} =
+    trans_has_map_fields(MapVar, FalseLabel, Env1, KeyList),
+  [MapMove, TestInstructions | trans_fun(Instructions, Env2)];
+%%--------------------------------------------------------------------
 %%--- ERROR HANDLING ---
 %%--------------------------------------------------------------------
 trans_fun([X|_], _) ->
@@ -1503,6 +1513,23 @@ trans_type_test2(function2, Lbl, Arg, Arity, Env) ->
   I = hipe_icode:mk_type([Var1,Var2], function2,
 			 hipe_icode:label_name(True), map_label(Lbl)),
   {[Move1,Move2,I,True],Env2}.
+
+%%
+%% Handles the has_map_fields test instruction
+%%
+trans_has_map_fields(_MapVar, _FalseLabel, Env, []) ->
+  {[], Env};
+trans_has_map_fields(MapVar, FalseLabel, Env, [Key|Keys]) ->
+  {Move,KeyVar,Env1} = mk_move_and_var(Key,Env),
+  PassLabel = mk_label(new),
+  %% Is var the right variable type?
+  BoolVar = hipe_icode:mk_new_var(),
+  BifCall = hipe_icode:mk_call([BoolVar], maps, is_key, [KeyVar, MapVar],
+			       remote),
+  TrueTest = hipe_icode:mk_if('=:=', [BoolVar, hipe_icode:mk_const(true)],
+			      hipe_icode:label_name(PassLabel), FalseLabel),
+  {ResList, Env2} = trans_has_map_fields(MapVar, FalseLabel, Env1, Keys),
+  {[Move, BifCall, TrueTest, PassLabel | ResList], Env2}.
 
 %%-----------------------------------------------------------------------
 %% trans_puts(Code, Environment) -> 

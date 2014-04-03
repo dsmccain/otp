@@ -2,8 +2,6 @@
 -export([test/0]).
 
 test() ->
-    {skip, "Not yet supported by HiPE."};
-test() ->
     F = fun(#{ "hi":=_,{1,2}:=_,1337:=_}) -> ok end,
     ok = F(id(#{"hi"=>ok,{1,2}=>ok,1337=>ok})),
 
