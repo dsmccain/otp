@@ -617,6 +617,10 @@ trans_fun([{put_tuple,_Size,Reg}|Instructions], Env) ->
   Src = lists:reverse(Vars),
   Primop = hipe_icode:mk_primop(Dest,mktuple,Src),
   Moves ++ [Primop | trans_fun(Instructions2,Env2)];
+%%--- put_map_assoc ---
+trans_fun([{put_map_assoc, _FailLbl, Map, Dest, _N, {list, ElementPairs}}|Instructions], Env) ->
+  {PutInstructions, Env1} = trans_put_map_assoc(Map, Dest, ElementPairs, Env, []),
+  PutInstructions ++ [trans_fun(Instructions, Env1)];
 %%--- put --- SHOULD NOT REALLY EXIST HERE; put INSTRUCTIONS ARE HANDLED ABOVE.
 %%--- badmatch ---
 trans_fun([{badmatch,Arg}|Instructions], Env) ->
@@ -1504,6 +1508,20 @@ trans_type_test2(function2, Lbl, Arg, Arity, Env) ->
 			 hipe_icode:label_name(True), map_label(Lbl)),
   {[Move1,Move2,I,True],Env2}.
 
+%% ----------------------------------------------------------------------
+%% This function generates the instructions needed to insert several
+%% (Key, Value) pairs into an existing map, each recursive call inserts 
+%% one (Key, Value) pair.
+%% ----------------------------------------------------------------------
+  trans_put_map_assoc(_,_, [], Env, Acc) ->
+    {lists:reverse(Acc), Env};
+  trans_put_map_assoc(Map, Dest, [Key, Value | Rest], Env, Acc) ->
+    {MapMove, MapVar, Env1} = mk_move_and_var(Map, Env),
+    {MoveKey, KeyVar, Env2} = mk_move_and_var(Key, Env1),
+    {MoveVal, ValVar, Env3} = mk_move_and_var(Value, Env2),
+    BifCall = hipe_icode:mk_call([mk_var(Dest)], maps, put, [KeyVar, ValVar, MapVar], remote),
+    trans_put_map_assoc(Dest, Dest, Rest, Env3, [BifCall, MoveVal, MoveKey, MapMove | Acc]). 
+  
 %%-----------------------------------------------------------------------
 %% trans_puts(Code, Environment) -> 
 %%            {Movs, Code, Vars, NewEnv}
