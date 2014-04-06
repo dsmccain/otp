@@ -2602,6 +2602,40 @@ arg_types(lists, zipwith, 3) ->
 arg_types(lists, zipwith3, 4) ->
   [t_fun([t_any(), t_any(), t_any()], t_any()), t_list(), t_list(), t_list()];
 
+%%------- maps --------------------------------------------------------------
+arg_types(maps, find, 2) ->
+  [t_any(), t_map()];
+arg_types(maps, fold, 3) ->
+  [t_fun([t_any(), t_any(), t_any()], t_any()), t_any(), t_map()];
+arg_types(maps, from_list, 1) ->
+  [t_list(t_tuple(2))];
+arg_types(maps, get, 2) ->
+  [t_any(), t_map()];
+arg_types(maps, is_key, 2) ->
+  [t_any(), t_map()];
+arg_types(maps, keys, 1) ->
+  [t_map()];
+arg_types(maps, map, 2) ->
+  [t_fun([t_any(), t_any()], t_any()), t_map()];
+arg_types(maps, merge, 2) ->
+  [t_map(), t_map()];
+arg_types(maps, new, 0) ->
+  [];
+arg_types(maps, put, 3) ->
+  [t_any(), t_any(), t_map()];
+arg_types(maps, remove, 2) ->
+  [t_any(), t_map()];
+arg_types(maps, size, 1) ->
+  [t_map()];
+arg_types(maps, to_list, 1) ->
+  [t_map()];
+arg_types(maps, update, 3) ->
+  [t_any(), t_any(), t_map()];
+arg_types(maps, values, 1) ->
+  [t_map()];
+arg_types(maps, without, 2) ->
+  [t_list(), t_map()];
+
 %%------- string --------------------------------------------------------------
 arg_types(string, chars, 2) ->
   [t_char(), t_non_neg_integer()];
