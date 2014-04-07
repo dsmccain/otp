@@ -1,0 +1,157 @@
+maps_guard_bifs:map_guard_body/1(v1 ({} | #{})) ->
+%% Info:['Not a closure','Leaf function']
+44:
+    goto 1
+1:
+    goto 42
+42:
+    v2 (boolean()) := erlang:is_map/1(v1 ({} | #{}))
+    return(v2 (boolean()))
+%% Data:
+maps_guard_bifs:map_guard_empty/0() ->
+%% Info:['Not a closure','Leaf function']
+30:
+    goto 1
+1:
+    goto 28
+28:
+    v1 ('true') := true
+    return(v1 ('true'))
+%% Data:
+maps_guard_bifs:map_guard_empty_2/0() ->
+%% Info:['Not a closure','Leaf function']
+34:
+    goto 1
+1:
+    goto 32
+32:
+    v1 ('true') := true
+    return(v1 ('true'))
+%% Data:
+maps_guard_bifs:map_guard_head/1(v1 ([] | #{})) ->
+%% Info:['Not a closure','Leaf function']
+40:
+    goto 1
+1:
+    goto 36
+36:
+    if is_map(v1 ([] | #{})) then 3 (0.50) else 38
+3:
+    v2 ('true') := true
+    return(v2 ('true'))
+38:
+    v3 ('false') := false
+    return(v3 ('false'))
+%% Data:
+maps_guard_bifs:map_guard_ill_map_size/0() ->
+%% Info:['Not a closure','Leaf function']
+58:
+    goto 1
+1:
+    goto 56
+56:
+    v1 ('true') := true
+    return(v1 ('true'))
+%% Data:
+maps_guard_bifs:map_guard_pattern/1(v1 ([105 | 108 | 115 | 116,...] | #{})) ->
+%% Info:['Not a closure','Leaf function']
+50:
+    goto 1
+1:
+    goto 46
+46:
+    if is_map(v1 ([105 | 108 | 115 | 116,...] | #{})) then 3 (0.50) else 48
+3:
+    v2 ('true') := true
+    return(v2 ('true'))
+48:
+    v3 ('false') := false
+    return(v3 ('false'))
+%% Data:
+maps_guard_bifs:map_guard_tautology/0() ->
+%% Info:['Not a closure','Leaf function']
+54:
+    goto 1
+1:
+    goto 52
+52:
+    v1 ('true') := true
+    return(v1 ('true'))
+%% Data:
+maps_guard_bifs:module_info/0() ->
+%% Info:['Not a closure','Leaf function']
+62:
+    goto 1
+1:
+    goto 60
+60:
+    erlang:get_module_info/1(maps_guard_bifs)
+%% Data:
+maps_guard_bifs:module_info/1(v1 (any())) ->
+%% Info:['Not a closure','Leaf function']
+66:
+    goto 1
+1:
+    goto 64
+64:
+    erlang:get_module_info/2(maps_guard_bifs, v1 (any()))
+%% Data:
+maps_guard_bifs:test/0() ->
+%% Info:['Not a closure','Not a leaf function']
+26:
+    goto 1
+1:
+    _ := redtest() (primop)
+    goto 4
+4:
+    v1 ('true') := map_guard_empty/0()
+    goto 3
+3:
+    v2 ('true') := map_guard_empty_2/0()
+    goto 5
+5:
+    v4 (boolean()) := map_guard_head/1(#{a => 1})
+    if is_{atom,true}(v4 (boolean())) then 7 (0.50) else 20
+7:
+    v6 (boolean()) := map_guard_head/1([])
+    if is_{atom,false}(v6 (boolean())) then 9 (0.50) else 18
+9:
+    v8 (boolean()) := map_guard_body/1(#{a => 1})
+    if is_{atom,true}(v8 (boolean())) then 11 (0.50) else 16
+11:
+    v10 (boolean()) := map_guard_body/1({})
+    if is_{atom,false}(v10 (boolean())) then 13 (0.50) else 14
+13:
+    v12 (boolean()) := map_guard_pattern/1(#{a => 1,<<"hi">> => "hi"})
+    if is_{atom,true}(v12 (boolean())) then 15 (0.50) else 12
+15:
+    v14 (boolean()) := map_guard_pattern/1("list")
+    if is_{atom,false}(v14 (boolean())) then 17 (0.50) else 10
+17:
+    v15 ('true') := map_guard_tautology/0()
+    goto 19
+19:
+    v16 ('true') := map_guard_ill_map_size/0()
+    goto 21
+21:
+    v17 ('ok') := ok
+    return(v17 ('ok'))
+10:
+    v23 ({'badmatch','true'}) := mktuple(badmatch, v14 ('true')) (primop)
+    fail(error, [v23 ({'badmatch','true'})])
+12:
+    v25 ({'badmatch','false'}) := mktuple(badmatch, v12 ('false')) (primop)
+    fail(error, [v25 ({'badmatch','false'})])
+14:
+    v27 ({'badmatch','true'}) := mktuple(badmatch, v10 ('true')) (primop)
+    fail(error, [v27 ({'badmatch','true'})])
+16:
+    v29 ({'badmatch','false'}) := mktuple(badmatch, v8 ('false')) (primop)
+    fail(error, [v29 ({'badmatch','false'})])
+18:
+    v31 ({'badmatch','true'}) := mktuple(badmatch, v6 ('true')) (primop)
+    fail(error, [v31 ({'badmatch','true'})])
+20:
+    v33 ({'badmatch','false'}) := mktuple(badmatch, v4 ('false')) (primop)
+    fail(error, [v33 ({'badmatch','false'})])
+%% Data:

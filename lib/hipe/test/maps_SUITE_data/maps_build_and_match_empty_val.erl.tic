@@ -1,0 +1,124 @@
+maps_build_and_match_empty_val:'-test/0-fun-0-'/1(v1 (any()), v2 (any())) ->
+%% Info:['Closure','Leaf function']
+32:
+    goto 30
+30:
+    goto 1
+1:
+    goto 28
+28:
+    if is_map(v1 (any())) then 3 (0.50) else 26
+3:
+    v5 (any()) := maps:is_key/2(1337, v1 (#{}))
+    if is_{atom,true}(v5 (any())) then 5 (0.50) else 26
+5:
+    v7 (any()) := maps:is_key/2({1,2}, v1 (#{}))
+    if is_{atom,true}(v7 (any())) then 7 (0.50) else 26
+7:
+    v9 (any()) := maps:is_key/2("hi", v1 (#{}))
+    if is_{atom,true}(v9 (any())) then 9 (0.50) else 26
+9:
+    v10 ('ok') := ok
+    return(v10 ('ok'))
+26:
+    v3 ('function_clause') := function_clause
+    fail(error, [v3 ('function_clause')])
+%% Data:
+maps_build_and_match_empty_val:id/1(v1 (#{})) ->
+%% Info:['Not a closure','Leaf function']
+18:
+    goto 1
+1:
+    goto 16
+16:
+    return(v1 (#{}))
+%% Data:
+maps_build_and_match_empty_val:module_info/0() ->
+%% Info:['Not a closure','Leaf function']
+22:
+    goto 1
+1:
+    goto 20
+20:
+    erlang:get_module_info/1(maps_build_and_match_empty_val)
+%% Data:
+maps_build_and_match_empty_val:module_info/1(v1 (any())) ->
+%% Info:['Not a closure','Leaf function']
+26:
+    goto 1
+1:
+    goto 24
+24:
+    erlang:get_module_info/2(maps_build_and_match_empty_val, v1 (any()))
+%% Data:
+maps_build_and_match_empty_val:test/0() ->
+%% Info:['Not a closure','Not a leaf function']
+37:
+    goto 1
+1:
+    _ := redtest() (primop)
+    goto 4
+4:
+    v3 (fun()) := mkfun<maps_build_and_match_empty_val,'-test/0-fun-0-',1,13381817,0>() (primop)
+    v6 (#{}) := id/1(#{1337 => ok,{1,2} => ok,"hi" => ok})
+    v8 (any()) := call_fun(v6 (#{}), v3 (fun())) (primop)
+    if is_{atom,ok}(v8 (any())) then 3 (0.50) else 12
+3:
+    goto 5
+5:
+    v10 (#{}) := id/1(#{"hi" => ok}) -> 35, #fail 21
+35:
+    v30 (any()) := call_fun(v10 (#{}), v3 (fun())) (primop) -> 36, #fail 21
+36:
+    goto 23
+23:
+    goto 6
+6:
+    goto 25
+25:
+    v19 (any()) := phi({6, v30 (any())}, {31, v16 ({'EXIT',_})}, {27, v12 (any())})
+    if is_{tuple,2}(v19 (any())) then 7 (0.50) else 10
+7:
+    v23 (any()) := unsafe_element<1>(v19 ({_,_})) (primop)
+    v24 (any()) := unsafe_element<2>(v19 ({_,_})) (primop)
+    if is_{atom,'EXIT'}(v23 (any())) then 9 (0.50) else 10
+9:
+    if is_{tuple,2}(v24 (any())) then 11 (0.50) else 10
+11:
+    v25 (any()) := unsafe_element<1>(v24 ({_,_})) (primop)
+    if is_tuple(v25 (any())) then 13 (0.50) else 8
+13:
+    if is_{tuple,2}(v25 (tuple())) then 15 (0.50) else 10
+15:
+    v26 (any()) := unsafe_element<1>(v25 ({_,_})) (primop)
+    if is_{atom,case_clause}(v26 (any())) then 17 (0.50) else 10
+17:
+    v27 ({'comment','inlined'}) := {comment,inlined}
+    return(v27 ({'comment','inlined'}))
+10:
+    v21 ({'no_match',_}) := mktuple(no_match, v19 (any())) (primop)
+    test_server:fail/1(v21 ({'no_match',_}))
+8:
+    if is_{atom,function_clause}(v25 (any())) then 19 (0.50) else 10
+19:
+    v28 ('ok') := ok
+    return(v28 ('ok'))
+21:
+    v11 (any()), v12 (any()), v13 (any()) := begin_handler()
+    if is_{atom,throw}(v11 (any())) then 27 (0.50) else 29
+27:
+    goto 25
+29:
+    if is_{atom,exit}(v11 (any())) then 31 (0.50) else 33
+31:
+    v15 (any()) := phi({33, v18 ({_,_})}, {29, v12 (any())})
+    v16 ({'EXIT',_}) := mktuple('EXIT', v15 (any())) (primop)
+    goto 25
+33:
+    v17 (any()) := erlang:get_stacktrace/0()
+    v18 ({_,_}) := mktuple(v12 (any()), v17 (any())) (primop)
+    goto 31
+12:
+    v32 ({'badmatch',_}) := mktuple(badmatch, v8 (any())) (primop)
+    fail(error, [v32 ({'badmatch',_})])
+%% Data:

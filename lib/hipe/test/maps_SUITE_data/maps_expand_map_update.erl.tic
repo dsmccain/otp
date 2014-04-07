@@ -1,0 +1,48 @@
+maps_expand_map_update:module_info/0() ->
+%% Info:['Not a closure','Leaf function']
+12:
+    goto 1
+1:
+    goto 10
+10:
+    erlang:get_module_info/1(maps_expand_map_update)
+%% Data:
+maps_expand_map_update:module_info/1(v1 (any())) ->
+%% Info:['Not a closure','Leaf function']
+16:
+    goto 1
+1:
+    goto 14
+14:
+    erlang:get_module_info/2(maps_expand_map_update, v1 (any()))
+%% Data:
+maps_expand_map_update:test/0() ->
+%% Info:['Not a closure','Leaf function']
+19:
+    goto 1
+1:
+    goto 4
+4:
+    v1 (#{}) := #{<<"hello">> => <<"les gens">>}
+    goto 3
+3:
+    v5 (any()) := maps:is_key/2(<<"hello">>, #{<<"hello">> => <<"les gens">>})
+    if is_{atom,true}(v5 (any())) then 5 (0.50) else 6
+5:
+    v6 (any()) := maps:get/2(<<"hello">>, #{<<"hello">> => <<"les gens">>})
+    v7 (ms(bitstring(),bitstring())) := bs_start_match<0>(v6 (any())) (primop,guard) -> 7, #fail 9
+7:
+    v9 (ms(bitstring(),bitstring())) := bs_match_string<<<108,101,115,32,103,101,110,115>>, 8>(v7 (ms(bitstring(),bitstring()))) (primop,guard) -> 13, #fail 15
+13:
+    _ := bs_test_tail<0>(v9 (ms(bitstring(),bitstring()))) (primop,guard) -> 17, #fail 6
+17:
+    v11 ('ok') := ok
+    return(v11 ('ok'))
+6:
+    v3 ({'badmatch',#{}}) := {badmatch,#{<<"hello">> => <<"les gens">>}}
+    fail(error, [v3 ({'badmatch',#{}})])
+15:
+    goto 6
+9:
+    goto 6
+%% Data:

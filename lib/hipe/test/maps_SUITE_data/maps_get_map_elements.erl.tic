@@ -1,0 +1,140 @@
+maps_get_map_elements:id/1(v1 (any())) ->
+%% Info:['Not a closure','Leaf function']
+24:
+    goto 1
+1:
+    goto 22
+22:
+    return(v1 (any()))
+%% Data:
+maps_get_map_elements:module_info/0() ->
+%% Info:['Not a closure','Leaf function']
+34:
+    goto 1
+1:
+    goto 32
+32:
+    erlang:get_module_info/1(maps_get_map_elements)
+%% Data:
+maps_get_map_elements:module_info/1(v1 (any())) ->
+%% Info:['Not a closure','Leaf function']
+38:
+    goto 1
+1:
+    goto 36
+36:
+    erlang:get_module_info/2(maps_get_map_elements, v1 (any()))
+%% Data:
+maps_get_map_elements:test/0() ->
+%% Info:['Not a closure','Not a leaf function']
+39:
+    goto 1
+1:
+    _ := redtest() (primop)
+    goto 4
+4:
+    v5 (any()) := id/1({"hej",<<"{">>})
+    if is_{tuple,2}(v5 (any())) then 3 (0.50) else 18
+3:
+    v6 (any()) := unsafe_element<1>(v5 ({_,_})) (primop)
+    v7 (any()) := unsafe_element<2>(v5 ({_,_})) (primop)
+    v11 ({'b',_}) := mktuple(b, v7 (any())) (primop)
+    v13 ([{'b',_},...]) := cons(v11 ({'b',_}), []) (primop)
+    v15 ({'a',_}) := mktuple(a, v6 (any())) (primop)
+    v16 ([{'a',_} | {'b',_},...]) := cons(v15 ({'a',_}), v13 ([{'b',_},...])) (primop)
+    v17 (any()) := maps:from_list/1(v16 ([{'a',_} | {'b',_},...]))
+    v19 (any()) := id/1(v17 (any()))
+    if is_map(v19 (any())) then 5 (0.50) else 16
+5:
+    v23 (any()) := maps:is_key/2(a, v19 (#{}))
+    if is_{atom,true}(v23 (any())) then 7 (0.50) else 16
+7:
+    v25 (any()) := maps:is_key/2(b, v19 (#{}))
+    if is_{atom,true}(v25 (any())) then 9 (0.50) else 16
+9:
+    v26 (any()) := maps:get/2(a, v19 (#{}))
+    v27 (any()) := maps:get/2(b, v19 (#{}))
+    if '=:='(v26 (any()), v6 (any())) then 11 (0.50) else 16
+11:
+    if '=:='(v27 (any()), v7 (any())) then 13 (0.50) else 16
+13:
+    v29 (boolean()) := test_pattern/1(v17 (any()))
+    if is_{atom,false}(v29 (boolean())) then 15 (0.50) else 14
+15:
+    v31 (boolean()) := test_pattern/1(#{a => "hej",b => 1})
+    if is_{atom,true}(v31 (boolean())) then 17 (0.50) else 12
+17:
+    if is_map(v17 (any())) then 19 (0.50) else 6
+19:
+    v42 (any()) := maps:is_key/2(a, v17 (#{}))
+    if is_{atom,true}(v42 (any())) then 21 (0.50) else 6
+21:
+    v44 (any()) := maps:is_key/2(b, v17 (#{}))
+    if is_{atom,true}(v44 (any())) then 23 (0.50) else 6
+23:
+    v45 (any()) := maps:get/2(a, v17 (#{}))
+    v46 (any()) := maps:get/2(b, v17 (#{}))
+    v47 (ms(bitstring(),bitstring())) := bs_start_match<0>(v46 (any())) (primop,guard) -> 25, #fail 27
+25:
+    v49 (ms(bitstring(),bitstring())) := bs_match_string<<<124>>, 1>(v47 (ms(bitstring(),bitstring()))) (primop,guard) -> 31, #fail 33
+31:
+    _ := bs_test_tail<0>(v49 (ms(bitstring(),bitstring()))) (primop,guard) -> 35, #fail 6
+35:
+    goto 8
+8:
+    v33 (any()) := phi({35, v45 (any())}, {6, v7 (any())})
+    v37 (any()) := id/1(v7 (any()))
+    if '=:='(v37 (any()), v33 (any())) then 37 (0.50) else 10
+37:
+    v38 ('ok') := ok
+    return(v38 ('ok'))
+10:
+    v40 ({'badmatch',_}) := mktuple(badmatch, v37 (any())) (primop)
+    fail(error, [v40 ({'badmatch',_})])
+6:
+    goto 8
+33:
+    goto 6
+27:
+    goto 6
+12:
+    v54 ({'badmatch','false'}) := mktuple(badmatch, v31 ('false')) (primop)
+    fail(error, [v54 ({'badmatch','false'})])
+14:
+    v56 ({'badmatch','true'}) := mktuple(badmatch, v29 ('true')) (primop)
+    fail(error, [v56 ({'badmatch','true'})])
+16:
+    v21 ({'badmatch',_}) := mktuple(badmatch, v19 (any())) (primop)
+    fail(error, [v21 ({'badmatch',_})])
+18:
+    v58 ({'badmatch',_}) := mktuple(badmatch, v5 (any())) (primop)
+    fail(error, [v58 ({'badmatch',_})])
+%% Data:
+maps_get_map_elements:test_pattern/1(v1 (any())) ->
+%% Info:['Not a closure','Leaf function']
+30:
+    goto 1
+1:
+    goto 26
+26:
+    if is_map(v1 (any())) then 3 (0.50) else 24
+3:
+    v3 (any()) := maps:is_key/2(a, v1 (#{}))
+    if is_{atom,true}(v3 (any())) then 5 (0.50) else 28
+5:
+    v6 (any()) := maps:is_key/2(b, v1 (#{}))
+    if is_{atom,true}(v6 (any())) then 7 (0.50) else 28
+7:
+    v7 (any()) := maps:get/2(b, v1 (#{}))
+    if is_{integer,1}(v7 (any())) then 9 (0.50) else 28
+9:
+    v8 ('true') := true
+    return(v8 ('true'))
+28:
+    v4 ('false') := false
+    return(v4 ('false'))
+24:
+    v9 ('function_clause') := function_clause
+    fail(error, [v9 ('function_clause')])
+%% Data:
+maps_get_map_elements.erl:15: Warning: variable 'C' exported from 'case' (line 11)

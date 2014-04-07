@@ -1,0 +1,46 @@
+maps_export:id/1(v1 (#{})) ->
+%% Info:['Not a closure','Leaf function']
+14:
+    goto 1
+1:
+    goto 12
+12:
+    return(v1 (#{}))
+%% Data:
+maps_export:module_info/0() ->
+%% Info:['Not a closure','Leaf function']
+18:
+    goto 1
+1:
+    goto 16
+16:
+    erlang:get_module_info/1(maps_export)
+%% Data:
+maps_export:module_info/1(v1 (any())) ->
+%% Info:['Not a closure','Leaf function']
+22:
+    goto 1
+1:
+    goto 20
+20:
+    erlang:get_module_info/2(maps_export, v1 (any()))
+%% Data:
+maps_export:test/0() ->
+%% Info:['Not a closure','Not a leaf function']
+10:
+    goto 1
+1:
+    _ := redtest() (primop)
+    goto 4
+4:
+    v2 (#{}) := id/1(#{})
+    goto 3
+3:
+    if '=:='(v2 (#{}), v2 (#{})) then 5 (0.50) else 6
+5:
+    v3 ('ok') := ok
+    return(v3 ('ok'))
+6:
+    v5 ({'badmatch',#{}}) := mktuple(badmatch, v2 (#{})) (primop)
+    fail(error, [v5 ({'badmatch',#{}})])
+%% Data:

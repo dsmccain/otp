@@ -1,0 +1,140 @@
+maps_build_and_match_val:'-test/0-fun-0-'/1(v1 (any()), v2 (any())) ->
+%% Info:['Closure','Leaf function']
+38:
+    goto 36
+36:
+    goto 1
+1:
+    goto 30
+30:
+    if is_map(v1 (any())) then 3 (0.50) else 28
+3:
+    v5 (any()) := maps:is_key/2(v, v1 (#{}))
+    if is_{atom,true}(v5 (any())) then 5 (0.50) else 28
+5:
+    v7 (any()) := maps:is_key/2("hi", v1 (#{}))
+    if is_{atom,true}(v7 (any())) then 7 (0.50) else 28
+7:
+    v8 (any()) := maps:get/2(v, v1 (#{}))
+    v9 (any()) := maps:get/2("hi", v1 (#{}))
+    if is_atom(v9 (any())) then 9 (0.50) else 28
+9:
+    switch_val v9 (atom()) of
+        second -> 32;
+        first -> 34
+    fail -> 28
+28:
+    v3 ('function_clause') := function_clause
+    fail(error, [v3 ('function_clause')])
+32:
+    v11 ({2,_}) := mktuple(2, v8 (any())) (primop)
+    return(v11 ({2,_}))
+34:
+    v13 ({1,_}) := mktuple(1, v8 (any())) (primop)
+    return(v13 ({1,_}))
+%% Data:
+maps_build_and_match_val:id/1(v1 (#{})) ->
+%% Info:['Not a closure','Leaf function']
+20:
+    goto 1
+1:
+    goto 18
+18:
+    return(v1 (#{}))
+%% Data:
+maps_build_and_match_val:module_info/0() ->
+%% Info:['Not a closure','Leaf function']
+24:
+    goto 1
+1:
+    goto 22
+22:
+    erlang:get_module_info/1(maps_build_and_match_val)
+%% Data:
+maps_build_and_match_val:module_info/1(v1 (any())) ->
+%% Info:['Not a closure','Leaf function']
+28:
+    goto 1
+1:
+    goto 26
+26:
+    erlang:get_module_info/2(maps_build_and_match_val, v1 (any()))
+%% Data:
+maps_build_and_match_val:test/0() ->
+%% Info:['Not a closure','Not a leaf function']
+39:
+    goto 1
+1:
+    _ := redtest() (primop)
+    goto 4
+4:
+    v3 (fun()) := mkfun<maps_build_and_match_val,'-test/0-fun-0-',1,33466873,0>() (primop)
+    v6 (#{}) := id/1(#{v => "hello","hi" => first})
+    v8 (any()) := call_fun(v6 (#{}), v3 (fun())) (primop)
+    if '=:='(v8 (any()), {1,"hello"}) then 3 (0.50) else 14
+3:
+    v10 (#{}) := id/1(#{v => "second","hi" => second})
+    v12 (any()) := call_fun(v10 (#{}), v3 (fun())) (primop)
+    if '=:='(v12 (any()), {2,"second"}) then 5 (0.50) else 12
+5:
+    goto 7
+7:
+    v14 (#{}) := id/1(#{"hi" => ok}) -> 37, #fail 23
+37:
+    v34 (any()) := call_fun(v14 (#{}), v3 (fun())) (primop) -> 38, #fail 23
+38:
+    goto 25
+25:
+    goto 6
+6:
+    goto 27
+27:
+    v23 (any()) := phi({6, v34 (any())}, {33, v20 ({'EXIT',_})}, {29, v16 (any())})
+    if is_{tuple,2}(v23 (any())) then 9 (0.50) else 10
+9:
+    v27 (any()) := unsafe_element<1>(v23 ({_,_})) (primop)
+    v28 (any()) := unsafe_element<2>(v23 ({_,_})) (primop)
+    if is_{atom,'EXIT'}(v27 (any())) then 11 (0.50) else 10
+11:
+    if is_{tuple,2}(v28 (any())) then 13 (0.50) else 10
+13:
+    v29 (any()) := unsafe_element<1>(v28 ({_,_})) (primop)
+    if is_tuple(v29 (any())) then 15 (0.50) else 8
+15:
+    if is_{tuple,2}(v29 (tuple())) then 17 (0.50) else 10
+17:
+    v30 (any()) := unsafe_element<1>(v29 ({_,_})) (primop)
+    if is_{atom,case_clause}(v30 (any())) then 19 (0.50) else 10
+19:
+    v31 ({'comment','inlined'}) := {comment,inlined}
+    return(v31 ({'comment','inlined'}))
+10:
+    v25 ({'no_match',_}) := mktuple(no_match, v23 (any())) (primop)
+    test_server:fail/1(v25 ({'no_match',_}))
+8:
+    if is_{atom,function_clause}(v29 (any())) then 21 (0.50) else 10
+21:
+    v32 ('ok') := ok
+    return(v32 ('ok'))
+23:
+    v15 (any()), v16 (any()), v17 (any()) := begin_handler()
+    if is_{atom,throw}(v15 (any())) then 29 (0.50) else 31
+29:
+    goto 27
+31:
+    if is_{atom,exit}(v15 (any())) then 33 (0.50) else 35
+33:
+    v19 (any()) := phi({35, v22 ({_,_})}, {31, v16 (any())})
+    v20 ({'EXIT',_}) := mktuple('EXIT', v19 (any())) (primop)
+    goto 27
+35:
+    v21 (any()) := erlang:get_stacktrace/0()
+    v22 ({_,_}) := mktuple(v16 (any()), v21 (any())) (primop)
+    goto 33
+12:
+    v36 ({'badmatch',_}) := mktuple(badmatch, v12 (any())) (primop)
+    fail(error, [v36 ({'badmatch',_})])
+14:
+    v38 ({'badmatch',_}) := mktuple(badmatch, v8 (any())) (primop)
+    fail(error, [v38 ({'badmatch',_})])
+%% Data:

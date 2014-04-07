@@ -1,0 +1,29 @@
+maps_match_and_update_literals:module_info/0() ->
+%% Info:['Not a closure','Leaf function']
+10:
+    goto 1
+1:
+    goto 8
+8:
+    erlang:get_module_info/1(maps_match_and_update_literals)
+%% Data:
+maps_match_and_update_literals:module_info/1(v1 (any())) ->
+%% Info:['Not a closure','Leaf function']
+14:
+    goto 1
+1:
+    goto 12
+12:
+    erlang:get_module_info/2(maps_match_and_update_literals, v1 (any()))
+%% Data:
+maps_match_and_update_literals:test/0() ->
+%% Info:['Not a closure','Leaf function']
+6:
+    goto 1
+1:
+    goto 4
+4:
+    v1 ({'skip',[1..255,...]}) := {skip,"Not yet supported by HiPE."}
+    return(v1 ({'skip',[1..255,...]}))
+%% Data:
+maps_match_and_update_literals.erl:6: Warning: this clause cannot match because a previous clause at line 4 always matches

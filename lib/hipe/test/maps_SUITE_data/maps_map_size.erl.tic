@@ -1,0 +1,248 @@
+maps_map_size:id/1(v1 (#{})) ->
+%% Info:['Not a closure','Leaf function']
+50:
+    goto 1
+1:
+    goto 48
+48:
+    return(v1 (#{}))
+%% Data:
+maps_map_size:map_is_size/2(v1 (#{}), v2 (1 | 2 | 3)) ->
+%% Info:['Not a closure','Leaf function']
+46:
+    goto 1
+1:
+    goto 42
+42:
+    v3 (non_neg_integer()) := erlang:map_size/1(v1 (#{})) (guard) -> 3, #fail 5
+3:
+    if fixnum_eq(v3 (non_neg_integer()), v2 (1 | 2 | 3)) then 7 (0.50) else 44
+7:
+    v6 ('true') := true
+    return(v6 ('true'))
+44:
+    v4 ('false') := false
+    return(v4 ('false'))
+5:
+    goto 44
+%% Data:
+maps_map_size:module_info/0() ->
+%% Info:['Not a closure','Leaf function']
+54:
+    goto 1
+1:
+    goto 52
+52:
+    erlang:get_module_info/1(maps_map_size)
+%% Data:
+maps_map_size:module_info/1(v1 (any())) ->
+%% Info:['Not a closure','Leaf function']
+58:
+    goto 1
+1:
+    goto 56
+56:
+    erlang:get_module_info/2(maps_map_size, v1 (any()))
+%% Data:
+maps_map_size:test/0() ->
+%% Info:['Not a closure','Not a leaf function']
+100:
+    goto 1
+1:
+    _ := redtest() (primop)
+    goto 4
+4:
+    v3 (#{}) := id/1(#{})
+    v4 (non_neg_integer()) := erlang:map_size/1(v3 (#{}))
+    if is_{integer,0}(v4 (non_neg_integer())) then 3 (0.50) else 38
+3:
+    v6 (#{}) := id/1(#{a => 1})
+    v7 (non_neg_integer()) := erlang:map_size/1(v6 (#{}))
+    if is_{integer,1}(v7 (non_neg_integer())) then 5 (0.50) else 36
+5:
+    v9 (#{}) := id/1(#{a => "wat"})
+    v10 (non_neg_integer()) := erlang:map_size/1(v9 (#{}))
+    if is_{integer,1}(v10 (non_neg_integer())) then 7 (0.50) else 34
+7:
+    v12 (#{}) := id/1(#{a => 1,b => 2})
+    v13 (non_neg_integer()) := erlang:map_size/1(v12 (#{}))
+    if is_{integer,2}(v13 (non_neg_integer())) then 9 (0.50) else 32
+9:
+    v15 (#{}) := id/1(#{a => 1,b => "3","33" => <<"n">>})
+    v16 (non_neg_integer()) := erlang:map_size/1(v15 (#{}))
+    if is_{integer,3}(v16 (non_neg_integer())) then 11 (0.50) else 30
+11:
+    v19 (boolean()) := map_is_size/2(#{a => 1}, 1)
+    if is_{atom,true}(v19 (boolean())) then 13 (0.50) else 28
+13:
+    v22 (boolean()) := map_is_size/2(#{a => 2}, 1)
+    if is_{atom,true}(v22 (boolean())) then 15 (0.50) else 26
+15:
+    v25 (boolean()) := map_is_size/2(#{"a" => 1,"b" => 2}, 2)
+    if is_{atom,true}(v25 (boolean())) then 17 (0.50) else 24
+17:
+    v28 (boolean()) := map_is_size/2(#{"a" => 1,"b" => 2}, 3)
+    if is_{atom,false}(v28 (boolean())) then 19 (0.50) else 22
+19:
+    v31 (boolean()) := map_is_size/2(#{"a" => 2,"b" => 2}, 2)
+    if is_{atom,true}(v31 (boolean())) then 21 (0.50) else 20
+21:
+    v34 (boolean()) := map_is_size/2(#{"a" => 1,"b" => 2,"c" => 2}, 2)
+    if is_{atom,false}(v34 (boolean())) then 23 (0.50) else 18
+23:
+    goto 25
+25:
+    v36 (any()) := erlang:map_size/1([]) -> 97, #fail 55
+97:
+    goto 85
+85:
+    goto 6
+6:
+    goto 87
+87:
+    v37 (any()) := phi({93, v81 ({'EXIT',_})}, {89, v77 (any())}, {6, v36 (any())})
+    if is_{tuple,2}(v37 (any())) then 27 (0.50) else 16
+27:
+    v40 (any()) := unsafe_element<1>(v37 ({_,_})) (primop)
+    v41 (any()) := unsafe_element<2>(v37 ({_,_})) (primop)
+    if is_{atom,'EXIT'}(v40 (any())) then 29 (0.50) else 16
+29:
+    if is_{tuple,2}(v41 (any())) then 31 (0.50) else 16
+31:
+    v42 (any()) := unsafe_element<1>(v41 ({_,_})) (primop)
+    if is_{atom,badarg}(v42 (any())) then 33 (0.50) else 16
+33:
+    goto 35
+35:
+    v44 (any()) := erlang:map_size/1(<<1,2,3>>) -> 98, #fail 57
+98:
+    goto 73
+73:
+    goto 8
+8:
+    goto 75
+75:
+    v45 (any()) := phi({81, v73 ({'EXIT',_})}, {77, v69 (any())}, {8, v44 (any())})
+    if is_{tuple,2}(v45 (any())) then 37 (0.50) else 14
+37:
+    v48 (any()) := unsafe_element<1>(v45 ({_,_})) (primop)
+    v49 (any()) := unsafe_element<2>(v45 ({_,_})) (primop)
+    if is_{atom,'EXIT'}(v48 (any())) then 39 (0.50) else 14
+39:
+    if is_{tuple,2}(v49 (any())) then 41 (0.50) else 14
+41:
+    v50 (any()) := unsafe_element<1>(v49 ({_,_})) (primop)
+    if is_{atom,badarg}(v50 (any())) then 43 (0.50) else 14
+43:
+    goto 45
+45:
+    v52 (any()) := erlang:map_size/1(1) -> 99, #fail 59
+99:
+    goto 61
+61:
+    goto 10
+10:
+    goto 63
+63:
+    v53 (any()) := phi({69, v65 ({'EXIT',_})}, {65, v61 (any())}, {10, v52 (any())})
+    if is_{tuple,2}(v53 (any())) then 47 (0.50) else 12
+47:
+    v56 (any()) := unsafe_element<1>(v53 ({_,_})) (primop)
+    v57 (any()) := unsafe_element<2>(v53 ({_,_})) (primop)
+    if is_{atom,'EXIT'}(v56 (any())) then 49 (0.50) else 12
+49:
+    if is_{tuple,2}(v57 (any())) then 51 (0.50) else 12
+51:
+    v58 (any()) := unsafe_element<1>(v57 ({_,_})) (primop)
+    if is_{atom,badarg}(v58 (any())) then 53 (0.50) else 12
+53:
+    v59 ('ok') := ok
+    return(v59 ('ok'))
+12:
+    v55 ({'badmatch',_}) := mktuple(badmatch, v53 (any())) (primop)
+    fail(error, [v55 ({'badmatch',_})])
+59:
+    v60 (any()), v61 (any()), v62 (any()) := begin_handler()
+    if is_{atom,throw}(v60 (any())) then 65 (0.50) else 67
+65:
+    goto 63
+67:
+    if is_{atom,exit}(v60 (any())) then 69 (0.50) else 71
+69:
+    v64 (any()) := phi({71, v67 ({_,_})}, {67, v61 (any())})
+    v65 ({'EXIT',_}) := mktuple('EXIT', v64 (any())) (primop)
+    goto 63
+71:
+    v66 (any()) := erlang:get_stacktrace/0()
+    v67 ({_,_}) := mktuple(v61 (any()), v66 (any())) (primop)
+    goto 69
+14:
+    v47 ({'badmatch',_}) := mktuple(badmatch, v45 (any())) (primop)
+    fail(error, [v47 ({'badmatch',_})])
+57:
+    v68 (any()), v69 (any()), v70 (any()) := begin_handler()
+    if is_{atom,throw}(v68 (any())) then 77 (0.50) else 79
+77:
+    goto 75
+79:
+    if is_{atom,exit}(v68 (any())) then 81 (0.50) else 83
+81:
+    v72 (any()) := phi({83, v75 ({_,_})}, {79, v69 (any())})
+    v73 ({'EXIT',_}) := mktuple('EXIT', v72 (any())) (primop)
+    goto 75
+83:
+    v74 (any()) := erlang:get_stacktrace/0()
+    v75 ({_,_}) := mktuple(v69 (any()), v74 (any())) (primop)
+    goto 81
+16:
+    v39 ({'badmatch',_}) := mktuple(badmatch, v37 (any())) (primop)
+    fail(error, [v39 ({'badmatch',_})])
+55:
+    v76 (any()), v77 (any()), v78 (any()) := begin_handler()
+    if is_{atom,throw}(v76 (any())) then 89 (0.50) else 91
+89:
+    goto 87
+91:
+    if is_{atom,exit}(v76 (any())) then 93 (0.50) else 95
+93:
+    v80 (any()) := phi({95, v83 ({_,_})}, {91, v77 (any())})
+    v81 ({'EXIT',_}) := mktuple('EXIT', v80 (any())) (primop)
+    goto 87
+95:
+    v82 (any()) := erlang:get_stacktrace/0()
+    v83 ({_,_}) := mktuple(v77 (any()), v82 (any())) (primop)
+    goto 93
+18:
+    v85 ({'badmatch','true'}) := mktuple(badmatch, v34 ('true')) (primop)
+    fail(error, [v85 ({'badmatch','true'})])
+20:
+    v87 ({'badmatch','false'}) := mktuple(badmatch, v31 ('false')) (primop)
+    fail(error, [v87 ({'badmatch','false'})])
+22:
+    v89 ({'badmatch','true'}) := mktuple(badmatch, v28 ('true')) (primop)
+    fail(error, [v89 ({'badmatch','true'})])
+24:
+    v91 ({'badmatch','false'}) := mktuple(badmatch, v25 ('false')) (primop)
+    fail(error, [v91 ({'badmatch','false'})])
+26:
+    v93 ({'badmatch','false'}) := mktuple(badmatch, v22 ('false')) (primop)
+    fail(error, [v93 ({'badmatch','false'})])
+28:
+    v95 ({'badmatch','false'}) := mktuple(badmatch, v19 ('false')) (primop)
+    fail(error, [v95 ({'badmatch','false'})])
+30:
+    v97 ({'badmatch',non_neg_integer()}) := mktuple(badmatch, v16 (non_neg_integer())) (primop)
+    fail(error, [v97 ({'badmatch',non_neg_integer()})])
+32:
+    v99 ({'badmatch',non_neg_integer()}) := mktuple(badmatch, v13 (non_neg_integer())) (primop)
+    fail(error, [v99 ({'badmatch',non_neg_integer()})])
+34:
+    v101 ({'badmatch',non_neg_integer()}) := mktuple(badmatch, v10 (non_neg_integer())) (primop)
+    fail(error, [v101 ({'badmatch',non_neg_integer()})])
+36:
+    v103 ({'badmatch',non_neg_integer()}) := mktuple(badmatch, v7 (non_neg_integer())) (primop)
+    fail(error, [v103 ({'badmatch',non_neg_integer()})])
+38:
+    v105 ({'badmatch',pos_integer()}) := mktuple(badmatch, v4 (pos_integer())) (primop)
+    fail(error, [v105 ({'badmatch',pos_integer()})])
+%% Data:

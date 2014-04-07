@@ -1,0 +1,60 @@
+maps_warn_useless_build:'-test/0-lc$^0/1-0-'/1(v1 ([1 | 2 | 3,...])) ->
+%% Info:['Not a closure','Not a leaf function']
+24:
+    goto 1
+1:
+    v2 ([1 | 2 | 3]) := phi({3, v4 ([1 | 2 | 3])}, {24, v1 ([1 | 2 | 3,...])})
+    _ := redtest() (primop)
+    goto 20
+20:
+    if is_cons(v2 ([1 | 2 | 3])) then 3 (0.50) else 22
+3:
+    v4 ([1 | 2 | 3]) := unsafe_tl(v2 ([1 | 2 | 3,...])) (primop)
+    v5 (1 | 2 | 3) := unsafe_hd(v2 ([1 | 2 | 3,...])) (primop)
+    _ := id/1(v5 (1 | 2 | 3))
+    goto 1
+22:
+    goto 5
+5:
+    return(v2 ([]))
+%% Data:
+maps_warn_useless_build:id/1(v1 (1 | 2 | 3)) ->
+%% Info:['Not a closure','Leaf function']
+10:
+    goto 1
+1:
+    goto 8
+8:
+    return(v1 (1 | 2 | 3))
+%% Data:
+maps_warn_useless_build:module_info/0() ->
+%% Info:['Not a closure','Leaf function']
+14:
+    goto 1
+1:
+    goto 12
+12:
+    erlang:get_module_info/1(maps_warn_useless_build)
+%% Data:
+maps_warn_useless_build:module_info/1(v1 (any())) ->
+%% Info:['Not a closure','Leaf function']
+18:
+    goto 1
+1:
+    goto 16
+16:
+    erlang:get_module_info/2(maps_warn_useless_build, v1 (any()))
+%% Data:
+maps_warn_useless_build:test/0() ->
+%% Info:['Not a closure','Not a leaf function']
+6:
+    goto 1
+1:
+    _ := redtest() (primop)
+    goto 4
+4:
+    _ := '-test/0-lc$^0/1-0-'/1([1,2,3])
+    v3 ('ok') := ok
+    return(v3 ('ok'))
+%% Data:
+maps_warn_useless_build.erl:5: Warning: a term is constructed, but never used

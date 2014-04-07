@@ -1,0 +1,667 @@
+maps_build_and_match_literals:id/1(v1 ({'a','b','c'} | #{})) ->
+%% Info:['Not a closure','Leaf function']
+56:
+    goto 1
+1:
+    goto 54
+54:
+    return(v1 ({'a','b','c'} | #{}))
+%% Data:
+maps_build_and_match_literals:module_info/0() ->
+%% Info:['Not a closure','Leaf function']
+60:
+    goto 1
+1:
+    goto 58
+58:
+    erlang:get_module_info/1(maps_build_and_match_literals)
+%% Data:
+maps_build_and_match_literals:module_info/1(v1 (any())) ->
+%% Info:['Not a closure','Leaf function']
+64:
+    goto 1
+1:
+    goto 62
+62:
+    erlang:get_module_info/2(maps_build_and_match_literals, v1 (any()))
+%% Data:
+maps_build_and_match_literals:test/0() ->
+%% Info:['Not a closure','Not a leaf function']
+406:
+    goto 1
+1:
+    _ := redtest() (primop)
+    goto 4
+4:
+    v3 ({'a','b','c'} | #{}) := id/1(#{})
+    if is_map(v3 ({'a','b','c'} | #{})) then 3 (0.50) else 50
+3:
+    v5 ({'a','b','c'} | #{}) := id/1(#{1 => a})
+    if is_map(v5 ({'a','b','c'} | #{})) then 5 (0.50) else 48
+5:
+    v9 (any()) := maps:is_key/2(1, v5 (#{}))
+    if is_{atom,true}(v9 (any())) then 7 (0.50) else 48
+7:
+    v10 (any()) := maps:get/2(1, v5 (#{}))
+    if is_{atom,a}(v10 (any())) then 9 (0.50) else 48
+9:
+    v12 ({'a','b','c'} | #{}) := id/1(#{1 => a,2 => b})
+    if is_map(v12 ({'a','b','c'} | #{})) then 11 (0.50) else 46
+11:
+    v16 (any()) := maps:is_key/2(1, v12 (#{}))
+    if is_{atom,true}(v16 (any())) then 13 (0.50) else 46
+13:
+    v18 (any()) := maps:is_key/2(2, v12 (#{}))
+    if is_{atom,true}(v18 (any())) then 15 (0.50) else 46
+15:
+    v19 (any()) := maps:get/2(1, v12 (#{}))
+    v20 (any()) := maps:get/2(2, v12 (#{}))
+    if is_{atom,a}(v19 (any())) then 17 (0.50) else 46
+17:
+    if is_{atom,b}(v20 (any())) then 19 (0.50) else 46
+19:
+    v22 ({'a','b','c'} | #{}) := id/1(#{1 => a,2 => b,3 => "c"})
+    if is_map(v22 ({'a','b','c'} | #{})) then 21 (0.50) else 44
+21:
+    v26 (any()) := maps:is_key/2(1, v22 (#{}))
+    if is_{atom,true}(v26 (any())) then 23 (0.50) else 44
+23:
+    v28 (any()) := maps:is_key/2(2, v22 (#{}))
+    if is_{atom,true}(v28 (any())) then 25 (0.50) else 44
+25:
+    v30 (any()) := maps:is_key/2(3, v22 (#{}))
+    if is_{atom,true}(v30 (any())) then 27 (0.50) else 44
+27:
+    v31 (any()) := maps:get/2(1, v22 (#{}))
+    v32 (any()) := maps:get/2(2, v22 (#{}))
+    v33 (any()) := maps:get/2(3, v22 (#{}))
+    if is_{atom,a}(v31 (any())) then 29 (0.50) else 44
+29:
+    if is_{atom,b}(v32 (any())) then 31 (0.50) else 44
+31:
+    if '=:='(v33 (any()), "c") then 33 (0.50) else 44
+33:
+    v35 ({'a','b','c'} | #{}) := id/1(#{1 => a,2 => b,3 => "c","4" => "d"})
+    if is_map(v35 ({'a','b','c'} | #{})) then 35 (0.50) else 42
+35:
+    v39 (any()) := maps:is_key/2(1, v35 (#{}))
+    if is_{atom,true}(v39 (any())) then 37 (0.50) else 42
+37:
+    v41 (any()) := maps:is_key/2(2, v35 (#{}))
+    if is_{atom,true}(v41 (any())) then 39 (0.50) else 42
+39:
+    v43 (any()) := maps:is_key/2(3, v35 (#{}))
+    if is_{atom,true}(v43 (any())) then 41 (0.50) else 42
+41:
+    v45 (any()) := maps:is_key/2("4", v35 (#{}))
+    if is_{atom,true}(v45 (any())) then 43 (0.50) else 42
+43:
+    v46 (any()) := maps:get/2(1, v35 (#{}))
+    v47 (any()) := maps:get/2(2, v35 (#{}))
+    v48 (any()) := maps:get/2(3, v35 (#{}))
+    v49 (any()) := maps:get/2("4", v35 (#{}))
+    if is_{atom,a}(v46 (any())) then 45 (0.50) else 42
+45:
+    if is_{atom,b}(v47 (any())) then 47 (0.50) else 42
+47:
+    if '=:='(v48 (any()), "c") then 49 (0.50) else 42
+49:
+    if '=:='(v49 (any()), "d") then 51 (0.50) else 42
+51:
+    v51 ({'a','b','c'} | #{}) := id/1(#{1 => a,2 => b,3 => "c","4" => "d",<<"5">> => <<"e">>})
+    if is_map(v51 ({'a','b','c'} | #{})) then 53 (0.50) else 40
+53:
+    v55 (any()) := maps:is_key/2(1, v51 (#{}))
+    if is_{atom,true}(v55 (any())) then 55 (0.50) else 40
+55:
+    v57 (any()) := maps:is_key/2(2, v51 (#{}))
+    if is_{atom,true}(v57 (any())) then 57 (0.50) else 40
+57:
+    v59 (any()) := maps:is_key/2(3, v51 (#{}))
+    if is_{atom,true}(v59 (any())) then 59 (0.50) else 40
+59:
+    v61 (any()) := maps:is_key/2("4", v51 (#{}))
+    if is_{atom,true}(v61 (any())) then 61 (0.50) else 40
+61:
+    v63 (any()) := maps:is_key/2(<<"5">>, v51 (#{}))
+    if is_{atom,true}(v63 (any())) then 63 (0.50) else 40
+63:
+    v64 (any()) := maps:get/2(1, v51 (#{}))
+    v65 (any()) := maps:get/2(2, v51 (#{}))
+    v66 (any()) := maps:get/2(3, v51 (#{}))
+    v67 (any()) := maps:get/2("4", v51 (#{}))
+    v68 (any()) := maps:get/2(<<"5">>, v51 (#{}))
+    if is_{atom,a}(v64 (any())) then 65 (0.50) else 40
+65:
+    if is_{atom,b}(v65 (any())) then 67 (0.50) else 40
+67:
+    if '=:='(v66 (any()), "c") then 69 (0.50) else 40
+69:
+    if '=:='(v67 (any()), "d") then 71 (0.50) else 40
+71:
+    v69 (ms(bitstring(),bitstring())) := bs_start_match<0>(v68 (any())) (primop,guard) -> 73, #fail 75
+73:
+    v71 (ms(bitstring(),bitstring())) := bs_match_string<<<101>>, 1>(v69 (ms(bitstring(),bitstring()))) (primop,guard) -> 79, #fail 81
+79:
+    _ := bs_test_tail<0>(v71 (ms(bitstring(),bitstring()))) (primop,guard) -> 83, #fail 40
+83:
+    v74 ({'a','b','c'} | #{}) := id/1(#{1 => a,2 => b,3 => "c",{"6",7} => "f","4" => "d",<<"5">> => <<"e">>})
+    if is_map(v74 ({'a','b','c'} | #{})) then 85 (0.50) else 38
+85:
+    v78 (any()) := maps:is_key/2(1, v74 (#{}))
+    if is_{atom,true}(v78 (any())) then 87 (0.50) else 38
+87:
+    v80 (any()) := maps:is_key/2(2, v74 (#{}))
+    if is_{atom,true}(v80 (any())) then 89 (0.50) else 38
+89:
+    v82 (any()) := maps:is_key/2(3, v74 (#{}))
+    if is_{atom,true}(v82 (any())) then 91 (0.50) else 38
+91:
+    v84 (any()) := maps:is_key/2({"6",7}, v74 (#{}))
+    if is_{atom,true}(v84 (any())) then 93 (0.50) else 38
+93:
+    v86 (any()) := maps:is_key/2("4", v74 (#{}))
+    if is_{atom,true}(v86 (any())) then 95 (0.50) else 38
+95:
+    v88 (any()) := maps:is_key/2(<<"5">>, v74 (#{}))
+    if is_{atom,true}(v88 (any())) then 97 (0.50) else 38
+97:
+    v89 (any()) := maps:get/2(1, v74 (#{}))
+    v90 (any()) := maps:get/2(2, v74 (#{}))
+    v91 (any()) := maps:get/2(3, v74 (#{}))
+    v92 (any()) := maps:get/2({"6",7}, v74 (#{}))
+    v93 (any()) := maps:get/2("4", v74 (#{}))
+    v94 (any()) := maps:get/2(<<"5">>, v74 (#{}))
+    if is_{atom,a}(v89 (any())) then 99 (0.50) else 38
+99:
+    if is_{atom,b}(v90 (any())) then 101 (0.50) else 38
+101:
+    if '=:='(v91 (any()), "c") then 103 (0.50) else 38
+103:
+    if '=:='(v92 (any()), "f") then 105 (0.50) else 38
+105:
+    if '=:='(v93 (any()), "d") then 107 (0.50) else 38
+107:
+    v95 (ms(bitstring(),bitstring())) := bs_start_match<0>(v94 (any())) (primop,guard) -> 109, #fail 111
+109:
+    v97 (ms(bitstring(),bitstring())) := bs_match_string<<<101>>, 1>(v95 (ms(bitstring(),bitstring()))) (primop,guard) -> 115, #fail 117
+115:
+    _ := bs_test_tail<0>(v97 (ms(bitstring(),bitstring()))) (primop,guard) -> 119, #fail 38
+119:
+    v100 ({'a','b','c'} | #{}) := id/1(#{1 => a,2 => b,3 => "c",8 => g,{"6",7} => "f","4" => "d",<<"5">> => <<"e">>})
+    if is_map(v100 ({'a','b','c'} | #{})) then 121 (0.50) else 36
+121:
+    v104 (any()) := maps:is_key/2(1, v100 (#{}))
+    if is_{atom,true}(v104 (any())) then 123 (0.50) else 36
+123:
+    v106 (any()) := maps:is_key/2(2, v100 (#{}))
+    if is_{atom,true}(v106 (any())) then 125 (0.50) else 36
+125:
+    v108 (any()) := maps:is_key/2(3, v100 (#{}))
+    if is_{atom,true}(v108 (any())) then 127 (0.50) else 36
+127:
+    v110 (any()) := maps:is_key/2(8, v100 (#{}))
+    if is_{atom,true}(v110 (any())) then 129 (0.50) else 36
+129:
+    v112 (any()) := maps:is_key/2({"6",7}, v100 (#{}))
+    if is_{atom,true}(v112 (any())) then 131 (0.50) else 36
+131:
+    v114 (any()) := maps:is_key/2("4", v100 (#{}))
+    if is_{atom,true}(v114 (any())) then 133 (0.50) else 36
+133:
+    v116 (any()) := maps:is_key/2(<<"5">>, v100 (#{}))
+    if is_{atom,true}(v116 (any())) then 135 (0.50) else 36
+135:
+    v117 (any()) := maps:get/2(1, v100 (#{}))
+    v118 (any()) := maps:get/2(2, v100 (#{}))
+    v119 (any()) := maps:get/2(3, v100 (#{}))
+    v120 (any()) := maps:get/2(8, v100 (#{}))
+    v121 (any()) := maps:get/2({"6",7}, v100 (#{}))
+    v122 (any()) := maps:get/2("4", v100 (#{}))
+    v123 (any()) := maps:get/2(<<"5">>, v100 (#{}))
+    if is_{atom,a}(v117 (any())) then 137 (0.50) else 36
+137:
+    if is_{atom,b}(v118 (any())) then 139 (0.50) else 36
+139:
+    if '=:='(v119 (any()), "c") then 141 (0.50) else 36
+141:
+    if is_{atom,g}(v120 (any())) then 143 (0.50) else 36
+143:
+    if '=:='(v121 (any()), "f") then 145 (0.50) else 36
+145:
+    if '=:='(v122 (any()), "d") then 147 (0.50) else 36
+147:
+    v124 (ms(bitstring(),bitstring())) := bs_start_match<0>(v123 (any())) (primop,guard) -> 149, #fail 151
+149:
+    v126 (ms(bitstring(),bitstring())) := bs_match_string<<<101>>, 1>(v124 (ms(bitstring(),bitstring()))) (primop,guard) -> 155, #fail 157
+155:
+    _ := bs_test_tail<0>(v126 (ms(bitstring(),bitstring()))) (primop,guard) -> 159, #fail 36
+159:
+    v129 ({'a','b','c'} | #{}) := id/1(#{<<"hi all">> => 1})
+    if is_map(v129 ({'a','b','c'} | #{})) then 161 (0.50) else 34
+161:
+    v133 (any()) := maps:is_key/2(<<"hi all">>, v129 (#{}))
+    if is_{atom,true}(v133 (any())) then 163 (0.50) else 34
+163:
+    v134 (any()) := maps:get/2(<<"hi all">>, v129 (#{}))
+    if is_{integer,1}(v134 (any())) then 165 (0.50) else 34
+165:
+    v136 ({'a','b','c'} | #{}) := id/1(#{a => 3,b => 4})
+    if is_map(v136 ({'a','b','c'} | #{})) then 167 (0.50) else 32
+167:
+    v140 (any()) := maps:is_key/2(a, v136 (#{}))
+    if is_{atom,true}(v140 (any())) then 169 (0.50) else 32
+169:
+    v142 (any()) := maps:is_key/2(b, v136 (#{}))
+    if is_{atom,true}(v142 (any())) then 171 (0.50) else 32
+171:
+    v143 (any()) := maps:get/2(a, v136 (#{}))
+    v144 (any()) := maps:get/2(b, v136 (#{}))
+    if is_{integer,3}(v143 (any())) then 173 (0.50) else 32
+173:
+    if is_{integer,4}(v144 (any())) then 175 (0.50) else 32
+175:
+    if fixnum_eq(v143 (3), v143 (3)) then 177 (0.50) else 32
+177:
+    v146 ({'a','b','c'} | #{}) := id/1(#{a => #{b => #{b => second,c => third}},b => first})
+    if is_map(v146 ({'a','b','c'} | #{})) then 179 (0.50) else 30
+179:
+    v150 (any()) := maps:is_key/2(a, v146 (#{}))
+    if is_{atom,true}(v150 (any())) then 181 (0.50) else 30
+181:
+    v152 (any()) := maps:is_key/2(b, v146 (#{}))
+    if is_{atom,true}(v152 (any())) then 183 (0.50) else 30
+183:
+    v153 (any()) := maps:get/2(a, v146 (#{}))
+    v154 (any()) := maps:get/2(b, v146 (#{}))
+    if is_map(v153 (any())) then 185 (0.50) else 30
+185:
+    v156 (any()) := maps:is_key/2(b, v153 (#{}))
+    if is_{atom,true}(v156 (any())) then 187 (0.50) else 30
+187:
+    v157 (any()) := maps:get/2(b, v153 (#{}))
+    if is_map(v157 (any())) then 189 (0.50) else 30
+189:
+    v159 (any()) := maps:is_key/2(b, v157 (#{}))
+    if is_{atom,true}(v159 (any())) then 191 (0.50) else 30
+191:
+    v161 (any()) := maps:is_key/2(c, v157 (#{}))
+    if is_{atom,true}(v161 (any())) then 193 (0.50) else 30
+193:
+    v162 (any()) := maps:get/2(b, v157 (#{}))
+    v163 (any()) := maps:get/2(c, v157 (#{}))
+    if is_{atom,second}(v162 (any())) then 195 (0.50) else 30
+195:
+    if is_{atom,third}(v163 (any())) then 197 (0.50) else 30
+197:
+    if is_{atom,first}(v154 (any())) then 199 (0.50) else 30
+199:
+    v165 ({'a','b','c'} | #{}) := id/1(#{map_1 => #{map_2 => #{value_3 => third},value_2 => second},value_1 => first})
+    if is_map(v165 ({'a','b','c'} | #{})) then 201 (0.50) else 28
+201:
+    v169 (any()) := maps:is_key/2(map_1, v165 (#{}))
+    if is_{atom,true}(v169 (any())) then 203 (0.50) else 28
+203:
+    v171 (any()) := maps:is_key/2(value_1, v165 (#{}))
+    if is_{atom,true}(v171 (any())) then 205 (0.50) else 28
+205:
+    v172 (any()) := maps:get/2(map_1, v165 (#{}))
+    v173 (any()) := maps:get/2(value_1, v165 (#{}))
+    if is_map(v172 (any())) then 207 (0.50) else 28
+207:
+    v175 (any()) := maps:is_key/2(map_2, v172 (#{}))
+    if is_{atom,true}(v175 (any())) then 209 (0.50) else 28
+209:
+    v177 (any()) := maps:is_key/2(value_2, v172 (#{}))
+    if is_{atom,true}(v177 (any())) then 211 (0.50) else 28
+211:
+    v178 (any()) := maps:get/2(map_2, v172 (#{}))
+    v179 (any()) := maps:get/2(value_2, v172 (#{}))
+    if is_map(v178 (any())) then 213 (0.50) else 28
+213:
+    v181 (any()) := maps:is_key/2(value_3, v178 (#{}))
+    if is_{atom,true}(v181 (any())) then 215 (0.50) else 28
+215:
+    v182 (any()) := maps:get/2(value_3, v178 (#{}))
+    if is_{atom,third}(v182 (any())) then 217 (0.50) else 28
+217:
+    if is_{atom,second}(v179 (any())) then 219 (0.50) else 28
+219:
+    if is_{atom,first}(v173 (any())) then 221 (0.50) else 28
+221:
+    if '=:='(v165 (#{}), #{map_1 => #{map_2 => #{value_3 => third},value_2 => second},value_1 => first}) then 223 (0.50) else 28
+223:
+    v184 ({'a','b','c'} | #{}) := id/1(#{1 => 2,[] => ok})
+    if is_map(v184 ({'a','b','c'} | #{})) then 225 (0.50) else 26
+225:
+    v188 (any()) := maps:is_key/2(1, v184 (#{}))
+    if is_{atom,true}(v188 (any())) then 227 (0.50) else 26
+227:
+    v190 (any()) := maps:is_key/2([], v184 (#{}))
+    if is_{atom,true}(v190 (any())) then 229 (0.50) else 26
+229:
+    v191 (any()) := maps:get/2(1, v184 (#{}))
+    v192 (any()) := maps:get/2([], v184 (#{}))
+    if is_{integer,2}(v191 (any())) then 231 (0.50) else 26
+231:
+    if is_{atom,ok}(v192 (any())) then 233 (0.50) else 26
+233:
+    goto 235
+235:
+    v194 ({'a','b','c'} | #{}) := id/1(#{x => 3}) -> 393, #fail 319
+393:
+    v300 ({'badmatch',{'a','b','c'} | #{}}) := mktuple(badmatch, v194 ({'a','b','c'} | #{})) (primop)
+    fail(error, [v300 ({'badmatch',{'a','b','c'} | #{}})]) -> 319
+319:
+    v195 (any()), v196 (any()), v197 (any()) := begin_handler()
+    if is_{atom,throw}(v195 (any())) then 381 (0.50) else 383
+381:
+    goto 379
+379:
+    v198 (any()) := phi({385, v296 ({'EXIT',_})}, {381, v196 (any())})
+    if is_{tuple,2}(v198 (any())) then 237 (0.50) else 24
+237:
+    v201 (any()) := unsafe_element<1>(v198 ({_,_})) (primop)
+    v202 (any()) := unsafe_element<2>(v198 ({_,_})) (primop)
+    if is_{atom,'EXIT'}(v201 (any())) then 239 (0.50) else 24
+239:
+    if is_{tuple,2}(v202 (any())) then 241 (0.50) else 24
+241:
+    v203 (any()) := unsafe_element<1>(v202 ({_,_})) (primop)
+    if is_{tuple,2}(v203 (any())) then 243 (0.50) else 24
+243:
+    v204 (any()) := unsafe_element<1>(v203 ({_,_})) (primop)
+    if is_{atom,badmatch}(v204 (any())) then 245 (0.50) else 24
+245:
+    goto 247
+247:
+    v206 ({'a','b','c'} | #{}) := id/1(#{x => 3}) -> 394, #fail 321
+394:
+    if is_map(v206 ({'a','b','c'} | #{})) then 249 (0.50) else 392
+249:
+    v292 (any()) := maps:is_key/2(x, v206 (#{})) -> 395, #fail 321
+395:
+    if is_{atom,true}(v292 (any())) then 251 (0.50) else 392
+251:
+    v293 (any()) := maps:get/2(x, v206 (#{})) -> 396, #fail 321
+396:
+    if is_{integer,2}(v293 (any())) then 253 (0.50) else 392
+253:
+    goto 365
+365:
+    goto 8
+8:
+    goto 367
+367:
+    v215 (any()) := phi({8, v206 (#{})}, {373, v212 ({'EXIT',_})}, {369, v208 (any())})
+    if is_{tuple,2}(v215 (any())) then 255 (0.50) else 22
+255:
+    v218 (any()) := unsafe_element<1>(v215 ({_,_})) (primop)
+    v219 (any()) := unsafe_element<2>(v215 ({_,_})) (primop)
+    if is_{atom,'EXIT'}(v218 (any())) then 257 (0.50) else 22
+257:
+    if is_{tuple,2}(v219 (any())) then 259 (0.50) else 22
+259:
+    v220 (any()) := unsafe_element<1>(v219 ({_,_})) (primop)
+    if is_{tuple,2}(v220 (any())) then 261 (0.50) else 22
+261:
+    v221 (any()) := unsafe_element<1>(v220 ({_,_})) (primop)
+    if is_{atom,badmatch}(v221 (any())) then 263 (0.50) else 22
+263:
+    goto 265
+265:
+    v223 ({'a','b','c'} | #{}) := id/1({a,b,c}) -> 397, #fail 323
+397:
+    if is_map(v223 ({'a','b','c'} | #{})) then 267 (0.50) else 391
+267:
+    v287 (any()) := maps:is_key/2(x, v223 (#{})) -> 398, #fail 323
+398:
+    if is_{atom,true}(v287 (any())) then 269 (0.50) else 391
+269:
+    v288 (any()) := maps:get/2(x, v223 (#{})) -> 399, #fail 323
+399:
+    if is_{integer,3}(v288 (any())) then 271 (0.50) else 391
+271:
+    goto 353
+353:
+    goto 10
+10:
+    goto 355
+355:
+    v232 (any()) := phi({10, v223 (#{})}, {361, v229 ({'EXIT',_})}, {357, v225 (any())})
+    if is_{tuple,2}(v232 (any())) then 273 (0.50) else 20
+273:
+    v235 (any()) := unsafe_element<1>(v232 ({_,_})) (primop)
+    v236 (any()) := unsafe_element<2>(v232 ({_,_})) (primop)
+    if is_{atom,'EXIT'}(v235 (any())) then 275 (0.50) else 20
+275:
+    if is_{tuple,2}(v236 (any())) then 277 (0.50) else 20
+277:
+    v237 (any()) := unsafe_element<1>(v236 ({_,_})) (primop)
+    if is_{tuple,2}(v237 (any())) then 279 (0.50) else 20
+279:
+    v238 (any()) := unsafe_element<1>(v237 ({_,_})) (primop)
+    if is_{atom,badmatch}(v238 (any())) then 281 (0.50) else 20
+281:
+    goto 283
+283:
+    v240 ({'a','b','c'} | #{}) := id/1(#{y => 3}) -> 400, #fail 325
+400:
+    if is_map(v240 ({'a','b','c'} | #{})) then 285 (0.50) else 390
+285:
+    v282 (any()) := maps:is_key/2(x, v240 (#{})) -> 401, #fail 325
+401:
+    if is_{atom,true}(v282 (any())) then 287 (0.50) else 390
+287:
+    v283 (any()) := maps:get/2(x, v240 (#{})) -> 402, #fail 325
+402:
+    if is_{integer,3}(v283 (any())) then 289 (0.50) else 390
+289:
+    goto 341
+341:
+    goto 12
+12:
+    goto 343
+343:
+    v249 (any()) := phi({12, v240 (#{})}, {349, v246 ({'EXIT',_})}, {345, v242 (any())})
+    if is_{tuple,2}(v249 (any())) then 291 (0.50) else 18
+291:
+    v252 (any()) := unsafe_element<1>(v249 ({_,_})) (primop)
+    v253 (any()) := unsafe_element<2>(v249 ({_,_})) (primop)
+    if is_{atom,'EXIT'}(v252 (any())) then 293 (0.50) else 18
+293:
+    if is_{tuple,2}(v253 (any())) then 295 (0.50) else 18
+295:
+    v254 (any()) := unsafe_element<1>(v253 ({_,_})) (primop)
+    if is_{tuple,2}(v254 (any())) then 297 (0.50) else 18
+297:
+    v255 (any()) := unsafe_element<1>(v254 ({_,_})) (primop)
+    if is_{atom,badmatch}(v255 (any())) then 299 (0.50) else 18
+299:
+    goto 301
+301:
+    v257 ({'a','b','c'} | #{}) := id/1(#{x => "three"}) -> 403, #fail 327
+403:
+    if is_map(v257 ({'a','b','c'} | #{})) then 303 (0.50) else 389
+303:
+    v277 (any()) := maps:is_key/2(x, v257 (#{})) -> 404, #fail 327
+404:
+    if is_{atom,true}(v277 (any())) then 305 (0.50) else 389
+305:
+    v278 (any()) := maps:get/2(x, v257 (#{})) -> 405, #fail 327
+405:
+    if is_{integer,3}(v278 (any())) then 307 (0.50) else 389
+307:
+    goto 329
+329:
+    goto 14
+14:
+    goto 331
+331:
+    v266 (any()) := phi({14, v257 (#{})}, {337, v263 ({'EXIT',_})}, {333, v259 (any())})
+    if is_{tuple,2}(v266 (any())) then 309 (0.50) else 16
+309:
+    v269 (any()) := unsafe_element<1>(v266 ({_,_})) (primop)
+    v270 (any()) := unsafe_element<2>(v266 ({_,_})) (primop)
+    if is_{atom,'EXIT'}(v269 (any())) then 311 (0.50) else 16
+311:
+    if is_{tuple,2}(v270 (any())) then 313 (0.50) else 16
+313:
+    v271 (any()) := unsafe_element<1>(v270 ({_,_})) (primop)
+    if is_{tuple,2}(v271 (any())) then 315 (0.50) else 16
+315:
+    v272 (any()) := unsafe_element<1>(v271 ({_,_})) (primop)
+    if is_{atom,badmatch}(v272 (any())) then 317 (0.50) else 16
+317:
+    v273 ('ok') := ok
+    return(v273 ('ok'))
+16:
+    v268 ({'badmatch',_}) := mktuple(badmatch, v266 (any())) (primop)
+    fail(error, [v268 ({'badmatch',_})])
+389:
+    v275 ({'badmatch',{'a','b','c'} | #{}}) := mktuple(badmatch, v257 ({'a','b','c'} | #{})) (primop)
+    fail(error, [v275 ({'badmatch',{'a','b','c'} | #{}})]) -> 327
+327:
+    v258 (any()), v259 (any()), v260 (any()) := begin_handler()
+    if is_{atom,throw}(v258 (any())) then 333 (0.50) else 335
+333:
+    goto 331
+335:
+    if is_{atom,exit}(v258 (any())) then 337 (0.50) else 339
+337:
+    v262 (any()) := phi({339, v265 ({_,_})}, {335, v259 (any())})
+    v263 ({'EXIT',_}) := mktuple('EXIT', v262 (any())) (primop)
+    goto 331
+339:
+    v264 (any()) := erlang:get_stacktrace/0()
+    v265 ({_,_}) := mktuple(v259 (any()), v264 (any())) (primop)
+    goto 337
+18:
+    v251 ({'badmatch',_}) := mktuple(badmatch, v249 (any())) (primop)
+    fail(error, [v251 ({'badmatch',_})])
+390:
+    v280 ({'badmatch',{'a','b','c'} | #{}}) := mktuple(badmatch, v240 ({'a','b','c'} | #{})) (primop)
+    fail(error, [v280 ({'badmatch',{'a','b','c'} | #{}})]) -> 325
+325:
+    v241 (any()), v242 (any()), v243 (any()) := begin_handler()
+    if is_{atom,throw}(v241 (any())) then 345 (0.50) else 347
+345:
+    goto 343
+347:
+    if is_{atom,exit}(v241 (any())) then 349 (0.50) else 351
+349:
+    v245 (any()) := phi({351, v248 ({_,_})}, {347, v242 (any())})
+    v246 ({'EXIT',_}) := mktuple('EXIT', v245 (any())) (primop)
+    goto 343
+351:
+    v247 (any()) := erlang:get_stacktrace/0()
+    v248 ({_,_}) := mktuple(v242 (any()), v247 (any())) (primop)
+    goto 349
+20:
+    v234 ({'badmatch',_}) := mktuple(badmatch, v232 (any())) (primop)
+    fail(error, [v234 ({'badmatch',_})])
+391:
+    v285 ({'badmatch',{'a','b','c'} | #{}}) := mktuple(badmatch, v223 ({'a','b','c'} | #{})) (primop)
+    fail(error, [v285 ({'badmatch',{'a','b','c'} | #{}})]) -> 323
+323:
+    v224 (any()), v225 (any()), v226 (any()) := begin_handler()
+    if is_{atom,throw}(v224 (any())) then 357 (0.50) else 359
+357:
+    goto 355
+359:
+    if is_{atom,exit}(v224 (any())) then 361 (0.50) else 363
+361:
+    v228 (any()) := phi({363, v231 ({_,_})}, {359, v225 (any())})
+    v229 ({'EXIT',_}) := mktuple('EXIT', v228 (any())) (primop)
+    goto 355
+363:
+    v230 (any()) := erlang:get_stacktrace/0()
+    v231 ({_,_}) := mktuple(v225 (any()), v230 (any())) (primop)
+    goto 361
+22:
+    v217 ({'badmatch',_}) := mktuple(badmatch, v215 (any())) (primop)
+    fail(error, [v217 ({'badmatch',_})])
+392:
+    v290 ({'badmatch',{'a','b','c'} | #{}}) := mktuple(badmatch, v206 ({'a','b','c'} | #{})) (primop)
+    fail(error, [v290 ({'badmatch',{'a','b','c'} | #{}})]) -> 321
+321:
+    v207 (any()), v208 (any()), v209 (any()) := begin_handler()
+    if is_{atom,throw}(v207 (any())) then 369 (0.50) else 371
+369:
+    goto 367
+371:
+    if is_{atom,exit}(v207 (any())) then 373 (0.50) else 375
+373:
+    v211 (any()) := phi({375, v214 ({_,_})}, {371, v208 (any())})
+    v212 ({'EXIT',_}) := mktuple('EXIT', v211 (any())) (primop)
+    goto 367
+375:
+    v213 (any()) := erlang:get_stacktrace/0()
+    v214 ({_,_}) := mktuple(v208 (any()), v213 (any())) (primop)
+    goto 373
+24:
+    v200 ({'badmatch',_}) := mktuple(badmatch, v198 (any())) (primop)
+    fail(error, [v200 ({'badmatch',_})])
+383:
+    if is_{atom,exit}(v195 (any())) then 385 (0.50) else 387
+385:
+    v295 (any()) := phi({387, v298 ({_,_})}, {383, v196 (any())})
+    v296 ({'EXIT',_}) := mktuple('EXIT', v295 (any())) (primop)
+    goto 379
+387:
+    v297 (any()) := erlang:get_stacktrace/0()
+    v298 ({_,_}) := mktuple(v196 (any()), v297 (any())) (primop)
+    goto 385
+26:
+    v186 ({'badmatch',{'a','b','c'} | #{}}) := mktuple(badmatch, v184 ({'a','b','c'} | #{})) (primop)
+    fail(error, [v186 ({'badmatch',{'a','b','c'} | #{}})])
+28:
+    v167 ({'badmatch',{'a','b','c'} | #{}}) := mktuple(badmatch, v165 ({'a','b','c'} | #{})) (primop)
+    fail(error, [v167 ({'badmatch',{'a','b','c'} | #{}})])
+30:
+    v148 ({'badmatch',{'a','b','c'} | #{}}) := mktuple(badmatch, v146 ({'a','b','c'} | #{})) (primop)
+    fail(error, [v148 ({'badmatch',{'a','b','c'} | #{}})])
+32:
+    v138 ({'badmatch',{'a','b','c'} | #{}}) := mktuple(badmatch, v136 ({'a','b','c'} | #{})) (primop)
+    fail(error, [v138 ({'badmatch',{'a','b','c'} | #{}})])
+34:
+    v131 ({'badmatch',{'a','b','c'} | #{}}) := mktuple(badmatch, v129 ({'a','b','c'} | #{})) (primop)
+    fail(error, [v131 ({'badmatch',{'a','b','c'} | #{}})])
+36:
+    v102 ({'badmatch',{'a','b','c'} | #{}}) := mktuple(badmatch, v100 ({'a','b','c'} | #{})) (primop)
+    fail(error, [v102 ({'badmatch',{'a','b','c'} | #{}})])
+157:
+    goto 36
+151:
+    goto 36
+38:
+    v76 ({'badmatch',{'a','b','c'} | #{}}) := mktuple(badmatch, v74 ({'a','b','c'} | #{})) (primop)
+    fail(error, [v76 ({'badmatch',{'a','b','c'} | #{}})])
+117:
+    goto 38
+111:
+    goto 38
+40:
+    v53 ({'badmatch',{'a','b','c'} | #{}}) := mktuple(badmatch, v51 ({'a','b','c'} | #{})) (primop)
+    fail(error, [v53 ({'badmatch',{'a','b','c'} | #{}})])
+81:
+    goto 40
+75:
+    goto 40
+42:
+    v37 ({'badmatch',{'a','b','c'} | #{}}) := mktuple(badmatch, v35 ({'a','b','c'} | #{})) (primop)
+    fail(error, [v37 ({'badmatch',{'a','b','c'} | #{}})])
+44:
+    v24 ({'badmatch',{'a','b','c'} | #{}}) := mktuple(badmatch, v22 ({'a','b','c'} | #{})) (primop)
+    fail(error, [v24 ({'badmatch',{'a','b','c'} | #{}})])
+46:
+    v14 ({'badmatch',{'a','b','c'} | #{}}) := mktuple(badmatch, v12 ({'a','b','c'} | #{})) (primop)
+    fail(error, [v14 ({'badmatch',{'a','b','c'} | #{}})])
+48:
+    v7 ({'badmatch',{'a','b','c'} | #{}}) := mktuple(badmatch, v5 ({'a','b','c'} | #{})) (primop)
+    fail(error, [v7 ({'badmatch',{'a','b','c'} | #{}})])
+50:
+    v308 ({'badmatch',{'a','b','c'} | #{}}) := mktuple(badmatch, v3 ({'a','b','c'} | #{})) (primop)
+    fail(error, [v308 ({'badmatch',{'a','b','c'} | #{}})])
+%% Data:
+maps_build_and_match_literals.erl:32: Warning: pattern cannot possibly match

@@ -1,0 +1,325 @@
+maps_guard_fun:'-test/0-fun-0-'/1(v1 (any()), v2 (any())) ->
+%% Info:['Closure','Leaf function']
+60:
+    goto 58
+58:
+    goto 1
+1:
+    goto 50
+50:
+    if is_map(v1 (any())) then 3 (0.50) else 48
+3:
+    v5 (any()) := maps:is_key/2(s, v1 (#{}))
+    if is_{atom,true}(v5 (any())) then 5 (0.50) else 48
+5:
+    v7 (any()) := maps:is_key/2(v, v1 (#{}))
+    if is_{atom,true}(v7 (any())) then 7 (0.50) else 48
+7:
+    v8 (any()) := maps:get/2(s, v1 (#{}))
+    v9 (any()) := maps:get/2(v, v1 (#{}))
+    if is_atom(v8 (any())) then 9 (0.50) else 48
+9:
+    switch_val v8 (atom()) of
+        t -> 52;
+        l -> 54;
+        v -> 56
+    fail -> 48
+48:
+    v3 ('function_clause') := function_clause
+    fail(error, [v3 ('function_clause')])
+52:
+    if is_{tuple,2}(v9 (any())) then 11 (0.50) else 48
+11:
+    v10 (any()) := unsafe_element<1>(v9 ({_,_})) (primop)
+    v11 (any()) := unsafe_element<2>(v9 ({_,_})) (primop)
+    if '=:='(v11 (any()), v10 (any())) then 13 (0.50) else 48
+13:
+    v13 ({'t',_}) := mktuple(t, v10 (any())) (primop)
+    return(v13 ({'t',_}))
+54:
+    if is_cons(v9 (any())) then 15 (0.50) else 48
+15:
+    v14 (any()) := unsafe_hd(v9 (nonempty_maybe_improper_list())) (primop)
+    v15 (any()) := unsafe_tl(v9 (nonempty_maybe_improper_list())) (primop)
+    if is_cons(v15 (any())) then 17 (0.50) else 48
+17:
+    v16 (any()) := unsafe_hd(v15 (nonempty_maybe_improper_list())) (primop)
+    v17 (any()) := unsafe_tl(v15 (nonempty_maybe_improper_list())) (primop)
+    if is_nil(v17 (any())) then 19 (0.50) else 48
+19:
+    if '=:='(v16 (any()), v14 (any())) then 21 (0.50) else 48
+21:
+    v19 ({'l',_}) := mktuple(l, v14 (any())) (primop)
+    return(v19 ({'l',_}))
+56:
+    v21 ({'v',_}) := mktuple(v, v9 (any())) (primop)
+    return(v21 ({'v',_}))
+%% Data:
+maps_guard_fun:'-test/0-fun-1-'/1(v1 (any()), v2 (any())) ->
+%% Info:['Closure','Leaf function']
+50:
+    goto 48
+48:
+    goto 1
+1:
+    goto 40
+40:
+    if is_map(v1 (any())) then 3 (0.50) else 38
+3:
+    v5 (any()) := maps:is_key/2(s, v1 (#{}))
+    if is_{atom,true}(v5 (any())) then 5 (0.50) else 38
+5:
+    v7 (any()) := maps:is_key/2(v, v1 (#{}))
+    if is_{atom,true}(v7 (any())) then 7 (0.50) else 38
+7:
+    v8 (any()) := maps:get/2(s, v1 (#{}))
+    v9 (any()) := maps:get/2(v, v1 (#{}))
+    if is_cons(v9 (any())) then 9 (0.50) else 42
+9:
+    v13 (any()) := unsafe_hd(v9 (nonempty_maybe_improper_list())) (primop)
+    v14 (any()) := unsafe_tl(v9 (nonempty_maybe_improper_list())) (primop)
+    if is_cons(v14 (any())) then 11 (0.50) else 46
+11:
+    v15 (any()) := unsafe_hd(v14 (nonempty_maybe_improper_list())) (primop)
+    v16 (any()) := unsafe_tl(v14 (nonempty_maybe_improper_list())) (primop)
+    if is_nil(v16 (any())) then 13 (0.50) else 46
+13:
+    if '=:='(v15 (any()), v13 (any())) then 15 (0.50) else 46
+15:
+    goto 44
+44:
+    v11 (any()) := phi({19, v17 (any())}, {15, v13 (any())})
+    v12 ({_,_}) := mktuple(v8 (any()), v11 (any())) (primop)
+    return(v12 ({_,_}))
+46:
+    v10 ({_,_}) := mktuple(v8 (any()), v9 (any())) (primop)
+    return(v10 ({_,_}))
+42:
+    if is_{tuple,2}(v9 (any())) then 17 (0.50) else 46
+17:
+    v17 (any()) := unsafe_element<1>(v9 ({_,_})) (primop)
+    v18 (any()) := unsafe_element<2>(v9 ({_,_})) (primop)
+    if '=:='(v18 (any()), v17 (any())) then 19 (0.50) else 46
+19:
+    goto 44
+38:
+    v3 ('function_clause') := function_clause
+    fail(error, [v3 ('function_clause')])
+%% Data:
+maps_guard_fun:module_info/0() ->
+%% Info:['Not a closure','Leaf function']
+34:
+    goto 1
+1:
+    goto 32
+32:
+    erlang:get_module_info/1(maps_guard_fun)
+%% Data:
+maps_guard_fun:module_info/1(v1 (any())) ->
+%% Info:['Not a closure','Leaf function']
+38:
+    goto 1
+1:
+    goto 36
+36:
+    erlang:get_module_info/2(maps_guard_fun, v1 (any()))
+%% Data:
+maps_guard_fun:test/0() ->
+%% Info:['Not a closure','Not a leaf function']
+112:
+    goto 1
+1:
+    _ := redtest() (primop)
+    goto 4
+4:
+    v3 (fun()) := mkfun<maps_guard_fun,'-test/0-fun-0-',1,63743663,0>() (primop)
+    v5 (fun()) := mkfun<maps_guard_fun,'-test/0-fun-1-',1,63743663,1>() (primop)
+    v9 (any()) := call_fun(#{s => v,v => <<"hi">>}, v3 (fun())) (primop)
+    if is_{tuple,2}(v9 (any())) then 3 (0.50) else 28
+3:
+    v12 (any()) := unsafe_element<1>(v9 ({_,_})) (primop)
+    v13 (any()) := unsafe_element<2>(v9 ({_,_})) (primop)
+    if is_{atom,v}(v12 (any())) then 5 (0.50) else 28
+5:
+    if '=:='(v13 (any()), <<"hi">>) then 7 (0.50) else 28
+7:
+    v16 (any()) := call_fun(#{s => t,v => {<<"hi">>,<<"hi">>}}, v3 (fun())) (primop)
+    if is_{tuple,2}(v16 (any())) then 9 (0.50) else 26
+9:
+    v19 (any()) := unsafe_element<1>(v16 ({_,_})) (primop)
+    v20 (any()) := unsafe_element<2>(v16 ({_,_})) (primop)
+    if is_{atom,t}(v19 (any())) then 11 (0.50) else 26
+11:
+    if '=:='(v20 (any()), <<"hi">>) then 13 (0.50) else 26
+13:
+    v23 (any()) := call_fun(#{s => l,v => [<<"hi">>,<<"hi">>]}, v3 (fun())) (primop)
+    if is_{tuple,2}(v23 (any())) then 15 (0.50) else 24
+15:
+    v26 (any()) := unsafe_element<1>(v23 ({_,_})) (primop)
+    v27 (any()) := unsafe_element<2>(v23 ({_,_})) (primop)
+    if is_{atom,l}(v26 (any())) then 17 (0.50) else 24
+17:
+    if '=:='(v27 (any()), <<"hi">>) then 19 (0.50) else 24
+19:
+    v30 (any()) := call_fun(#{s => v,v => <<"hi">>}, v5 (fun())) (primop)
+    if is_{tuple,2}(v30 (any())) then 21 (0.50) else 22
+21:
+    v33 (any()) := unsafe_element<1>(v30 ({_,_})) (primop)
+    v34 (any()) := unsafe_element<2>(v30 ({_,_})) (primop)
+    if is_{atom,v}(v33 (any())) then 23 (0.50) else 22
+23:
+    if '=:='(v34 (any()), <<"hi">>) then 25 (0.50) else 22
+25:
+    v37 (any()) := call_fun(#{s => t,v => {<<"hi">>,<<"hi">>}}, v5 (fun())) (primop)
+    if is_{tuple,2}(v37 (any())) then 27 (0.50) else 20
+27:
+    v40 (any()) := unsafe_element<1>(v37 ({_,_})) (primop)
+    v41 (any()) := unsafe_element<2>(v37 ({_,_})) (primop)
+    if is_{atom,t}(v40 (any())) then 29 (0.50) else 20
+29:
+    if '=:='(v41 (any()), <<"hi">>) then 31 (0.50) else 20
+31:
+    v44 (any()) := call_fun(#{s => l,v => [<<"hi">>,<<"hi">>]}, v5 (fun())) (primop)
+    if is_{tuple,2}(v44 (any())) then 33 (0.50) else 18
+33:
+    v47 (any()) := unsafe_element<1>(v44 ({_,_})) (primop)
+    v48 (any()) := unsafe_element<2>(v44 ({_,_})) (primop)
+    if is_{atom,l}(v47 (any())) then 35 (0.50) else 18
+35:
+    if '=:='(v48 (any()), <<"hi">>) then 37 (0.50) else 18
+37:
+    goto 39
+39:
+    v51 (any()) := call_fun(#{s => none,v => none}, v3 (fun())) (primop) -> 109, #fail 95
+109:
+    goto 97
+97:
+    goto 6
+6:
+    goto 99
+99:
+    v52 (any()) := phi({105, v95 ({'EXIT',_})}, {101, v91 (any())}, {6, v51 (any())})
+    if is_{tuple,2}(v52 (any())) then 41 (0.50) else 16
+41:
+    v56 (any()) := unsafe_element<1>(v52 ({_,_})) (primop)
+    v57 (any()) := unsafe_element<2>(v52 ({_,_})) (primop)
+    if is_{atom,'EXIT'}(v56 (any())) then 43 (0.50) else 16
+43:
+    if is_{tuple,2}(v57 (any())) then 45 (0.50) else 16
+45:
+    v58 (any()) := unsafe_element<1>(v57 ({_,_})) (primop)
+    v59 (any()) := unsafe_element<2>(v57 ({_,_})) (primop)
+    if is_tuple(v58 (any())) then 47 (0.50) else 8
+47:
+    if is_{tuple,2}(v58 (tuple())) then 49 (0.50) else 16
+49:
+    v60 (any()) := unsafe_element<1>(v58 ({_,_})) (primop)
+    if is_{atom,case_clause}(v60 (any())) then 51 (0.50) else 16
+51:
+    v61 ({'comment','inlined'}) := {comment,inlined}
+    return(v61 ({'comment','inlined'}))
+16:
+    v54 ({'no_match',_}) := mktuple(no_match, v52 (any())) (primop)
+    test_server:fail/1(v54 ({'no_match',_}))
+8:
+    if is_{atom,function_clause}(v58 (any())) then 53 (0.50) else 16
+53:
+    if is_cons(v59 (any())) then 55 (0.50) else 16
+55:
+    v62 (any()) := unsafe_hd(v59 (nonempty_maybe_improper_list())) (primop)
+    if is_{tuple,4}(v62 (any())) then 57 (0.50) else 14
+57:
+    v69 (any()) := unsafe_element<1>(v62 ({_,_,_,_})) (primop)
+    v70 (any()) := unsafe_element<3>(v62 ({_,_,_,_})) (primop)
+    v71 (any()) := unsafe_element<4>(v62 ({_,_,_,_})) (primop)
+    if is_{atom,maps_guard_fun}(v69 (any())) then 59 (0.50) else 14
+59:
+    if is_cons(v70 (any())) then 61 (0.50) else 10
+61:
+    v74 (any()) := unsafe_hd(v70 (nonempty_maybe_improper_list())) (primop)
+    v75 (any()) := unsafe_tl(v70 (nonempty_maybe_improper_list())) (primop)
+    if is_map(v74 (any())) then 63 (0.50) else 14
+63:
+    v77 (any()) := maps:is_key/2(s, v74 (#{}))
+    if is_{atom,true}(v77 (any())) then 65 (0.50) else 14
+65:
+    v79 (any()) := maps:is_key/2(v, v74 (#{}))
+    if is_{atom,true}(v79 (any())) then 67 (0.50) else 14
+67:
+    v80 (any()) := maps:get/2(s, v74 (#{}))
+    v81 (any()) := maps:get/2(v, v74 (#{}))
+    if is_{atom,none}(v80 (any())) then 69 (0.50) else 14
+69:
+    if is_{atom,none}(v81 (any())) then 71 (0.50) else 14
+71:
+    goto 12
+12:
+    v72 (any()) := phi({85, v83 (any())}, {71, v75 (any())})
+    if is_nil(v72 (any())) then 87 (0.50) else 14
+87:
+    v73 ('ok') := ok
+    return(v73 ('ok'))
+14:
+    v65 (any()) := erlang:element/2(1, v62 (any())) (guard) -> 89, #fail 91
+89:
+    if is_{atom,maps_guard_fun}(v65 (any())) then 93 (0.50) else 16
+93:
+    test_server:comment/1("Unexpected trace format, probably using HiPE")
+91:
+    goto 16
+10:
+    if is_{integer,1}(v70 (any())) then 73 (0.50) else 14
+73:
+    if is_cons(v71 (any())) then 75 (0.50) else 14
+75:
+    v82 (any()) := unsafe_hd(v71 (nonempty_maybe_improper_list())) (primop)
+    v83 (any()) := unsafe_tl(v71 (nonempty_maybe_improper_list())) (primop)
+    if is_map(v82 (any())) then 77 (0.50) else 14
+77:
+    v85 (any()) := maps:is_key/2(s, v82 (#{}))
+    if is_{atom,true}(v85 (any())) then 79 (0.50) else 14
+79:
+    v87 (any()) := maps:is_key/2(v, v82 (#{}))
+    if is_{atom,true}(v87 (any())) then 81 (0.50) else 14
+81:
+    v88 (any()) := maps:get/2(s, v82 (#{}))
+    v89 (any()) := maps:get/2(v, v82 (#{}))
+    if is_{atom,none}(v88 (any())) then 83 (0.50) else 14
+83:
+    if is_{atom,none}(v89 (any())) then 85 (0.50) else 14
+85:
+    goto 12
+95:
+    v90 (any()), v91 (any()), v92 (any()) := begin_handler()
+    if is_{atom,throw}(v90 (any())) then 101 (0.50) else 103
+101:
+    goto 99
+103:
+    if is_{atom,exit}(v90 (any())) then 105 (0.50) else 107
+105:
+    v94 (any()) := phi({107, v97 ({_,_})}, {103, v91 (any())})
+    v95 ({'EXIT',_}) := mktuple('EXIT', v94 (any())) (primop)
+    goto 99
+107:
+    v96 (any()) := erlang:get_stacktrace/0()
+    v97 ({_,_}) := mktuple(v91 (any()), v96 (any())) (primop)
+    goto 105
+18:
+    v46 ({'badmatch',_}) := mktuple(badmatch, v44 (any())) (primop)
+    fail(error, [v46 ({'badmatch',_})])
+20:
+    v39 ({'badmatch',_}) := mktuple(badmatch, v37 (any())) (primop)
+    fail(error, [v39 ({'badmatch',_})])
+22:
+    v32 ({'badmatch',_}) := mktuple(badmatch, v30 (any())) (primop)
+    fail(error, [v32 ({'badmatch',_})])
+24:
+    v25 ({'badmatch',_}) := mktuple(badmatch, v23 (any())) (primop)
+    fail(error, [v25 ({'badmatch',_})])
+26:
+    v18 ({'badmatch',_}) := mktuple(badmatch, v16 (any())) (primop)
+    fail(error, [v18 ({'badmatch',_})])
+28:
+    v11 ({'badmatch',_}) := mktuple(badmatch, v9 (any())) (primop)
+    fail(error, [v11 ({'badmatch',_})])
+%% Data:
