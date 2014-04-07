@@ -620,13 +620,20 @@ trans_fun([{put_tuple,_Size,Reg}|Instructions], Env) ->
 %%--- put_map_assoc ---
 trans_fun([{put_map_assoc, _FailLbl, Map, Dest, _N, 
           {list, ElementPairs}}|Instructions], Env) ->
-  {PutInstructions, Env1} = trans_put_map_assoc(Map, Dest, ElementPairs, Env, []),
-  PutInstructions ++ [trans_fun(Instructions, Env1)];
+  {MapMove, MapVar, Env1} = mk_move_and_var(Map, Env),
+  DestMapVar = mk_var(Dest),
+  {PutInstructions, Env2} = trans_put_map_assoc(MapVar, DestMapVar, ElementPairs, Env1, []),
+  [MapMove, PutInstructions | trans_fun(Instructions, Env1)];
 %%--- put_map_exact ---
 trans_fun([{put_map_exact, _FailLbl, Map, Dest, _N, 
           {list, ElementPairs}}|Instructions], Env) ->
-  {PutInstructions, Env1} = trans_put_map_exact(Map, Dest, ElementPairs, Env),
-  [PutInstructions | trans_fun(Instructions, Env1)];  
+  {MapMove, MapVar, Env1} = mk_move_and_var(Map, Env),
+  TempMapVar = mk_var(new),
+  TempMapMove = hipe_icode:mk_move(TempMapVar, MapVar),
+  FailLbl = mk_label(new),
+  DestMapVar = mk_var(Dest),
+  {PutInstructions, Env2} = trans_put_map_exact(TempMapVar, DestMapVar, FailLbl, ElementPairs, Env1, []),
+  [MapMove, TempMapMove, PutInstructions | trans_fun(Instructions, Env2)];  
 %%--- put --- SHOULD NOT REALLY EXIST HERE; put INSTRUCTIONS ARE HANDLED ABOVE.
 %%--- badmatch ---
 trans_fun([{badmatch,Arg}|Instructions], Env) ->
@@ -1521,30 +1528,39 @@ trans_type_test2(function2, Lbl, Arg, Arity, Env) ->
 %% ----------------------------------------------------------------------
 trans_put_map_assoc(_Map,_Dest, [], Env, Acc) ->
   {lists:reverse(Acc), Env};
-trans_put_map_assoc(Map, Dest, [Key, Value | Rest], Env, Acc) ->
-  {MapMove, MapVar, Env1} = mk_move_and_var(Map, Env),
-  {MoveKey, KeyVar, Env2} = mk_move_and_var(Key, Env1),
-  {MoveVal, ValVar, Env3} = mk_move_and_var(Value, Env2),
-  BifCall = hipe_icode:mk_call([mk_var(Dest)], maps, put, 
+trans_put_map_assoc(MapVar, DestMapVar, [Key, Value | Rest], Env, Acc) ->
+  {MoveKey, KeyVar, Env1} = mk_move_and_var(Key, Env),
+  {MoveVal, ValVar, Env2} = mk_move_and_var(Value, Env1),
+  BifCall = hipe_icode:mk_call([DestMapVar], maps, put, 
                                 [KeyVar, ValVar, MapVar], remote),
-  trans_put_map_assoc(Dest, Dest, Rest, Env3, 
-                      [BifCall, MoveVal, MoveKey, MapMove | Acc]). 
+  trans_put_map_assoc(DestMapVar, DestMapVar, Rest, Env2, 
+                      [BifCall, MoveVal, MoveKey | Acc]). 
 
 %% ----------------------------------------------------------------------
 %% This function generates the instructions needed to update several
 %% (Key, Value) pairs in an existing map, each recursive call inserts
 %% one (Key, Value) pair.
 %% ----------------------------------------------------------------------
-trans_put_map_exact(_Map,_Dest, [], Env) ->
-  {[], Env};
-trans_put_map_exact(Map, Dest, [Key, Value | Rest], Env) ->
-  {MapMove, MapVar, Env1} = mk_move_and_var(Map, Env),
-  {MoveKey, KeyVar, Env2} = mk_move_and_var(Key, Env1),
-  {MoveVal, ValVar, Env3} = mk_move_and_var(Value, Env2),
-  BifCall = hipe_icode:mk_call([mk_var(Dest)], maps, update, 
+trans_put_map_exact(MapVar, DestMapVar, FailLbl, [], Env, Acc) ->
+  MoveToReturnVar = hipe_icode:mk_move(DestMapVar, MapVar),
+  FailInstruction = hipe_icode:mk_fail([hipe_icode:mk_const(badarg)], error),
+  ReturnLbl = mk_label(new),
+  GotoReturn = hipe_icode:mk_goto(hipe_icode:label_name(ReturnLbl)),
+  {lists:reverse([ReturnLbl, FailInstruction, FailLbl, GotoReturn, MoveToReturnVar | Acc]), Env};
+trans_put_map_exact(MapVar, DestMapVar, FailLbl, [Key, Value | Rest], Env, Acc) ->
+  PassLbl = mk_label(new),
+  {MoveKey, KeyVar, Env1} = mk_move_and_var(Key, Env),
+  {MoveVal, ValVar, Env2} = mk_move_and_var(Value, Env1),
+  IsKey = hipe_icode:mk_new_var(),
+  BifCallIsKey = hipe_icode:mk_call([IsKey], maps, is_key,
+                                    [KeyVar, MapVar], remote),
+  IsKeyTest = hipe_icode:mk_if('=:=', [IsKey, hipe_icode:mk_const(true)],
+            hipe_icode:label_name(PassLbl), hipe_icode:label_name(FailLbl)),
+  BifCallPut = hipe_icode:mk_call([MapVar], maps, put, 
                                 [KeyVar, ValVar, MapVar], remote),
-  {ResList, Env4} = trans_put_map_exact(Dest, Dest, Rest, Env3),
-  {[MapMove, MoveKey, MoveVal, BifCall | ResList], Env4}.
+  trans_put_map_exact(MapVar, DestMapVar, FailLbl, Rest, Env2,
+                      [BifCallPut, PassLbl, IsKeyTest, BifCallIsKey, 
+                      MoveVal, MoveKey | Acc]).
   
 %%-----------------------------------------------------------------------
 %% trans_puts(Code, Environment) -> 
