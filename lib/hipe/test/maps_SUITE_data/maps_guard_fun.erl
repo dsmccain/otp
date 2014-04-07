@@ -2,8 +2,6 @@
 -export([test/0]).
 
 test() ->
-    {skip, "Not yet supported by HiPE."};
-test() ->
     F1 = fun
 	    (#{s:=v,v:=V})     -> {v,V};
 	    (#{s:=t,v:={V,V}}) -> {t,V};
@@ -28,6 +26,10 @@ test() ->
     %% error case
     case (catch F1(#{s=>none,v=>none})) of
 	{'EXIT', {function_clause,[{?MODULE,_,[#{s:=none,v:=none}],_}|_]}} -> ok;
+	{'EXIT', {function_clause,[{?MODULE,_,1,[#{s:=none,v:=none}]}|_]}} -> ok;
+	{'EXIT', {function_clause,[Frame|_]}}
+	  when is_tuple(Frame), element(1, Frame) =:= ?MODULE ->
+	    test_server:comment("Unexpected trace format, probably using HiPE");
 	{'EXIT', {{case_clause,_},_}} -> {comment,inlined};
 	Other ->
 	    test_server:fail({no_match, Other})

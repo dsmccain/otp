@@ -2,8 +2,6 @@
 -export([test/0]).
 
 test() ->
-    {skip, "Not yet supported by HiPE."};
-test() ->
     % test relation
 
     %% size order
