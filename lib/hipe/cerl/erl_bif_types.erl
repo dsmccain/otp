@@ -1670,6 +1670,18 @@ type(lists, zipwith3, 4, Xs, Opaques) ->
 	 fun ([F,_As,_Bs,_Cs]) -> t_sup(t_list(t_fun_range(F, Opaques)),
                                         t_nil()) end, Opaques);
 
+%%-- maps ---------------------------------------------------------------------
+type(maps, get, 2, Xs, Opaques) ->
+  strict(maps, get, 2, Xs,
+         fun ([Key, Map]) ->
+             MapEntries = erl_types:t_map_entries(Map, Opaques),
+             case (erl_types:t_is_singleton(Key, Opaques)
+                   andalso lists:keyfind(Key, 1, MapEntries)) of
+               false -> t_any();
+               ValType -> ValType
+             end
+         end, Opaques);
+
 %%-- string -------------------------------------------------------------------
 type(string, chars, 2, Xs, Opaques) ->  % NOTE: added to avoid loss of info
   strict(string, chars, 2, Xs, fun (_) -> t_string() end, Opaques);

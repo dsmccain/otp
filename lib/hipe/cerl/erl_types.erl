@@ -140,6 +140,7 @@
 	 t_is_maybe_improper_list/1, t_is_maybe_improper_list/2,
 	 t_is_reference/1, t_is_reference/2,
 	 t_is_remote/1,
+         t_is_singleton/2,
 	 t_is_string/1,
 	 t_is_subtype/2,
 	 t_is_tuple/1, t_is_tuple/2,
@@ -152,6 +153,7 @@
 	 t_list_termination/1,
 	 t_map/0,
 	 t_map/1,
+         t_map_entries/2,
 	 t_matchstate/0,
 	 t_matchstate/2,
 	 t_matchstate_present/1,
@@ -1723,6 +1725,8 @@ lift_list_to_pos_empty(?list(Content, Termination, _)) ->
 %%-----------------------------------------------------------------------------
 %% Maps
 %%
+%% The entries ?map(E) are only those that are known, any other entries might
+%% exist as well.
 
 -spec t_map() -> erl_type().
 
@@ -1731,8 +1735,8 @@ t_map() ->
 
 -spec t_map([{erl_type(), erl_type()}]) -> erl_type().
 
-t_map(_) ->
-  ?map([]).
+t_map(L) ->
+  ?map(L).
 
 -spec t_is_map(erl_type()) -> boolean().
 
@@ -1746,6 +1750,14 @@ t_is_map(Type, Opaques) ->
 
 is_map1(?map(_)) -> true;
 is_map1(_) -> false.
+
+-spec t_map_entries(erl_type(), opaques()) -> [{erl_type(), erl_type()}].
+
+t_map_entries(M, Opaques) ->
+  do_opaque(M, Opaques, fun map_entries/1).
+
+map_entries(?map(E)) ->
+  E.
 
 %%-----------------------------------------------------------------------------
 %% Tuples
@@ -2454,6 +2466,8 @@ t_sup(?tuple_set(List1), T2 = ?tuple(_, Arity, _)) ->
   sup_tuple_sets(List1, [{Arity, [T2]}]);
 t_sup(?tuple(_, Arity, _) = T1, ?tuple_set(List2)) ->
   sup_tuple_sets([{Arity, [T1]}], List2);
+t_sup(?map(_) = A, ?map(_) = B) ->
+  throw({not_implemented, sup, map, A, B});
 t_sup(T1, T2) ->
   ?union(U1) = force_union(T1),
   ?union(U2) = force_union(T2),
@@ -4724,6 +4738,20 @@ map_keys(?map(Pairs)) ->
 
 map_values(?map(Pairs)) ->
   [V || {_, V} <- Pairs].
+
+%% Tests if a type has exactly one possible value
+-spec t_is_singleton(erl_type(), opaques()) -> boolean().
+
+t_is_singleton(Type, Opaques) ->
+  do_opaque(Type, Opaques, fun is_singleton_type/1).
+
+%% XXX: incomplete
+is_singleton_type(?nil) -> true;
+is_singleton_type(?atom(?any)) -> false;
+is_singleton_type(?atom(Set)) ->
+  ordsets:size(Set) =:= 1;
+is_singleton_type(_) ->
+  false.
 
 %% -----------------------------------
 %% Set
