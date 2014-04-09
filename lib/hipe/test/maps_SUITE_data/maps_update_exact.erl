@@ -1,8 +1,8 @@
 -module(maps_update_exact).
 -export([test/0]).
 
-test() ->
-    {skip, "Not yet supported by HiPE."};
+%test() ->
+%    {skip, "Not yet supported by HiPE."};
 test() ->
     M0 = id(#{1=>a,2=>b,3.0=>c,4=>d,5=>e}),
 
