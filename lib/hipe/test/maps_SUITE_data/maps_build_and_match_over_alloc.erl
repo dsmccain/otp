@@ -1,8 +1,8 @@
 -module(maps_build_and_match_over_alloc).
 -export([test/0]).
 
-test() ->
-    {skip, "Not yet supported by HiPE."};
+%test() ->
+%    {skip, "Not yet supported by HiPE."};
 test() ->
     Ls = id([1,2,3]),
     V0 = [a|Ls],

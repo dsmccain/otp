@@ -1,8 +1,8 @@
 -module(maps_update_values).
 -export([test/0]).
 
-test() ->
-    {skip, "Not yet supported by HiPE."};
+%test() ->
+%    {skip, "Not yet supported by HiPE."};
 test() ->
     V0 = id(1337),
     M0 = #{ a => 1, val => V0},
