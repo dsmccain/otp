@@ -1,5 +1,0 @@
-
-maps1.erl:20: Function recv/3 has no local return
-maps1.erl:25: Function decode/1 has no local return
-maps1.erl:31: Function t1/0 has no local return
-maps1.erl:40: Function update/2 has no local return
