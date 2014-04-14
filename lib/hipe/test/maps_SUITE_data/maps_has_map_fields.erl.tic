@@ -1,264 +1,240 @@
-maps_has_map_fields:has_a_b_field/1(v1 (any())) ->
+maps_has_map_fields:has_a_b_field/1(v1 (#{'a'=>'true' | 1 | 4})) ->
 %% Info:['Not a closure','Leaf function']
-56:
+54:
     goto 1
 1:
-    goto 52
-52:
-    if is_map(v1 (any())) then 3 (0.50) else 50
+    goto 50
+50:
+    goto 3
 3:
-    v3 (any()) := maps:is_key/2(a, v1 (#{}))
-    if is_{atom,true}(v3 (any())) then 5 (0.50) else 54
+    v3 ('true') := maps:is_key/2(a, v1 (#{'a'=>'true' | 1 | 4}))
+    goto 5
 5:
-    v6 (any()) := maps:is_key/2(b, v1 (#{}))
-    if is_{atom,true}(v6 (any())) then 7 (0.50) else 54
+    v6 (boolean()) := maps:is_key/2(b, v1 (#{'a'=>'true' | 1 | 4}))
+    if is_{atom,true}(v6 (boolean())) then 7 (0.50) else 52
 7:
     v7 ('true') := true
     return(v7 ('true'))
-54:
+52:
     v4 ('false') := false
     return(v4 ('false'))
-50:
-    v8 ('function_clause') := function_clause
-    fail(error, [v8 ('function_clause')])
 %% Data:
-maps_has_map_fields:has_a_field/1(v1 (any())) ->
+maps_has_map_fields:has_a_field/1(v1 (#{})) ->
 %% Info:['Not a closure','Leaf function']
-50:
+48:
     goto 1
 1:
-    goto 46
-46:
-    if is_map(v1 (any())) then 3 (0.50) else 44
+    goto 44
+44:
+    goto 3
 3:
-    v3 (any()) := maps:is_key/2(a, v1 (#{}))
-    if is_{atom,true}(v3 (any())) then 5 (0.50) else 48
+    v3 (boolean()) := maps:is_key/2(a, v1 (#{}))
+    if is_{atom,true}(v3 (boolean())) then 5 (0.50) else 46
 5:
     v4 ('true') := true
     return(v4 ('true'))
-48:
+46:
     v5 ('false') := false
     return(v5 ('false'))
-44:
-    v6 ('function_clause') := function_clause
-    fail(error, [v6 ('function_clause')])
 %% Data:
-maps_has_map_fields:has_binary_but_no_map_field/1(v1 (any())) ->
+maps_has_map_fields:has_binary_but_no_map_field/1(v1 (#{})) ->
 %% Info:['Not a closure','Leaf function']
-79:
+77:
     goto 1
 1:
-    goto 70
-70:
-    if is_map(v1 (any())) then 3 (0.50) else 68
+    goto 68
+68:
+    goto 3
 3:
-    v3 (any()) := maps:is_key/2(<<"true">>, v1 (#{}))
-    if is_{atom,true}(v3 (any())) then 5 (0.50) else 72
+    v3 (boolean()) := maps:is_key/2(<<"true">>, v1 (#{}))
+    if is_{atom,true}(v3 (boolean())) then 5 (0.50) else 70
 5:
-    v6 (any()) := maps:is_key/2(#{}, v1 (#{}))
-    if is_{atom,true}(v6 (any())) then 74 (0.50) else 75
-74:
-    v8 ('false') := false
-    goto 77
-77:
-    v7 (boolean()) := phi({78, v10 (boolean())}, {76, v9 ('true')}, {74, v8 ('false')})
-    return(v7 (boolean()))
-75:
-    if is_{atom,false}(v6 (any())) then 76 (0.99) else 78
-76:
-    v9 ('true') := true
-    goto 77
-78:
-    v10 (boolean()) := erlang:'not'/1(v6 (any()))
-    goto 77
+    v6 (boolean()) := maps:is_key/2(#{}, v1 (#{}))
+    if is_{atom,true}(v6 (boolean())) then 72 (0.50) else 73
 72:
+    v8 ('false') := false
+    goto 75
+75:
+    v7 (boolean()) := phi({74, v9 ('true')}, {72, v8 ('false')})
+    return(v7 (boolean()))
+73:
+    goto 74
+74:
+    v9 ('true') := true
+    goto 75
+70:
     v11 ('false') := false
     return(v11 ('false'))
-68:
-    v12 ('function_clause') := function_clause
-    fail(error, [v12 ('function_clause')])
 %% Data:
-maps_has_map_fields:has_binary_field/1(v1 (any())) ->
+maps_has_map_fields:has_binary_field/1(v1 (#{})) ->
 %% Info:['Not a closure','Leaf function']
-62:
+60:
     goto 1
 1:
-    goto 58
-58:
-    if is_map(v1 (any())) then 3 (0.50) else 56
+    goto 56
+56:
+    goto 3
 3:
-    v3 (any()) := maps:is_key/2(<<"true">>, v1 (#{}))
-    if is_{atom,true}(v3 (any())) then 5 (0.50) else 60
+    v3 (boolean()) := maps:is_key/2(<<"true">>, v1 (#{}))
+    if is_{atom,true}(v3 (boolean())) then 5 (0.50) else 58
 5:
     v4 ('true') := true
     return(v4 ('true'))
-60:
+58:
     v5 ('false') := false
     return(v5 ('false'))
-56:
-    v6 ('function_clause') := function_clause
-    fail(error, [v6 ('function_clause')])
 %% Data:
-maps_has_map_fields:has_map_but_no_binary_field/1(v1 (any())) ->
+maps_has_map_fields:has_map_but_no_binary_field/1(v1 (#{})) ->
 %% Info:['Not a closure','Leaf function']
-68:
+66:
     goto 1
 1:
-    goto 64
-64:
-    if is_map(v1 (any())) then 3 (0.50) else 62
+    goto 62
+62:
+    goto 3
 3:
-    v3 (any()) := maps:is_key/2(<<"true">>, v1 (#{}))
-    if is_{atom,true}(v3 (any())) then 5 (0.50) else 66
+    v3 (boolean()) := maps:is_key/2(<<"true">>, v1 (#{}))
+    if is_{atom,true}(v3 (boolean())) then 5 (0.50) else 64
 5:
     v4 ('false') := false
     return(v4 ('false'))
-66:
+64:
     maps:is_key/2(#{}, v1 (#{}))
-62:
-    v7 ('function_clause') := function_clause
-    fail(error, [v7 ('function_clause')])
 %% Data:
 maps_has_map_fields:module_info/0() ->
 %% Info:['Not a closure','Leaf function']
-78:
+76:
     goto 1
 1:
-    goto 76
-76:
+    goto 74
+74:
     erlang:get_module_info/1(maps_has_map_fields)
 %% Data:
 maps_has_map_fields:module_info/1(v1 (any())) ->
 %% Info:['Not a closure','Leaf function']
-82:
+80:
     goto 1
 1:
-    goto 80
-80:
+    goto 78
+78:
     erlang:get_module_info/2(maps_has_map_fields, v1 (any()))
 %% Data:
 maps_has_map_fields:test/0() ->
 %% Info:['Not a closure','Not a leaf function']
-44:
+42:
     goto 1
 1:
     _ := redtest() (primop)
     goto 4
 4:
     v2 (boolean()) := has_a_field/1(#{})
-    if is_{atom,false}(v2 (boolean())) then 3 (0.50) else 42
+    if is_{atom,false}(v2 (boolean())) then 3 (0.50) else 40
 3:
     v4 (boolean()) := has_a_field/1(#{b => 2})
-    if is_{atom,false}(v4 (boolean())) then 5 (0.50) else 40
+    if is_{atom,false}(v4 (boolean())) then 5 (0.50) else 38
 5:
     v6 (boolean()) := has_a_field/1(#{a => 3})
-    if is_{atom,true}(v6 (boolean())) then 7 (0.50) else 38
+    if is_{atom,true}(v6 (boolean())) then 7 (0.50) else 36
 7:
     v8 (boolean()) := has_a_field/1(#{a => false,b => c})
-    if is_{atom,true}(v8 (boolean())) then 9 (0.50) else 36
+    if is_{atom,true}(v8 (boolean())) then 9 (0.50) else 34
 9:
     v10 (boolean()) := has_a_b_field/1(#{a => true})
-    if is_{atom,false}(v10 (boolean())) then 11 (0.50) else 34
+    if is_{atom,false}(v10 (boolean())) then 11 (0.50) else 32
 11:
-    v12 (boolean()) := has_a_b_field/1(#{b => a})
-    if is_{atom,false}(v12 (boolean())) then 13 (0.50) else 32
+    v12 (boolean()) := has_a_b_field/1(#{a => 1,b => 2})
+    if is_{atom,true}(v12 (boolean())) then 13 (0.50) else 30
 13:
-    v14 (boolean()) := has_a_b_field/1(#{a => 1,b => 2})
-    if is_{atom,true}(v14 (boolean())) then 15 (0.50) else 30
+    v14 (boolean()) := has_a_b_field/1(#{a => 4,b => 3})
+    if is_{atom,true}(v14 (boolean())) then 15 (0.50) else 28
 15:
-    v16 (boolean()) := has_a_b_field/1(#{a => 4,b => 3})
-    if is_{atom,true}(v16 (boolean())) then 17 (0.50) else 28
+    v16 (boolean()) := has_binary_field/1(#{})
+    if is_{atom,false}(v16 (boolean())) then 17 (0.50) else 26
 17:
-    v18 (boolean()) := has_binary_field/1(#{})
-    if is_{atom,false}(v18 (boolean())) then 19 (0.50) else 26
+    v18 (boolean()) := has_binary_field/1(#{#{} => yay})
+    if is_{atom,false}(v18 (boolean())) then 19 (0.50) else 24
 19:
-    v20 (boolean()) := has_binary_field/1(#{#{} => yay})
-    if is_{atom,false}(v20 (boolean())) then 21 (0.50) else 24
+    v20 (boolean()) := has_binary_field/1(#{<<"true">> => false})
+    if is_{atom,true}(v20 (boolean())) then 21 (0.50) else 22
 21:
-    v22 (boolean()) := has_binary_field/1(#{<<"true">> => false})
-    if is_{atom,true}(v22 (boolean())) then 23 (0.50) else 22
+    v22 (boolean()) := has_binary_but_no_map_field/1(#{})
+    if is_{atom,false}(v22 (boolean())) then 23 (0.50) else 20
 23:
-    v24 (boolean()) := has_binary_but_no_map_field/1(#{})
-    if is_{atom,false}(v24 (boolean())) then 25 (0.50) else 20
+    v24 (boolean()) := has_map_but_no_binary_field/1(#{})
+    if is_{atom,false}(v24 (boolean())) then 25 (0.50) else 18
 25:
-    v26 (any()) := has_map_but_no_binary_field/1(#{})
-    if is_{atom,false}(v26 (any())) then 27 (0.50) else 18
+    v26 (boolean()) := has_binary_but_no_map_field/1(#{#{} => 1})
+    if is_{atom,false}(v26 (boolean())) then 27 (0.50) else 16
 27:
-    v28 (boolean()) := has_binary_but_no_map_field/1(#{#{} => 1})
-    if is_{atom,false}(v28 (boolean())) then 29 (0.50) else 16
+    v28 (boolean()) := has_map_but_no_binary_field/1(#{<<"true">> => true})
+    if is_{atom,false}(v28 (boolean())) then 29 (0.50) else 14
 29:
-    v30 (any()) := has_map_but_no_binary_field/1(#{<<"true">> => true})
-    if is_{atom,false}(v30 (any())) then 31 (0.50) else 14
+    v30 (boolean()) := has_binary_but_no_map_field/1(#{<<"true">> => false})
+    if is_{atom,true}(v30 (boolean())) then 31 (0.50) else 12
 31:
-    v32 (boolean()) := has_binary_but_no_map_field/1(#{<<"true">> => false})
-    if is_{atom,true}(v32 (boolean())) then 33 (0.50) else 12
+    v32 (boolean()) := has_map_but_no_binary_field/1(#{#{} => 1})
+    if is_{atom,true}(v32 (boolean())) then 33 (0.50) else 10
 33:
-    v34 (any()) := has_map_but_no_binary_field/1(#{#{} => 1})
-    if is_{atom,true}(v34 (any())) then 35 (0.50) else 10
+    v34 (boolean()) := has_binary_but_no_map_field/1(#{#{} => 1,<<"true">> => true})
+    if is_{atom,false}(v34 (boolean())) then 35 (0.50) else 8
 35:
-    v36 (boolean()) := has_binary_but_no_map_field/1(#{#{} => 1,<<"true">> => true})
-    if is_{atom,false}(v36 (boolean())) then 37 (0.50) else 8
+    v36 (boolean()) := has_map_but_no_binary_field/1(#{#{} => 1,<<"true">> => true})
+    if is_{atom,false}(v36 (boolean())) then 37 (0.50) else 6
 37:
-    v38 (any()) := has_map_but_no_binary_field/1(#{#{} => 1,<<"true">> => true})
-    if is_{atom,false}(v38 (any())) then 39 (0.50) else 6
-39:
-    v39 ('ok') := ok
-    return(v39 ('ok'))
+    v37 ('ok') := ok
+    return(v37 ('ok'))
 6:
-    v41 ({'badmatch',_}) := mktuple(badmatch, v38 (any())) (primop)
-    fail(error, [v41 ({'badmatch',_})])
+    v39 ({'badmatch','true'}) := mktuple(badmatch, v36 ('true')) (primop)
+    fail(error, [v39 ({'badmatch','true'})])
 8:
-    v43 ({'badmatch','true'}) := mktuple(badmatch, v36 ('true')) (primop)
-    fail(error, [v43 ({'badmatch','true'})])
+    v41 ({'badmatch','true'}) := mktuple(badmatch, v34 ('true')) (primop)
+    fail(error, [v41 ({'badmatch','true'})])
 10:
-    v45 ({'badmatch',_}) := mktuple(badmatch, v34 (any())) (primop)
-    fail(error, [v45 ({'badmatch',_})])
+    v43 ({'badmatch','false'}) := mktuple(badmatch, v32 ('false')) (primop)
+    fail(error, [v43 ({'badmatch','false'})])
 12:
-    v47 ({'badmatch','false'}) := mktuple(badmatch, v32 ('false')) (primop)
-    fail(error, [v47 ({'badmatch','false'})])
+    v45 ({'badmatch','false'}) := mktuple(badmatch, v30 ('false')) (primop)
+    fail(error, [v45 ({'badmatch','false'})])
 14:
-    v49 ({'badmatch',_}) := mktuple(badmatch, v30 (any())) (primop)
-    fail(error, [v49 ({'badmatch',_})])
+    v47 ({'badmatch','true'}) := mktuple(badmatch, v28 ('true')) (primop)
+    fail(error, [v47 ({'badmatch','true'})])
 16:
-    v51 ({'badmatch','true'}) := mktuple(badmatch, v28 ('true')) (primop)
-    fail(error, [v51 ({'badmatch','true'})])
+    v49 ({'badmatch','true'}) := mktuple(badmatch, v26 ('true')) (primop)
+    fail(error, [v49 ({'badmatch','true'})])
 18:
-    v53 ({'badmatch',_}) := mktuple(badmatch, v26 (any())) (primop)
-    fail(error, [v53 ({'badmatch',_})])
+    v51 ({'badmatch','true'}) := mktuple(badmatch, v24 ('true')) (primop)
+    fail(error, [v51 ({'badmatch','true'})])
 20:
-    v55 ({'badmatch','true'}) := mktuple(badmatch, v24 ('true')) (primop)
-    fail(error, [v55 ({'badmatch','true'})])
+    v53 ({'badmatch','true'}) := mktuple(badmatch, v22 ('true')) (primop)
+    fail(error, [v53 ({'badmatch','true'})])
 22:
-    v57 ({'badmatch','false'}) := mktuple(badmatch, v22 ('false')) (primop)
-    fail(error, [v57 ({'badmatch','false'})])
+    v55 ({'badmatch','false'}) := mktuple(badmatch, v20 ('false')) (primop)
+    fail(error, [v55 ({'badmatch','false'})])
 24:
-    v59 ({'badmatch','true'}) := mktuple(badmatch, v20 ('true')) (primop)
-    fail(error, [v59 ({'badmatch','true'})])
+    v57 ({'badmatch','true'}) := mktuple(badmatch, v18 ('true')) (primop)
+    fail(error, [v57 ({'badmatch','true'})])
 26:
-    v61 ({'badmatch','true'}) := mktuple(badmatch, v18 ('true')) (primop)
-    fail(error, [v61 ({'badmatch','true'})])
+    v59 ({'badmatch','true'}) := mktuple(badmatch, v16 ('true')) (primop)
+    fail(error, [v59 ({'badmatch','true'})])
 28:
-    v63 ({'badmatch','false'}) := mktuple(badmatch, v16 ('false')) (primop)
-    fail(error, [v63 ({'badmatch','false'})])
+    v61 ({'badmatch','false'}) := mktuple(badmatch, v14 ('false')) (primop)
+    fail(error, [v61 ({'badmatch','false'})])
 30:
-    v65 ({'badmatch','false'}) := mktuple(badmatch, v14 ('false')) (primop)
-    fail(error, [v65 ({'badmatch','false'})])
+    v63 ({'badmatch','false'}) := mktuple(badmatch, v12 ('false')) (primop)
+    fail(error, [v63 ({'badmatch','false'})])
 32:
-    v67 ({'badmatch','true'}) := mktuple(badmatch, v12 ('true')) (primop)
-    fail(error, [v67 ({'badmatch','true'})])
+    v65 ({'badmatch','true'}) := mktuple(badmatch, v10 ('true')) (primop)
+    fail(error, [v65 ({'badmatch','true'})])
 34:
-    v69 ({'badmatch','true'}) := mktuple(badmatch, v10 ('true')) (primop)
-    fail(error, [v69 ({'badmatch','true'})])
+    v67 ({'badmatch','false'}) := mktuple(badmatch, v8 ('false')) (primop)
+    fail(error, [v67 ({'badmatch','false'})])
 36:
-    v71 ({'badmatch','false'}) := mktuple(badmatch, v8 ('false')) (primop)
-    fail(error, [v71 ({'badmatch','false'})])
+    v69 ({'badmatch','false'}) := mktuple(badmatch, v6 ('false')) (primop)
+    fail(error, [v69 ({'badmatch','false'})])
 38:
-    v73 ({'badmatch','false'}) := mktuple(badmatch, v6 ('false')) (primop)
-    fail(error, [v73 ({'badmatch','false'})])
+    v71 ({'badmatch','true'}) := mktuple(badmatch, v4 ('true')) (primop)
+    fail(error, [v71 ({'badmatch','true'})])
 40:
-    v75 ({'badmatch','true'}) := mktuple(badmatch, v4 ('true')) (primop)
-    fail(error, [v75 ({'badmatch','true'})])
-42:
-    v77 ({'badmatch','true'}) := mktuple(badmatch, v2 ('true')) (primop)
-    fail(error, [v77 ({'badmatch','true'})])
+    v73 ({'badmatch','true'}) := mktuple(badmatch, v2 ('true')) (primop)
+    fail(error, [v73 ({'badmatch','true'})])
 %% Data:

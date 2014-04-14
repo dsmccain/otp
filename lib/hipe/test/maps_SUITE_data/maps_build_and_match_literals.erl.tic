@@ -39,8 +39,8 @@ maps_build_and_match_literals:test/0() ->
     v5 ({'a','b','c'} | #{}) := id/1(#{1 => a})
     if is_map(v5 ({'a','b','c'} | #{})) then 5 (0.50) else 48
 5:
-    v9 (any()) := maps:is_key/2(1, v5 (#{}))
-    if is_{atom,true}(v9 (any())) then 7 (0.50) else 48
+    v9 (boolean()) := maps:is_key/2(1, v5 (#{}))
+    if is_{atom,true}(v9 (boolean())) then 7 (0.50) else 48
 7:
     v10 (any()) := maps:get/2(1, v5 (#{}))
     if is_{atom,a}(v10 (any())) then 9 (0.50) else 48
@@ -48,11 +48,11 @@ maps_build_and_match_literals:test/0() ->
     v12 ({'a','b','c'} | #{}) := id/1(#{1 => a,2 => b})
     if is_map(v12 ({'a','b','c'} | #{})) then 11 (0.50) else 46
 11:
-    v16 (any()) := maps:is_key/2(1, v12 (#{}))
-    if is_{atom,true}(v16 (any())) then 13 (0.50) else 46
+    v16 (boolean()) := maps:is_key/2(1, v12 (#{}))
+    if is_{atom,true}(v16 (boolean())) then 13 (0.50) else 46
 13:
-    v18 (any()) := maps:is_key/2(2, v12 (#{}))
-    if is_{atom,true}(v18 (any())) then 15 (0.50) else 46
+    v18 (boolean()) := maps:is_key/2(2, v12 (#{}))
+    if is_{atom,true}(v18 (boolean())) then 15 (0.50) else 46
 15:
     v19 (any()) := maps:get/2(1, v12 (#{}))
     v20 (any()) := maps:get/2(2, v12 (#{}))
@@ -63,14 +63,14 @@ maps_build_and_match_literals:test/0() ->
     v22 ({'a','b','c'} | #{}) := id/1(#{1 => a,2 => b,3 => "c"})
     if is_map(v22 ({'a','b','c'} | #{})) then 21 (0.50) else 44
 21:
-    v26 (any()) := maps:is_key/2(1, v22 (#{}))
-    if is_{atom,true}(v26 (any())) then 23 (0.50) else 44
+    v26 (boolean()) := maps:is_key/2(1, v22 (#{}))
+    if is_{atom,true}(v26 (boolean())) then 23 (0.50) else 44
 23:
-    v28 (any()) := maps:is_key/2(2, v22 (#{}))
-    if is_{atom,true}(v28 (any())) then 25 (0.50) else 44
+    v28 (boolean()) := maps:is_key/2(2, v22 (#{}))
+    if is_{atom,true}(v28 (boolean())) then 25 (0.50) else 44
 25:
-    v30 (any()) := maps:is_key/2(3, v22 (#{}))
-    if is_{atom,true}(v30 (any())) then 27 (0.50) else 44
+    v30 (boolean()) := maps:is_key/2(3, v22 (#{}))
+    if is_{atom,true}(v30 (boolean())) then 27 (0.50) else 44
 27:
     v31 (any()) := maps:get/2(1, v22 (#{}))
     v32 (any()) := maps:get/2(2, v22 (#{}))
@@ -84,17 +84,17 @@ maps_build_and_match_literals:test/0() ->
     v35 ({'a','b','c'} | #{}) := id/1(#{1 => a,2 => b,3 => "c","4" => "d"})
     if is_map(v35 ({'a','b','c'} | #{})) then 35 (0.50) else 42
 35:
-    v39 (any()) := maps:is_key/2(1, v35 (#{}))
-    if is_{atom,true}(v39 (any())) then 37 (0.50) else 42
+    v39 (boolean()) := maps:is_key/2(1, v35 (#{}))
+    if is_{atom,true}(v39 (boolean())) then 37 (0.50) else 42
 37:
-    v41 (any()) := maps:is_key/2(2, v35 (#{}))
-    if is_{atom,true}(v41 (any())) then 39 (0.50) else 42
+    v41 (boolean()) := maps:is_key/2(2, v35 (#{}))
+    if is_{atom,true}(v41 (boolean())) then 39 (0.50) else 42
 39:
-    v43 (any()) := maps:is_key/2(3, v35 (#{}))
-    if is_{atom,true}(v43 (any())) then 41 (0.50) else 42
+    v43 (boolean()) := maps:is_key/2(3, v35 (#{}))
+    if is_{atom,true}(v43 (boolean())) then 41 (0.50) else 42
 41:
-    v45 (any()) := maps:is_key/2("4", v35 (#{}))
-    if is_{atom,true}(v45 (any())) then 43 (0.50) else 42
+    v45 (boolean()) := maps:is_key/2("4", v35 (#{}))
+    if is_{atom,true}(v45 (boolean())) then 43 (0.50) else 42
 43:
     v46 (any()) := maps:get/2(1, v35 (#{}))
     v47 (any()) := maps:get/2(2, v35 (#{}))
@@ -111,20 +111,20 @@ maps_build_and_match_literals:test/0() ->
     v51 ({'a','b','c'} | #{}) := id/1(#{1 => a,2 => b,3 => "c","4" => "d",<<"5">> => <<"e">>})
     if is_map(v51 ({'a','b','c'} | #{})) then 53 (0.50) else 40
 53:
-    v55 (any()) := maps:is_key/2(1, v51 (#{}))
-    if is_{atom,true}(v55 (any())) then 55 (0.50) else 40
+    v55 (boolean()) := maps:is_key/2(1, v51 (#{}))
+    if is_{atom,true}(v55 (boolean())) then 55 (0.50) else 40
 55:
-    v57 (any()) := maps:is_key/2(2, v51 (#{}))
-    if is_{atom,true}(v57 (any())) then 57 (0.50) else 40
+    v57 (boolean()) := maps:is_key/2(2, v51 (#{}))
+    if is_{atom,true}(v57 (boolean())) then 57 (0.50) else 40
 57:
-    v59 (any()) := maps:is_key/2(3, v51 (#{}))
-    if is_{atom,true}(v59 (any())) then 59 (0.50) else 40
+    v59 (boolean()) := maps:is_key/2(3, v51 (#{}))
+    if is_{atom,true}(v59 (boolean())) then 59 (0.50) else 40
 59:
-    v61 (any()) := maps:is_key/2("4", v51 (#{}))
-    if is_{atom,true}(v61 (any())) then 61 (0.50) else 40
+    v61 (boolean()) := maps:is_key/2("4", v51 (#{}))
+    if is_{atom,true}(v61 (boolean())) then 61 (0.50) else 40
 61:
-    v63 (any()) := maps:is_key/2(<<"5">>, v51 (#{}))
-    if is_{atom,true}(v63 (any())) then 63 (0.50) else 40
+    v63 (boolean()) := maps:is_key/2(<<"5">>, v51 (#{}))
+    if is_{atom,true}(v63 (boolean())) then 63 (0.50) else 40
 63:
     v64 (any()) := maps:get/2(1, v51 (#{}))
     v65 (any()) := maps:get/2(2, v51 (#{}))
@@ -148,23 +148,23 @@ maps_build_and_match_literals:test/0() ->
     v74 ({'a','b','c'} | #{}) := id/1(#{1 => a,2 => b,3 => "c",{"6",7} => "f","4" => "d",<<"5">> => <<"e">>})
     if is_map(v74 ({'a','b','c'} | #{})) then 85 (0.50) else 38
 85:
-    v78 (any()) := maps:is_key/2(1, v74 (#{}))
-    if is_{atom,true}(v78 (any())) then 87 (0.50) else 38
+    v78 (boolean()) := maps:is_key/2(1, v74 (#{}))
+    if is_{atom,true}(v78 (boolean())) then 87 (0.50) else 38
 87:
-    v80 (any()) := maps:is_key/2(2, v74 (#{}))
-    if is_{atom,true}(v80 (any())) then 89 (0.50) else 38
+    v80 (boolean()) := maps:is_key/2(2, v74 (#{}))
+    if is_{atom,true}(v80 (boolean())) then 89 (0.50) else 38
 89:
-    v82 (any()) := maps:is_key/2(3, v74 (#{}))
-    if is_{atom,true}(v82 (any())) then 91 (0.50) else 38
+    v82 (boolean()) := maps:is_key/2(3, v74 (#{}))
+    if is_{atom,true}(v82 (boolean())) then 91 (0.50) else 38
 91:
-    v84 (any()) := maps:is_key/2({"6",7}, v74 (#{}))
-    if is_{atom,true}(v84 (any())) then 93 (0.50) else 38
+    v84 (boolean()) := maps:is_key/2({"6",7}, v74 (#{}))
+    if is_{atom,true}(v84 (boolean())) then 93 (0.50) else 38
 93:
-    v86 (any()) := maps:is_key/2("4", v74 (#{}))
-    if is_{atom,true}(v86 (any())) then 95 (0.50) else 38
+    v86 (boolean()) := maps:is_key/2("4", v74 (#{}))
+    if is_{atom,true}(v86 (boolean())) then 95 (0.50) else 38
 95:
-    v88 (any()) := maps:is_key/2(<<"5">>, v74 (#{}))
-    if is_{atom,true}(v88 (any())) then 97 (0.50) else 38
+    v88 (boolean()) := maps:is_key/2(<<"5">>, v74 (#{}))
+    if is_{atom,true}(v88 (boolean())) then 97 (0.50) else 38
 97:
     v89 (any()) := maps:get/2(1, v74 (#{}))
     v90 (any()) := maps:get/2(2, v74 (#{}))
@@ -191,26 +191,26 @@ maps_build_and_match_literals:test/0() ->
     v100 ({'a','b','c'} | #{}) := id/1(#{1 => a,2 => b,3 => "c",8 => g,{"6",7} => "f","4" => "d",<<"5">> => <<"e">>})
     if is_map(v100 ({'a','b','c'} | #{})) then 121 (0.50) else 36
 121:
-    v104 (any()) := maps:is_key/2(1, v100 (#{}))
-    if is_{atom,true}(v104 (any())) then 123 (0.50) else 36
+    v104 (boolean()) := maps:is_key/2(1, v100 (#{}))
+    if is_{atom,true}(v104 (boolean())) then 123 (0.50) else 36
 123:
-    v106 (any()) := maps:is_key/2(2, v100 (#{}))
-    if is_{atom,true}(v106 (any())) then 125 (0.50) else 36
+    v106 (boolean()) := maps:is_key/2(2, v100 (#{}))
+    if is_{atom,true}(v106 (boolean())) then 125 (0.50) else 36
 125:
-    v108 (any()) := maps:is_key/2(3, v100 (#{}))
-    if is_{atom,true}(v108 (any())) then 127 (0.50) else 36
+    v108 (boolean()) := maps:is_key/2(3, v100 (#{}))
+    if is_{atom,true}(v108 (boolean())) then 127 (0.50) else 36
 127:
-    v110 (any()) := maps:is_key/2(8, v100 (#{}))
-    if is_{atom,true}(v110 (any())) then 129 (0.50) else 36
+    v110 (boolean()) := maps:is_key/2(8, v100 (#{}))
+    if is_{atom,true}(v110 (boolean())) then 129 (0.50) else 36
 129:
-    v112 (any()) := maps:is_key/2({"6",7}, v100 (#{}))
-    if is_{atom,true}(v112 (any())) then 131 (0.50) else 36
+    v112 (boolean()) := maps:is_key/2({"6",7}, v100 (#{}))
+    if is_{atom,true}(v112 (boolean())) then 131 (0.50) else 36
 131:
-    v114 (any()) := maps:is_key/2("4", v100 (#{}))
-    if is_{atom,true}(v114 (any())) then 133 (0.50) else 36
+    v114 (boolean()) := maps:is_key/2("4", v100 (#{}))
+    if is_{atom,true}(v114 (boolean())) then 133 (0.50) else 36
 133:
-    v116 (any()) := maps:is_key/2(<<"5">>, v100 (#{}))
-    if is_{atom,true}(v116 (any())) then 135 (0.50) else 36
+    v116 (boolean()) := maps:is_key/2(<<"5">>, v100 (#{}))
+    if is_{atom,true}(v116 (boolean())) then 135 (0.50) else 36
 135:
     v117 (any()) := maps:get/2(1, v100 (#{}))
     v118 (any()) := maps:get/2(2, v100 (#{}))
@@ -240,8 +240,8 @@ maps_build_and_match_literals:test/0() ->
     v129 ({'a','b','c'} | #{}) := id/1(#{<<"hi all">> => 1})
     if is_map(v129 ({'a','b','c'} | #{})) then 161 (0.50) else 34
 161:
-    v133 (any()) := maps:is_key/2(<<"hi all">>, v129 (#{}))
-    if is_{atom,true}(v133 (any())) then 163 (0.50) else 34
+    v133 (boolean()) := maps:is_key/2(<<"hi all">>, v129 (#{}))
+    if is_{atom,true}(v133 (boolean())) then 163 (0.50) else 34
 163:
     v134 (any()) := maps:get/2(<<"hi all">>, v129 (#{}))
     if is_{integer,1}(v134 (any())) then 165 (0.50) else 34
@@ -249,11 +249,11 @@ maps_build_and_match_literals:test/0() ->
     v136 ({'a','b','c'} | #{}) := id/1(#{a => 3,b => 4})
     if is_map(v136 ({'a','b','c'} | #{})) then 167 (0.50) else 32
 167:
-    v140 (any()) := maps:is_key/2(a, v136 (#{}))
-    if is_{atom,true}(v140 (any())) then 169 (0.50) else 32
+    v140 (boolean()) := maps:is_key/2(a, v136 (#{}))
+    if is_{atom,true}(v140 (boolean())) then 169 (0.50) else 32
 169:
-    v142 (any()) := maps:is_key/2(b, v136 (#{}))
-    if is_{atom,true}(v142 (any())) then 171 (0.50) else 32
+    v142 (boolean()) := maps:is_key/2(b, v136 (#{}))
+    if is_{atom,true}(v142 (boolean())) then 171 (0.50) else 32
 171:
     v143 (any()) := maps:get/2(a, v136 (#{}))
     v144 (any()) := maps:get/2(b, v136 (#{}))
@@ -266,27 +266,27 @@ maps_build_and_match_literals:test/0() ->
     v146 ({'a','b','c'} | #{}) := id/1(#{a => #{b => #{b => second,c => third}},b => first})
     if is_map(v146 ({'a','b','c'} | #{})) then 179 (0.50) else 30
 179:
-    v150 (any()) := maps:is_key/2(a, v146 (#{}))
-    if is_{atom,true}(v150 (any())) then 181 (0.50) else 30
+    v150 (boolean()) := maps:is_key/2(a, v146 (#{}))
+    if is_{atom,true}(v150 (boolean())) then 181 (0.50) else 30
 181:
-    v152 (any()) := maps:is_key/2(b, v146 (#{}))
-    if is_{atom,true}(v152 (any())) then 183 (0.50) else 30
+    v152 (boolean()) := maps:is_key/2(b, v146 (#{}))
+    if is_{atom,true}(v152 (boolean())) then 183 (0.50) else 30
 183:
     v153 (any()) := maps:get/2(a, v146 (#{}))
     v154 (any()) := maps:get/2(b, v146 (#{}))
     if is_map(v153 (any())) then 185 (0.50) else 30
 185:
-    v156 (any()) := maps:is_key/2(b, v153 (#{}))
-    if is_{atom,true}(v156 (any())) then 187 (0.50) else 30
+    v156 (boolean()) := maps:is_key/2(b, v153 (#{}))
+    if is_{atom,true}(v156 (boolean())) then 187 (0.50) else 30
 187:
     v157 (any()) := maps:get/2(b, v153 (#{}))
     if is_map(v157 (any())) then 189 (0.50) else 30
 189:
-    v159 (any()) := maps:is_key/2(b, v157 (#{}))
-    if is_{atom,true}(v159 (any())) then 191 (0.50) else 30
+    v159 (boolean()) := maps:is_key/2(b, v157 (#{}))
+    if is_{atom,true}(v159 (boolean())) then 191 (0.50) else 30
 191:
-    v161 (any()) := maps:is_key/2(c, v157 (#{}))
-    if is_{atom,true}(v161 (any())) then 193 (0.50) else 30
+    v161 (boolean()) := maps:is_key/2(c, v157 (#{}))
+    if is_{atom,true}(v161 (boolean())) then 193 (0.50) else 30
 193:
     v162 (any()) := maps:get/2(b, v157 (#{}))
     v163 (any()) := maps:get/2(c, v157 (#{}))
@@ -299,28 +299,28 @@ maps_build_and_match_literals:test/0() ->
     v165 ({'a','b','c'} | #{}) := id/1(#{map_1 => #{map_2 => #{value_3 => third},value_2 => second},value_1 => first})
     if is_map(v165 ({'a','b','c'} | #{})) then 201 (0.50) else 28
 201:
-    v169 (any()) := maps:is_key/2(map_1, v165 (#{}))
-    if is_{atom,true}(v169 (any())) then 203 (0.50) else 28
+    v169 (boolean()) := maps:is_key/2(map_1, v165 (#{}))
+    if is_{atom,true}(v169 (boolean())) then 203 (0.50) else 28
 203:
-    v171 (any()) := maps:is_key/2(value_1, v165 (#{}))
-    if is_{atom,true}(v171 (any())) then 205 (0.50) else 28
+    v171 (boolean()) := maps:is_key/2(value_1, v165 (#{}))
+    if is_{atom,true}(v171 (boolean())) then 205 (0.50) else 28
 205:
     v172 (any()) := maps:get/2(map_1, v165 (#{}))
     v173 (any()) := maps:get/2(value_1, v165 (#{}))
     if is_map(v172 (any())) then 207 (0.50) else 28
 207:
-    v175 (any()) := maps:is_key/2(map_2, v172 (#{}))
-    if is_{atom,true}(v175 (any())) then 209 (0.50) else 28
+    v175 (boolean()) := maps:is_key/2(map_2, v172 (#{}))
+    if is_{atom,true}(v175 (boolean())) then 209 (0.50) else 28
 209:
-    v177 (any()) := maps:is_key/2(value_2, v172 (#{}))
-    if is_{atom,true}(v177 (any())) then 211 (0.50) else 28
+    v177 (boolean()) := maps:is_key/2(value_2, v172 (#{}))
+    if is_{atom,true}(v177 (boolean())) then 211 (0.50) else 28
 211:
     v178 (any()) := maps:get/2(map_2, v172 (#{}))
     v179 (any()) := maps:get/2(value_2, v172 (#{}))
     if is_map(v178 (any())) then 213 (0.50) else 28
 213:
-    v181 (any()) := maps:is_key/2(value_3, v178 (#{}))
-    if is_{atom,true}(v181 (any())) then 215 (0.50) else 28
+    v181 (boolean()) := maps:is_key/2(value_3, v178 (#{}))
+    if is_{atom,true}(v181 (boolean())) then 215 (0.50) else 28
 215:
     v182 (any()) := maps:get/2(value_3, v178 (#{}))
     if is_{atom,third}(v182 (any())) then 217 (0.50) else 28
@@ -334,11 +334,11 @@ maps_build_and_match_literals:test/0() ->
     v184 ({'a','b','c'} | #{}) := id/1(#{1 => 2,[] => ok})
     if is_map(v184 ({'a','b','c'} | #{})) then 225 (0.50) else 26
 225:
-    v188 (any()) := maps:is_key/2(1, v184 (#{}))
-    if is_{atom,true}(v188 (any())) then 227 (0.50) else 26
+    v188 (boolean()) := maps:is_key/2(1, v184 (#{}))
+    if is_{atom,true}(v188 (boolean())) then 227 (0.50) else 26
 227:
-    v190 (any()) := maps:is_key/2([], v184 (#{}))
-    if is_{atom,true}(v190 (any())) then 229 (0.50) else 26
+    v190 (boolean()) := maps:is_key/2([], v184 (#{}))
+    if is_{atom,true}(v190 (boolean())) then 229 (0.50) else 26
 229:
     v191 (any()) := maps:get/2(1, v184 (#{}))
     v192 (any()) := maps:get/2([], v184 (#{}))
@@ -379,9 +379,9 @@ maps_build_and_match_literals:test/0() ->
 394:
     if is_map(v206 ({'a','b','c'} | #{})) then 249 (0.50) else 392
 249:
-    v292 (any()) := maps:is_key/2(x, v206 (#{})) -> 395, #fail 321
+    v292 (boolean()) := maps:is_key/2(x, v206 (#{})) -> 395, #fail 321
 395:
-    if is_{atom,true}(v292 (any())) then 251 (0.50) else 392
+    if is_{atom,true}(v292 (boolean())) then 251 (0.50) else 392
 251:
     v293 (any()) := maps:get/2(x, v206 (#{})) -> 396, #fail 321
 396:
@@ -414,9 +414,9 @@ maps_build_and_match_literals:test/0() ->
 397:
     if is_map(v223 ({'a','b','c'} | #{})) then 267 (0.50) else 391
 267:
-    v287 (any()) := maps:is_key/2(x, v223 (#{})) -> 398, #fail 323
+    v287 (boolean()) := maps:is_key/2(x, v223 (#{})) -> 398, #fail 323
 398:
-    if is_{atom,true}(v287 (any())) then 269 (0.50) else 391
+    if is_{atom,true}(v287 (boolean())) then 269 (0.50) else 391
 269:
     v288 (any()) := maps:get/2(x, v223 (#{})) -> 399, #fail 323
 399:
@@ -449,9 +449,9 @@ maps_build_and_match_literals:test/0() ->
 400:
     if is_map(v240 ({'a','b','c'} | #{})) then 285 (0.50) else 390
 285:
-    v282 (any()) := maps:is_key/2(x, v240 (#{})) -> 401, #fail 325
+    v282 (boolean()) := maps:is_key/2(x, v240 (#{})) -> 401, #fail 325
 401:
-    if is_{atom,true}(v282 (any())) then 287 (0.50) else 390
+    if is_{atom,true}(v282 (boolean())) then 287 (0.50) else 390
 287:
     v283 (any()) := maps:get/2(x, v240 (#{})) -> 402, #fail 325
 402:
@@ -484,9 +484,9 @@ maps_build_and_match_literals:test/0() ->
 403:
     if is_map(v257 ({'a','b','c'} | #{})) then 303 (0.50) else 389
 303:
-    v277 (any()) := maps:is_key/2(x, v257 (#{})) -> 404, #fail 327
+    v277 (boolean()) := maps:is_key/2(x, v257 (#{})) -> 404, #fail 327
 404:
-    if is_{atom,true}(v277 (any())) then 305 (0.50) else 389
+    if is_{atom,true}(v277 (boolean())) then 305 (0.50) else 389
 305:
     v278 (any()) := maps:get/2(x, v257 (#{})) -> 405, #fail 327
 405:

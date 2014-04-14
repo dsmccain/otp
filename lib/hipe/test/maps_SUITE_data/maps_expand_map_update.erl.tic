@@ -23,11 +23,11 @@ maps_expand_map_update:test/0() ->
 1:
     goto 4
 4:
-    v1 (#{}) := #{<<"hello">> => <<"les gens">>}
+    v1 (#{<<_:40>>=><<_:64>>}) := #{<<"hello">> => <<"les gens">>}
     goto 3
 3:
-    v5 (any()) := maps:is_key/2(<<"hello">>, #{<<"hello">> => <<"les gens">>})
-    if is_{atom,true}(v5 (any())) then 5 (0.50) else 6
+    v5 (boolean()) := maps:is_key/2(<<"hello">>, #{<<"hello">> => <<"les gens">>})
+    if is_{atom,true}(v5 (boolean())) then 5 (0.50) else 6
 5:
     v6 (any()) := maps:get/2(<<"hello">>, #{<<"hello">> => <<"les gens">>})
     v7 (ms(bitstring(),bitstring())) := bs_start_match<0>(v6 (any())) (primop,guard) -> 7, #fail 9
@@ -39,8 +39,8 @@ maps_expand_map_update:test/0() ->
     v11 ('ok') := ok
     return(v11 ('ok'))
 6:
-    v3 ({'badmatch',#{}}) := {badmatch,#{<<"hello">> => <<"les gens">>}}
-    fail(error, [v3 ({'badmatch',#{}})])
+    v3 ({'badmatch',#{<<_:40>>=><<_:64>>}}) := {badmatch,#{<<"hello">> => <<"les gens">>}}
+    fail(error, [v3 ({'badmatch',#{<<_:40>>=><<_:64>>}})])
 15:
     goto 6
 9:

@@ -9,11 +9,11 @@ maps_guard_fun:'-test/0-fun-0-'/1(v1 (any()), v2 (any())) ->
 50:
     if is_map(v1 (any())) then 3 (0.50) else 48
 3:
-    v5 (any()) := maps:is_key/2(s, v1 (#{}))
-    if is_{atom,true}(v5 (any())) then 5 (0.50) else 48
+    v5 (boolean()) := maps:is_key/2(s, v1 (#{}))
+    if is_{atom,true}(v5 (boolean())) then 5 (0.50) else 48
 5:
-    v7 (any()) := maps:is_key/2(v, v1 (#{}))
-    if is_{atom,true}(v7 (any())) then 7 (0.50) else 48
+    v7 (boolean()) := maps:is_key/2(v, v1 (#{}))
+    if is_{atom,true}(v7 (boolean())) then 7 (0.50) else 48
 7:
     v8 (any()) := maps:get/2(s, v1 (#{}))
     v9 (any()) := maps:get/2(v, v1 (#{}))
@@ -66,11 +66,11 @@ maps_guard_fun:'-test/0-fun-1-'/1(v1 (any()), v2 (any())) ->
 40:
     if is_map(v1 (any())) then 3 (0.50) else 38
 3:
-    v5 (any()) := maps:is_key/2(s, v1 (#{}))
-    if is_{atom,true}(v5 (any())) then 5 (0.50) else 38
+    v5 (boolean()) := maps:is_key/2(s, v1 (#{}))
+    if is_{atom,true}(v5 (boolean())) then 5 (0.50) else 38
 5:
-    v7 (any()) := maps:is_key/2(v, v1 (#{}))
-    if is_{atom,true}(v7 (any())) then 7 (0.50) else 38
+    v7 (boolean()) := maps:is_key/2(v, v1 (#{}))
+    if is_{atom,true}(v7 (boolean())) then 7 (0.50) else 38
 7:
     v8 (any()) := maps:get/2(s, v1 (#{}))
     v9 (any()) := maps:get/2(v, v1 (#{}))
@@ -240,11 +240,11 @@ maps_guard_fun:test/0() ->
     v75 (any()) := unsafe_tl(v70 (nonempty_maybe_improper_list())) (primop)
     if is_map(v74 (any())) then 63 (0.50) else 14
 63:
-    v77 (any()) := maps:is_key/2(s, v74 (#{}))
-    if is_{atom,true}(v77 (any())) then 65 (0.50) else 14
+    v77 (boolean()) := maps:is_key/2(s, v74 (#{}))
+    if is_{atom,true}(v77 (boolean())) then 65 (0.50) else 14
 65:
-    v79 (any()) := maps:is_key/2(v, v74 (#{}))
-    if is_{atom,true}(v79 (any())) then 67 (0.50) else 14
+    v79 (boolean()) := maps:is_key/2(v, v74 (#{}))
+    if is_{atom,true}(v79 (boolean())) then 67 (0.50) else 14
 67:
     v80 (any()) := maps:get/2(s, v74 (#{}))
     v81 (any()) := maps:get/2(v, v74 (#{}))
@@ -276,11 +276,11 @@ maps_guard_fun:test/0() ->
     v83 (any()) := unsafe_tl(v71 (nonempty_maybe_improper_list())) (primop)
     if is_map(v82 (any())) then 77 (0.50) else 14
 77:
-    v85 (any()) := maps:is_key/2(s, v82 (#{}))
-    if is_{atom,true}(v85 (any())) then 79 (0.50) else 14
+    v85 (boolean()) := maps:is_key/2(s, v82 (#{}))
+    if is_{atom,true}(v85 (boolean())) then 79 (0.50) else 14
 79:
-    v87 (any()) := maps:is_key/2(v, v82 (#{}))
-    if is_{atom,true}(v87 (any())) then 81 (0.50) else 14
+    v87 (boolean()) := maps:is_key/2(v, v82 (#{}))
+    if is_{atom,true}(v87 (boolean())) then 81 (0.50) else 14
 81:
     v88 (any()) := maps:get/2(s, v82 (#{}))
     v89 (any()) := maps:get/2(v, v82 (#{}))

@@ -34,8 +34,8 @@ maps_map_sort_literals:test/0() ->
     goto 4
 4:
     v3 (#{}) := id/1(#{a => 1,b => 1,c => 1})
-    v4 (#{}) := #{a => 1,b => 2}
-    if '<'(v4 (#{}), v3 (#{})) then 140 (0.50) else 141
+    v4 (#{'a'=>1, 'b'=>2}) := #{a => 1,b => 2}
+    if '<'(v4 (#{'a'=>1, 'b'=>2}), v3 (#{})) then 140 (0.50) else 141
 140:
     v238 ('true') := true
     goto 139
@@ -44,8 +44,8 @@ maps_map_sort_literals:test/0() ->
     if is_{atom,true}(v5 (boolean())) then 3 (0.50) else 44
 3:
     v7 (#{}) := id/1(#{a => 1,b => 1,c => 1})
-    v8 (#{}) := #{a => 1,b => 1}
-    if '<'(v8 (#{}), v7 (#{})) then 143 (0.50) else 144
+    v8 (#{'a'=>1, 'b'=>1}) := #{a => 1,b => 1}
+    if '<'(v8 (#{'a'=>1, 'b'=>1}), v7 (#{})) then 143 (0.50) else 144
 143:
     v234 ('true') := true
     goto 142
@@ -54,8 +54,8 @@ maps_map_sort_literals:test/0() ->
     if is_{atom,true}(v9 (boolean())) then 5 (0.50) else 42
 5:
     v11 (#{}) := id/1(#{a => 1,c => 1})
-    v12 (#{}) := #{a => 1,b => 1,c => 1}
-    if '<'(v12 (#{}), v11 (#{})) then 146 (0.50) else 147
+    v12 (#{'a'=>1, 'b'=>1, 'c'=>1}) := #{a => 1,b => 1,c => 1}
+    if '<'(v12 (#{'a'=>1, 'b'=>1, 'c'=>1}), v11 (#{})) then 146 (0.50) else 147
 146:
     v230 ('true') := true
     goto 145
@@ -210,8 +210,8 @@ maps_map_sort_literals:test/0() ->
     v103 ([#{}]) := unsafe_tl(v99 ([#{},...])) (primop)
     goto 39
 39:
-    v105 (any()) := maps:is_key/2(1, v102 (#{}))
-    if is_{atom,true}(v105 (any())) then 41 (0.50) else 10
+    v105 (boolean()) := maps:is_key/2(1, v102 (#{}))
+    if is_{atom,true}(v105 (boolean())) then 41 (0.50) else 10
 41:
     v106 (any()) := maps:get/2(1, v102 (#{}))
     if is_{atom,ok}(v106 (any())) then 43 (0.50) else 10
@@ -222,8 +222,8 @@ maps_map_sort_literals:test/0() ->
     v108 ([#{}]) := unsafe_tl(v103 ([#{},...])) (primop)
     goto 47
 47:
-    v110 (any()) := maps:is_key/2(a, v107 (#{}))
-    if is_{atom,true}(v110 (any())) then 49 (0.50) else 10
+    v110 (boolean()) := maps:is_key/2(a, v107 (#{}))
+    if is_{atom,true}(v110 (boolean())) then 49 (0.50) else 10
 49:
     v111 (any()) := maps:get/2(a, v107 (#{}))
     if is_{atom,ok}(v111 (any())) then 51 (0.50) else 10
@@ -234,8 +234,8 @@ maps_map_sort_literals:test/0() ->
     v113 ([#{}]) := unsafe_tl(v108 ([#{},...])) (primop)
     goto 55
 55:
-    v115 (any()) := maps:is_key/2("a", v112 (#{}))
-    if is_{atom,true}(v115 (any())) then 57 (0.50) else 10
+    v115 (boolean()) := maps:is_key/2("a", v112 (#{}))
+    if is_{atom,true}(v115 (boolean())) then 57 (0.50) else 10
 57:
     v116 (any()) := maps:get/2("a", v112 (#{}))
     if is_{atom,ok}(v116 (any())) then 59 (0.50) else 10
@@ -246,8 +246,8 @@ maps_map_sort_literals:test/0() ->
     v118 ([#{}]) := unsafe_tl(v113 ([#{},...])) (primop)
     goto 63
 63:
-    v120 (any()) := maps:is_key/2(<<"a">>, v117 (#{}))
-    if is_{atom,true}(v120 (any())) then 65 (0.50) else 10
+    v120 (boolean()) := maps:is_key/2(<<"a">>, v117 (#{}))
+    if is_{atom,true}(v120 (boolean())) then 65 (0.50) else 10
 65:
     v121 (any()) := maps:get/2(<<"a">>, v117 (#{}))
     if is_{atom,ok}(v121 (any())) then 67 (0.50) else 10
@@ -261,8 +261,8 @@ maps_map_sort_literals:test/0() ->
     v127 ([#{}]) := unsafe_tl(v123 ([#{},...])) (primop)
     goto 73
 73:
-    v129 (any()) := maps:is_key/2(1, v126 (#{}))
-    if is_{atom,true}(v129 (any())) then 75 (0.50) else 8
+    v129 (boolean()) := maps:is_key/2(1, v126 (#{}))
+    if is_{atom,true}(v129 (boolean())) then 75 (0.50) else 8
 75:
     v130 (any()) := maps:get/2(1, v126 (#{}))
     if is_{integer,3}(v130 (any())) then 77 (0.50) else 8
@@ -273,8 +273,8 @@ maps_map_sort_literals:test/0() ->
     v132 ([#{}]) := unsafe_tl(v127 ([#{},...])) (primop)
     goto 81
 81:
-    v134 (any()) := maps:is_key/2(a, v131 (#{}))
-    if is_{atom,true}(v134 (any())) then 83 (0.50) else 8
+    v134 (boolean()) := maps:is_key/2(a, v131 (#{}))
+    if is_{atom,true}(v134 (boolean())) then 83 (0.50) else 8
 83:
     v135 (any()) := maps:get/2(a, v131 (#{}))
     if is_{integer,2}(v135 (any())) then 85 (0.50) else 8
@@ -285,8 +285,8 @@ maps_map_sort_literals:test/0() ->
     v137 ([#{}]) := unsafe_tl(v132 ([#{},...])) (primop)
     goto 89
 89:
-    v139 (any()) := maps:is_key/2("a", v136 (#{}))
-    if is_{atom,true}(v139 (any())) then 91 (0.50) else 8
+    v139 (boolean()) := maps:is_key/2("a", v136 (#{}))
+    if is_{atom,true}(v139 (boolean())) then 91 (0.50) else 8
 91:
     v140 (any()) := maps:get/2("a", v136 (#{}))
     if is_{integer,1}(v140 (any())) then 93 (0.50) else 8
@@ -297,8 +297,8 @@ maps_map_sort_literals:test/0() ->
     v142 ([#{}]) := unsafe_tl(v137 ([#{},...])) (primop)
     goto 97
 97:
-    v144 (any()) := maps:is_key/2(<<"a">>, v141 (#{}))
-    if is_{atom,true}(v144 (any())) then 99 (0.50) else 8
+    v144 (boolean()) := maps:is_key/2(<<"a">>, v141 (#{}))
+    if is_{atom,true}(v144 (boolean())) then 99 (0.50) else 8
 99:
     v145 (any()) := maps:get/2(<<"a">>, v141 (#{}))
     if is_{integer,4}(v145 (any())) then 101 (0.50) else 8
@@ -313,8 +313,8 @@ maps_map_sort_literals:test/0() ->
     v152 ([#{}]) := unsafe_tl(v148 ([#{},...])) (primop)
     goto 107
 107:
-    v154 (any()) := maps:is_key/2(1, v151 (#{}))
-    if is_{atom,true}(v154 (any())) then 109 (0.50) else 6
+    v154 (boolean()) := maps:is_key/2(1, v151 (#{}))
+    if is_{atom,true}(v154 (boolean())) then 109 (0.50) else 6
 109:
     v155 (any()) := maps:get/2(1, v151 (#{}))
     if is_{integer,3}(v155 (any())) then 111 (0.50) else 6
@@ -325,8 +325,8 @@ maps_map_sort_literals:test/0() ->
     v157 ([#{}]) := unsafe_tl(v152 ([#{},...])) (primop)
     goto 115
 115:
-    v159 (any()) := maps:is_key/2(a, v156 (#{}))
-    if is_{atom,true}(v159 (any())) then 117 (0.50) else 6
+    v159 (boolean()) := maps:is_key/2(a, v156 (#{}))
+    if is_{atom,true}(v159 (boolean())) then 117 (0.50) else 6
 117:
     v160 (any()) := maps:get/2(a, v156 (#{}))
     if is_{integer,2}(v160 (any())) then 119 (0.50) else 6
@@ -337,8 +337,8 @@ maps_map_sort_literals:test/0() ->
     v162 ([#{}]) := unsafe_tl(v157 ([#{},...])) (primop)
     goto 123
 123:
-    v164 (any()) := maps:is_key/2("a", v161 (#{}))
-    if is_{atom,true}(v164 (any())) then 125 (0.50) else 6
+    v164 (boolean()) := maps:is_key/2("a", v161 (#{}))
+    if is_{atom,true}(v164 (boolean())) then 125 (0.50) else 6
 125:
     v165 (any()) := maps:get/2("a", v161 (#{}))
     if is_{integer,1}(v165 (any())) then 127 (0.50) else 6
@@ -349,8 +349,8 @@ maps_map_sort_literals:test/0() ->
     v167 ([#{}]) := unsafe_tl(v162 ([#{},...])) (primop)
     goto 131
 131:
-    v169 (any()) := maps:is_key/2(<<"a">>, v166 (#{}))
-    if is_{atom,true}(v169 (any())) then 133 (0.50) else 6
+    v169 (boolean()) := maps:is_key/2(<<"a">>, v166 (#{}))
+    if is_{atom,true}(v169 (boolean())) then 133 (0.50) else 6
 133:
     v170 (any()) := maps:get/2(<<"a">>, v166 (#{}))
     if is_{integer,4}(v170 (any())) then 135 (0.50) else 6

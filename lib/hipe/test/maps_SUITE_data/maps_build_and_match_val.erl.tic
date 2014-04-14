@@ -9,11 +9,11 @@ maps_build_and_match_val:'-test/0-fun-0-'/1(v1 (any()), v2 (any())) ->
 30:
     if is_map(v1 (any())) then 3 (0.50) else 28
 3:
-    v5 (any()) := maps:is_key/2(v, v1 (#{}))
-    if is_{atom,true}(v5 (any())) then 5 (0.50) else 28
+    v5 (boolean()) := maps:is_key/2(v, v1 (#{}))
+    if is_{atom,true}(v5 (boolean())) then 5 (0.50) else 28
 5:
-    v7 (any()) := maps:is_key/2("hi", v1 (#{}))
-    if is_{atom,true}(v7 (any())) then 7 (0.50) else 28
+    v7 (boolean()) := maps:is_key/2("hi", v1 (#{}))
+    if is_{atom,true}(v7 (boolean())) then 7 (0.50) else 28
 7:
     v8 (any()) := maps:get/2(v, v1 (#{}))
     v9 (any()) := maps:get/2("hi", v1 (#{}))
