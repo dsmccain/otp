@@ -1678,7 +1678,17 @@ type(maps, get, 2, Xs, Opaques) ->
              case (erl_types:t_is_singleton(Key, Opaques)
                    andalso lists:keyfind(Key, 1, MapEntries)) of
                false -> t_any();
-               ValType -> ValType
+               {_, ValType} -> ValType
+             end
+         end, Opaques);
+type(maps, is_key, 2, Xs, Opaques) ->
+  strict(maps, is_key, 2, Xs,
+         fun ([Key, Map]) ->
+             MapEntries = erl_types:t_map_entries(Map, Opaques),
+             case (erl_types:t_is_singleton(Key, Opaques)
+                   andalso lists:keyfind(Key, 1, MapEntries)) of
+               false -> t_boolean();
+               _Found -> erl_types:t_from_term(true)
              end
          end, Opaques);
 

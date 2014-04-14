@@ -182,6 +182,7 @@
 	 t_product/1,
 	 t_reference/0,
 	 t_remote/3,
+         t_singleton_to_term/2,
 	 t_string/0,
 	 t_struct_from_opaque/2,
 	 t_solve_remote/3,
@@ -2179,7 +2180,9 @@ t_from_term(T) when is_function(T) ->
   {arity, Arity} = erlang:fun_info(T, arity),
   t_fun(Arity, t_any());
 t_from_term(T) when is_integer(T) ->   t_integer(T);
-t_from_term(T) when is_map(T) ->       t_map();
+t_from_term(T) when is_map(T) ->
+  t_map([{t_from_term(K), t_from_term(V)}
+         || {K, V} <- maps:to_list(T)]);
 t_from_term(T) when is_pid(T) ->       t_pid();
 t_from_term(T) when is_port(T) ->      t_port();
 t_from_term(T) when is_reference(T) -> t_reference();
@@ -2466,8 +2469,11 @@ t_sup(?tuple_set(List1), T2 = ?tuple(_, Arity, _)) ->
   sup_tuple_sets(List1, [{Arity, [T2]}]);
 t_sup(?tuple(_, Arity, _) = T1, ?tuple_set(List2)) ->
   sup_tuple_sets([{Arity, [T1]}], List2);
-t_sup(?map(_) = A, ?map(_) = B) ->
-  throw({not_implemented, sup, map, A, B});
+t_sup(?map(A), ?map(B)) ->
+  AFiltered = [E || E = {K, _} <- A, is_singleton_type(K)],
+  BFiltered = [E || E = {K, _} <- B, is_singleton_type(K)],
+  t_map([{K, t_sup(V1, V2)} || {K, V1} <- AFiltered,
+                               {_, V2} <- [lists:keyfind(K, 1, BFiltered)]]);
 t_sup(T1, T2) ->
   ?union(U1) = force_union(T1),
   ?union(U2) = force_union(T2),
@@ -2707,9 +2713,22 @@ t_inf(?identifier(Set1), ?identifier(Set2), _Opaques) ->
     ?none -> ?none;
     Set -> ?identifier(Set)
   end;
-t_inf(?map(_), ?map(_), _Opaques) ->
-  %% XXX: finish me
-  t_map();
+t_inf(?map(A), ?map(B), _Opaques) ->
+  %% First handle the case of the same key existing in both maps. If the
+  %% infinimum of their values is ?none, the entire map infinimum is ?none.
+  CombinedEntries = [{K, t_inf(V1, V2)}
+                     || {K, V1} <- A, is_singleton_type(K),
+                        {_, V2} <- [lists:keyfind(K, 1, B)]],
+  case lists:any(fun({_, T}) -> T =:= ?none end,
+                     CombinedEntries) of
+    true  -> t_none();
+    false ->
+      t_map(CombinedEntries
+            ++ [E || E = {K, _} <- B, not is_singleton_type(K)
+                       orelse (lists:keyfind(K, 1, A) =:= false)]
+            ++ [E || E = {K, _} <- A, not is_singleton_type(K)
+                       orelse (lists:keyfind(K, 1, B) =:= false)])
+  end;
 t_inf(?matchstate(Pres1, Slots1), ?matchstate(Pres2, Slots2), _Opaques) ->
   ?matchstate(t_inf(Pres1, Pres2), t_inf(Slots1, Slots2));
 t_inf(?nil, ?nil, _Opaques) -> ?nil;
@@ -4755,6 +4774,19 @@ is_singleton_type(?atom(Set)) ->
   ordsets:size(Set) =:= 1;
 is_singleton_type(_) ->
   false.
+
+%% Returns the only possible value of a singleton type.
+-spec t_singleton_to_term(erl_type(), opaques()) -> term().
+
+t_singleton_to_term(Type, Opaques) ->
+  do_opaque(Type, Opaques, fun singleton_type_to_term/1).
+
+singleton_type_to_term(?nil) -> [];
+singleton_type_to_term(?atom(Set)) when Set =/= ?any ->
+  case ordsets:size(Set) of
+    1 -> hd(ordsets:to_list(Set));
+    _ -> error(badarg)
+  end.
 
 %% -----------------------------------
 %% Set
