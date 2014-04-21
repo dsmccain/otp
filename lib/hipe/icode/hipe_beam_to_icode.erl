@@ -1579,7 +1579,7 @@ trans_put_map_assoc(MapVar, DestMapVar, [Key, Value | Rest], Env, Acc) ->
 %% (Key, Value) pairs in an existing map, each recursive call inserts
 %% one (Key, Value) pair.
 %% ----------------------------------------------------------------------
-trans_put_map_exact(MapVar, DestMapVar, FailLbl, [], Env, Acc) ->
+trans_put_map_exact(MapVar, DestMapVar, _FailLbl, [], Env, Acc) ->
   MoveToReturnVar = hipe_icode:mk_move(DestMapVar, MapVar),
   ReturnLbl = mk_label(new),
   GotoReturn = hipe_icode:mk_goto(hipe_icode:label_name(ReturnLbl)),
@@ -1633,13 +1633,9 @@ generate_put_map_instructions(new, Op, TempMapVar, Dest,
       trans_put_map_exact(TempMapVar, DestMapVar, 
               hipe_icode:label_name(FailLbl), ElementPairs, Env, [])
   end,
-  ErrVar = mk_var(new),
-  Vs = [mk_var(new)],
-  ErrMove = hipe_icode:mk_move(ErrVar,hipe_icode:mk_const(badarg)),
-  Fail = hipe_icode:mk_fail([ErrVar], error),
-  FailInstruction = [ErrMove, Fail],
+  Fail = hipe_icode:mk_fail([hipe_icode:mk_const(badarg)], error),
   {[IsMapCode, TrueLabel, PutInstructions, FailLbl, 
-          FailInstruction, ReturnLbl], Env1}.
+          Fail, ReturnLbl], Env1}.
 
 %%
 %% Handles the get_map_elements instruction and the has_map_fields
