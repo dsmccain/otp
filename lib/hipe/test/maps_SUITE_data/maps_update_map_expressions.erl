@@ -1,8 +1,6 @@
 -module(maps_update_map_expressions).
 -export([test/0]).
 
-%test() ->
-%    {skip, "Not yet supported by HiPE."};
 test() ->
     M = maps:new(),
     X = id(fondue),

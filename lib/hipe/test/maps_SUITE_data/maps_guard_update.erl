@@ -1,8 +1,6 @@
 -module(maps_guard_update).
 -export([test/0]).
 
-%test() ->
-%    {skip, "Not yet supported by HiPE."};
 test() ->
     error  = map_guard_update(#{},#{}),
     first  = map_guard_update(#{}, #{x=>first}),

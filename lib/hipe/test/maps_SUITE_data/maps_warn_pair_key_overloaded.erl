@@ -1,8 +1,6 @@
 -module(maps_warn_pair_key_overloaded).
 -export([test/0]).
 
-%test() ->
-%    {skip, "Not yet supported by HiPE."};
 test() ->
     #{ "hi1" := 42 } = id(#{ "hi1" => 1, "hi1" => 42 }),
 

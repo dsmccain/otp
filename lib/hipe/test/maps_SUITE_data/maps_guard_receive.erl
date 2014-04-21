@@ -1,8 +1,6 @@
 -module(maps_guard_receive).
 -export([test/0]).
 
-%test() ->
-%    {skip, "Not yet supported by HiPE."};
 test() ->
     M0  = #{ id => 0 },
     Pid = spawn_link(fun() -> guard_receive_loop() end),
