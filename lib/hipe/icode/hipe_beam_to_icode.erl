@@ -617,40 +617,6 @@ trans_fun([{put_tuple,_Size,Reg}|Instructions], Env) ->
   Src = lists:reverse(Vars),
   Primop = hipe_icode:mk_primop(Dest,mktuple,Src),
   Moves ++ [Primop | trans_fun(Instructions2,Env2)];
-%%--- put_map_assoc ---
-trans_fun([{put_map_assoc, {f, FLbl}, Map, Dest, _N,
-	    {list, ElementPairs}}|Instructions], Env) ->
-  {MapMove, MapVar, Env1} = mk_move_and_var(Map, Env),
-  TempMapVar = mk_var(new),
-  TempMapMove = hipe_icode:mk_move(TempMapVar, MapVar),
-  {PutInstructions, Env2}
-    = case FLbl > 0 of
-	true ->
-	  generate_put_map_instructions(exists, assoc, TempMapVar, Dest,
-					FLbl, ElementPairs, Env1);
-	false ->
-	  generate_put_map_instructions(new, assoc, TempMapVar, Dest,
-					new, ElementPairs, Env1)
-      end,
-  [MapMove, TempMapMove, PutInstructions |
-   trans_fun(Instructions, Env2)];
-%%--- put_map_exact ---
-trans_fun([{put_map_exact, {f, FLbl}, Map, Dest, _N,
-	    {list, ElementPairs}}|Instructions], Env) ->
-  {MapMove, MapVar, Env1} = mk_move_and_var(Map, Env),
-  TempMapVar = mk_var(new),
-  TempMapMove = hipe_icode:mk_move(TempMapVar, MapVar),
-  {PutInstructions, Env2}
-    = case FLbl > 0 of
-	true ->
-	  generate_put_map_instructions(exists, exact, TempMapVar, Dest,
-					FLbl, ElementPairs, Env1);
-	false ->
-	  generate_put_map_instructions(new, exact, TempMapVar, Dest,
-					new, ElementPairs, Env1)
-      end,
-  [MapMove, TempMapMove, PutInstructions |
-   trans_fun(Instructions, Env2)];
 %%--- put --- SHOULD NOT REALLY EXIST HERE; put INSTRUCTIONS ARE HANDLED ABOVE.
 %%--- badmatch ---
 trans_fun([{badmatch,Arg}|Instructions], Env) ->
@@ -1178,6 +1144,40 @@ trans_fun([{get_map_elements, {f, FLbl}, Map, {list, KVPs}}|
     trans_map_query(MapVar, map_label(FLbl), Env1, KVPs),
   [MapMove, TestInstructions, GetInstructions
    | trans_fun(Instructions, Env2)];
+%%--- put_map_assoc ---
+trans_fun([{put_map_assoc, {f, FLbl}, Map, Dest, _N,
+	    {list, ElementPairs}}|Instructions], Env) ->
+  {MapMove, MapVar, Env1} = mk_move_and_var(Map, Env),
+  TempMapVar = mk_var(new),
+  TempMapMove = hipe_icode:mk_move(TempMapVar, MapVar),
+  {PutInstructions, Env2}
+    = case FLbl > 0 of
+	true ->
+	  generate_put_map_instructions(exists, assoc, TempMapVar, Dest,
+					FLbl, ElementPairs, Env1);
+	false ->
+	  generate_put_map_instructions(new, assoc, TempMapVar, Dest,
+					new, ElementPairs, Env1)
+      end,
+  [MapMove, TempMapMove, PutInstructions |
+   trans_fun(Instructions, Env2)];
+%%--- put_map_exact ---
+trans_fun([{put_map_exact, {f, FLbl}, Map, Dest, _N,
+	    {list, ElementPairs}}|Instructions], Env) ->
+  {MapMove, MapVar, Env1} = mk_move_and_var(Map, Env),
+  TempMapVar = mk_var(new),
+  TempMapMove = hipe_icode:mk_move(TempMapVar, MapVar),
+  {PutInstructions, Env2}
+    = case FLbl > 0 of
+	true ->
+	  generate_put_map_instructions(exists, exact, TempMapVar, Dest,
+					FLbl, ElementPairs, Env1);
+	false ->
+	  generate_put_map_instructions(new, exact, TempMapVar, Dest,
+					new, ElementPairs, Env1)
+      end,
+  [MapMove, TempMapMove, PutInstructions |
+   trans_fun(Instructions, Env2)];
 %%--------------------------------------------------------------------
 %%--- ERROR HANDLING ---
 %%--------------------------------------------------------------------
@@ -1558,48 +1558,25 @@ trans_type_test2(function2, Lbl, Arg, Arity, Env) ->
 			 hipe_icode:label_name(True), map_label(Lbl)),
   {[Move1,Move2,I,True],Env2}.
 
-%% ----------------------------------------------------------------------
-%% This function generates the instructions needed to insert several
-%% (Key, Value) pairs into an existing map, each recursive call inserts
-%% one (Key, Value) pair.
-%% ----------------------------------------------------------------------
-trans_put_map_assoc(MapVar, DestMapVar, [], Env, Acc) ->
-  MoveToReturnVar = hipe_icode:mk_move(DestMapVar, MapVar),
-  ReturnLbl = mk_label(new),
-  GotoReturn = hipe_icode:mk_goto(hipe_icode:label_name(ReturnLbl)),
-  {ReturnLbl, lists:reverse([GotoReturn, MoveToReturnVar | Acc]), Env};
-trans_put_map_assoc(MapVar, DestMapVar, [Key, Value | Rest], Env, Acc) ->
-  {MoveKey, KeyVar, Env1} = mk_move_and_var(Key, Env),
-  {MoveVal, ValVar, Env2} = mk_move_and_var(Value, Env1),
-  BifCall = hipe_icode:mk_call([MapVar], maps, put,
-			       [KeyVar, ValVar, MapVar], remote),
-  trans_put_map_assoc(MapVar, DestMapVar, Rest, Env2,
-		      [BifCall, MoveVal, MoveKey | Acc]).
-
-%% ----------------------------------------------------------------------
-%% This function generates the instructions needed to update several
-%% (Key, Value) pairs in an existing map, each recursive call inserts
-%% one (Key, Value) pair.
-%% ----------------------------------------------------------------------
-trans_put_map_exact(MapVar, DestMapVar, _FailLbl, [], Env, Acc) ->
-  MoveToReturnVar = hipe_icode:mk_move(DestMapVar, MapVar),
-  ReturnLbl = mk_label(new),
-  GotoReturn = hipe_icode:mk_goto(hipe_icode:label_name(ReturnLbl)),
-  {ReturnLbl, lists:reverse([GotoReturn, MoveToReturnVar | Acc]), Env};
-trans_put_map_exact(MapVar, DestMapVar, FailLbl, [Key, Value | Rest], Env, Acc) ->
-  PassLbl = mk_label(new),
-  {MoveKey, KeyVar, Env1} = mk_move_and_var(Key, Env),
-  {MoveVal, ValVar, Env2} = mk_move_and_var(Value, Env1),
-  IsKey = hipe_icode:mk_new_var(),
-  BifCallIsKey = hipe_icode:mk_call([IsKey], maps, is_key,
-				    [KeyVar, MapVar], remote),
-  IsKeyTest = hipe_icode:mk_if('=:=', [IsKey, hipe_icode:mk_const(true)],
-			       hipe_icode:label_name(PassLbl), FailLbl),
-  BifCallPut = hipe_icode:mk_call([MapVar], maps, put,
-				  [KeyVar, ValVar, MapVar], remote),
-  trans_put_map_exact(MapVar, DestMapVar, FailLbl, Rest, Env2,
-		      [BifCallPut, PassLbl, IsKeyTest, BifCallIsKey, MoveVal,
-		       MoveKey | Acc]).
+%%
+%% Handles the get_map_elements instruction and the has_map_fields
+%% test instruction
+%%
+trans_map_query(_MapVar, _FailLabel, Env, []) ->
+  {[], [], Env};
+trans_map_query(MapVar, FailLabel, Env, [Key,Val|KVPs]) ->
+  {Move,KeyVar,Env1} = mk_move_and_var(Key,Env),
+  PassLabel = mk_label(new),
+  BoolVar = hipe_icode:mk_new_var(),
+  ValVar = mk_var(Val),
+  IsKeyCall = hipe_icode:mk_call([BoolVar], maps, is_key, [KeyVar, MapVar],
+				 remote),
+  TrueTest = hipe_icode:mk_if('=:=', [BoolVar, hipe_icode:mk_const(true)],
+			      hipe_icode:label_name(PassLabel), FailLabel),
+  GetCall = hipe_icode:mk_call([ValVar], maps, get,  [KeyVar, MapVar], remote),
+  {TestList, GetList, Env2} = trans_map_query(MapVar, FailLabel, Env1, KVPs),
+  {[Move, IsKeyCall, TrueTest, PassLabel|TestList],
+   [GetCall|GetList], Env2}.
 
 %%
 %% Helper function that generates a fail label if necessary when
@@ -1643,25 +1620,48 @@ generate_put_map_instructions(new, Op, TempMapVar, Dest,
   {[IsMapCode, TrueLabel, PutInstructions, FailLbl,
     Fail, ReturnLbl], Env1}.
 
-%%
-%% Handles the get_map_elements instruction and the has_map_fields
-%% test instruction
-%%
-trans_map_query(_MapVar, _FailLabel, Env, []) ->
-  {[], [], Env};
-trans_map_query(MapVar, FailLabel, Env, [Key,Val|KVPs]) ->
-  {Move,KeyVar,Env1} = mk_move_and_var(Key,Env),
-  PassLabel = mk_label(new),
-  BoolVar = hipe_icode:mk_new_var(),
-  ValVar = mk_var(Val),
-  IsKeyCall = hipe_icode:mk_call([BoolVar], maps, is_key, [KeyVar, MapVar],
-				 remote),
-  TrueTest = hipe_icode:mk_if('=:=', [BoolVar, hipe_icode:mk_const(true)],
-			      hipe_icode:label_name(PassLabel), FailLabel),
-  GetCall = hipe_icode:mk_call([ValVar], maps, get,  [KeyVar, MapVar], remote),
-  {TestList, GetList, Env2} = trans_map_query(MapVar, FailLabel, Env1, KVPs),
-  {[Move, IsKeyCall, TrueTest, PassLabel|TestList],
-   [GetCall|GetList], Env2}.
+%% ----------------------------------------------------------------------
+%% This function generates the instructions needed to insert several
+%% (Key, Value) pairs into an existing map, each recursive call inserts
+%% one (Key, Value) pair.
+%% ----------------------------------------------------------------------
+trans_put_map_assoc(MapVar, DestMapVar, [], Env, Acc) ->
+  MoveToReturnVar = hipe_icode:mk_move(DestMapVar, MapVar),
+  ReturnLbl = mk_label(new),
+  GotoReturn = hipe_icode:mk_goto(hipe_icode:label_name(ReturnLbl)),
+  {ReturnLbl, lists:reverse([GotoReturn, MoveToReturnVar | Acc]), Env};
+trans_put_map_assoc(MapVar, DestMapVar, [Key, Value | Rest], Env, Acc) ->
+  {MoveKey, KeyVar, Env1} = mk_move_and_var(Key, Env),
+  {MoveVal, ValVar, Env2} = mk_move_and_var(Value, Env1),
+  BifCall = hipe_icode:mk_call([MapVar], maps, put,
+			       [KeyVar, ValVar, MapVar], remote),
+  trans_put_map_assoc(MapVar, DestMapVar, Rest, Env2,
+		      [BifCall, MoveVal, MoveKey | Acc]).
+
+%% ----------------------------------------------------------------------
+%% This function generates the instructions needed to update several
+%% (Key, Value) pairs in an existing map, each recursive call inserts
+%% one (Key, Value) pair.
+%% ----------------------------------------------------------------------
+trans_put_map_exact(MapVar, DestMapVar, _FailLbl, [], Env, Acc) ->
+  MoveToReturnVar = hipe_icode:mk_move(DestMapVar, MapVar),
+  ReturnLbl = mk_label(new),
+  GotoReturn = hipe_icode:mk_goto(hipe_icode:label_name(ReturnLbl)),
+  {ReturnLbl, lists:reverse([GotoReturn, MoveToReturnVar | Acc]), Env};
+trans_put_map_exact(MapVar, DestMapVar, FailLbl, [Key, Value | Rest], Env, Acc) ->
+  PassLbl = mk_label(new),
+  {MoveKey, KeyVar, Env1} = mk_move_and_var(Key, Env),
+  {MoveVal, ValVar, Env2} = mk_move_and_var(Value, Env1),
+  IsKey = hipe_icode:mk_new_var(),
+  BifCallIsKey = hipe_icode:mk_call([IsKey], maps, is_key,
+				    [KeyVar, MapVar], remote),
+  IsKeyTest = hipe_icode:mk_if('=:=', [IsKey, hipe_icode:mk_const(true)],
+			       hipe_icode:label_name(PassLbl), FailLbl),
+  BifCallPut = hipe_icode:mk_call([MapVar], maps, put,
+				  [KeyVar, ValVar, MapVar], remote),
+  trans_put_map_exact(MapVar, DestMapVar, FailLbl, Rest, Env2,
+		      [BifCallPut, PassLbl, IsKeyTest, BifCallIsKey, MoveVal,
+		       MoveKey | Acc]).
 
 %%-----------------------------------------------------------------------
 %% trans_puts(Code, Environment) -> 
