@@ -618,26 +618,37 @@ trans_fun([{put_tuple,_Size,Reg}|Instructions], Env) ->
   Primop = hipe_icode:mk_primop(Dest,mktuple,Src),
   Moves ++ [Primop | trans_fun(Instructions2,Env2)];
 %%--- put_map_assoc ---
-trans_fun([{put_map_assoc, _FailLbl, Map, Dest, _N, 
+trans_fun([{put_map_assoc, {f, FLbl}, Map, Dest, _N, 
           {list, ElementPairs}}|Instructions], Env) ->
   {MapMove, MapVar, Env1} = mk_move_and_var(Map, Env),
   TempMapVar = mk_var(new),
   TempMapMove = hipe_icode:mk_move(TempMapVar, MapVar),
-  DestMapVar = mk_var(Dest),
-  {PutInstructions, Env2} = trans_put_map_assoc(TempMapVar, DestMapVar, 
-          ElementPairs, Env1, []),
-  [MapMove, TempMapMove, PutInstructions | trans_fun(Instructions, Env2)];
+  {PutInstructions, Env2} = case FLbl > 0 of
+    true ->
+      generate_put_map_instructions(exists, assoc, TempMapVar, Dest,
+              FLbl, ElementPairs, Env1);
+    false ->
+      generate_put_map_instructions(new, assoc, TempMapVar, Dest,
+              new, ElementPairs, Env1)
+  end,
+  [MapMove, TempMapMove, PutInstructions | 
+          trans_fun(Instructions, Env2)];
 %%--- put_map_exact ---
 trans_fun([{put_map_exact, {f, FLbl}, Map, Dest, _N, 
           {list, ElementPairs}}|Instructions], Env) ->
   {MapMove, MapVar, Env1} = mk_move_and_var(Map, Env),
   TempMapVar = mk_var(new),
   TempMapMove = hipe_icode:mk_move(TempMapVar, MapVar),
-  FailLbl = mk_label(FLbl),
-  DestMapVar = mk_var(Dest),
-  {PutInstructions, Env2} = trans_put_map_exact(TempMapVar, DestMapVar, 
-          FailLbl, ElementPairs, Env1, []),
-  [MapMove, TempMapMove, PutInstructions | trans_fun(Instructions, Env2)];  
+  {PutInstructions, Env2} = case FLbl > 0 of
+    true ->
+      generate_put_map_instructions(exists, exact, TempMapVar, Dest,
+              FLbl, ElementPairs, Env1);
+    false ->
+      generate_put_map_instructions(new, exact, TempMapVar, Dest,
+              new, ElementPairs, Env1)
+  end,
+  [MapMove, TempMapMove, PutInstructions | 
+          trans_fun(Instructions, Env2)];
 %%--- put --- SHOULD NOT REALLY EXIST HERE; put INSTRUCTIONS ARE HANDLED ABOVE.
 %%--- badmatch ---
 trans_fun([{badmatch,Arg}|Instructions], Env) ->
@@ -1552,7 +1563,9 @@ trans_type_test2(function2, Lbl, Arg, Arity, Env) ->
 %% ----------------------------------------------------------------------
 trans_put_map_assoc(MapVar, DestMapVar, [], Env, Acc) ->
   MoveToReturnVar = hipe_icode:mk_move(DestMapVar, MapVar),
-  {lists:reverse([MoveToReturnVar | Acc]), Env};
+  ReturnLbl = mk_label(new),
+  GotoReturn = hipe_icode:mk_goto(hipe_icode:label_name(ReturnLbl)),
+  {ReturnLbl, lists:reverse([GotoReturn, MoveToReturnVar | Acc]), Env};
 trans_put_map_assoc(MapVar, DestMapVar, [Key, Value | Rest], Env, Acc) ->
   {MoveKey, KeyVar, Env1} = mk_move_and_var(Key, Env),
   {MoveVal, ValVar, Env2} = mk_move_and_var(Value, Env1),
@@ -1566,13 +1579,11 @@ trans_put_map_assoc(MapVar, DestMapVar, [Key, Value | Rest], Env, Acc) ->
 %% (Key, Value) pairs in an existing map, each recursive call inserts
 %% one (Key, Value) pair.
 %% ----------------------------------------------------------------------
-trans_put_map_exact(MapVar, DestMapVar, FailLbl, [], Env, Acc) ->
+trans_put_map_exact(MapVar, DestMapVar, _FailLbl, [], Env, Acc) ->
   MoveToReturnVar = hipe_icode:mk_move(DestMapVar, MapVar),
-  FailInstruction = hipe_icode:mk_fail([hipe_icode:mk_const(badarg)], error),
   ReturnLbl = mk_label(new),
   GotoReturn = hipe_icode:mk_goto(hipe_icode:label_name(ReturnLbl)),
-  {lists:reverse([ReturnLbl, FailInstruction, FailLbl, GotoReturn, 
-          MoveToReturnVar | Acc]), Env};
+  {ReturnLbl, lists:reverse([GotoReturn, MoveToReturnVar | Acc]), Env};
 trans_put_map_exact(MapVar, DestMapVar, FailLbl, [Key, Value | Rest], Env, Acc) ->
   PassLbl = mk_label(new),
   {MoveKey, KeyVar, Env1} = mk_move_and_var(Key, Env),
@@ -1581,12 +1592,51 @@ trans_put_map_exact(MapVar, DestMapVar, FailLbl, [Key, Value | Rest], Env, Acc) 
   BifCallIsKey = hipe_icode:mk_call([IsKey], maps, is_key,
           [KeyVar, MapVar], remote),
   IsKeyTest = hipe_icode:mk_if('=:=', [IsKey, hipe_icode:mk_const(true)],
-          hipe_icode:label_name(PassLbl), hipe_icode:label_name(FailLbl)),
+          hipe_icode:label_name(PassLbl), FailLbl),
   BifCallPut = hipe_icode:mk_call([MapVar], maps, put, 
           [KeyVar, ValVar, MapVar], remote),
   trans_put_map_exact(MapVar, DestMapVar, FailLbl, Rest, Env2,
           [BifCallPut, PassLbl, IsKeyTest, BifCallIsKey, MoveVal,
           MoveKey | Acc]).
+
+%%
+%% Helper function that generates a fail label if necessary when
+%% using put_map_* operation
+%%
+generate_put_map_instructions(exists, Op, TempMapVar, Dest,
+          FailLbl, ElementPairs, Env) ->
+  TrueLabel = mk_label(new),
+  IsMapCode = hipe_icode:mk_type([TempMapVar], map,
+          hipe_icode:label_name(TrueLabel), map_label(FailLbl)),
+  DestMapVar = mk_var(Dest),
+  {ReturnLbl, PutInstructions, Env1} = case Op of
+    assoc ->
+      trans_put_map_assoc(TempMapVar, DestMapVar, 
+              ElementPairs, Env, []);
+    exact ->
+      trans_put_map_exact(TempMapVar, DestMapVar, 
+              map_label(FailLbl), ElementPairs, Env, [])
+  end,
+  {[IsMapCode, TrueLabel, PutInstructions, ReturnLbl], Env1};
+generate_put_map_instructions(new, Op, TempMapVar, Dest,
+          new, ElementPairs, Env) ->
+  TrueLabel = mk_label(new),
+  FailLbl = mk_label(new),
+  IsMapCode = hipe_icode:mk_type([TempMapVar], map,
+          hipe_icode:label_name(TrueLabel), hipe_icode:label_name(FailLbl)),
+  DestMapVar = mk_var(Dest),
+  {ReturnLbl, PutInstructions, Env1} = case Op of
+    assoc ->
+      trans_put_map_assoc(TempMapVar, DestMapVar, 
+              ElementPairs, Env, []);
+    exact ->
+      trans_put_map_exact(TempMapVar, DestMapVar, 
+              hipe_icode:label_name(FailLbl), ElementPairs, Env, [])
+  end,
+  Fail = hipe_icode:mk_fail([hipe_icode:mk_const(badarg)], error),
+  {[IsMapCode, TrueLabel, PutInstructions, FailLbl, 
+          Fail, ReturnLbl], Env1}.
+
 %%
 %% Handles the get_map_elements instruction and the has_map_fields
 %% test instruction
