@@ -1,4 +1,4 @@
--module(call_elim_SUITE).
+-module(opt_verify_SUITE).
 
 -include_lib("test_server/include/test_server.hrl").
 
@@ -28,19 +28,17 @@ end_per_group(_GroupName, Config) ->
 call_elim() ->
     [{doc, "Test that the call elimination optimization pass is ok"}].
 call_elim(Config) ->
-    {ok, Cwd} = file:get_cwd(),
-    F = filename:join(Cwd, "../../hipe_test/call_elim_data/call_elim_test.erl"),
+    F = filename:join(?config(data_dir, Config), "call_elim_test.erl"),
     FileNameElim = test_server:temp_name(filename:join(?config(priv_dir, Config), "call_elim_out")),
     {ok, TestCase} = compile:file(F),
     {ok, TestCase} = hipe:c(TestCase, [icode_call_elim, {pp_range_icode, {file, FileNameElim}}]),
-	ok = TestCase:test(),
+    {ok, ElimFile} = file:read_file(FileNameElim),
+    file:delete(FileNameElim),
+    ok = TestCase:test(),
     FileNameNoElim = test_server:temp_name(filename:join(?config(priv_dir, Config), "no_call_elim_out")),
     {ok, TestCase} = hipe:c(TestCase, [no_icode_call_elim, {pp_range_icode, {file, FileNameNoElim}}]),
-	{ok, ElimFile} = file:read_file(FileNameElim),
-	{ok, NoElimFile} = file:read_file(FileNameNoElim),
-	0 = string:str(binary:bin_to_list(ElimFile), "is_key"),
-	true = (0 /= string:str(binary:bin_to_list(NoElimFile), "is_key")),
-	file:delete(FileNameElim),
-	file:delete(FileNameNoElim),
-	ok.   
-
+    {ok, NoElimFile} = file:read_file(FileNameNoElim),
+    file:delete(FileNameNoElim),
+    0 = string:str(binary:bin_to_list(ElimFile), "is_key"),
+    true = (0 /= string:str(binary:bin_to_list(NoElimFile), "is_key")),
+    ok.
