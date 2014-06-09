@@ -3273,16 +3273,7 @@ t_unify(?map(A), ?map(B), VarMap) ->
     = unify_lists(BothValsLeft, BothValsRight, VarMap),
   CombinedEntries = lists:zip(KeysInBoth, UnifiedValues),
   %% Non-precise (not known to be singleton) keys are discarded
-  {t_map(CombinedEntries
-         ++ [E || E = {K, _} <- B, is_singleton_type(K),
-                  lists:keyfind(K, 1, A) =:= false]
-         ++ [E || E = {K, _} <- A, is_singleton_type(K),
-                  lists:keyfind(K, 1, B) =:= false]
-         %% We keep common non-singleton KVPs to uphold the
-         %% "t_unify(X, X) = X" invariant
-         ++ [E || E = {K, _} <- A, not is_singleton_type(K),
-                  lists:member(E, B)]),
-   NewVarMap};
+  {t_map(CombinedEntries, NewVarMap};
 t_unify(?opaque(_) = T1, ?opaque(_) = T2, VarMap) ->
   t_unify(t_opaque_structure(T1), t_opaque_structure(T2), VarMap);
 t_unify(T1, ?opaque(_) = T2, VarMap) ->
