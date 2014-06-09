@@ -3273,7 +3273,7 @@ t_unify(?map(A), ?map(B), VarMap) ->
     = unify_lists(BothValsLeft, BothValsRight, VarMap),
   CombinedEntries = lists:zip(KeysInBoth, UnifiedValues),
   %% Non-precise (not known to be singleton) keys are discarded
-  {t_map(CombinedEntries, NewVarMap};
+  {t_map(CombinedEntries), NewVarMap};
 t_unify(?opaque(_) = T1, ?opaque(_) = T2, VarMap) ->
   t_unify(t_opaque_structure(T1), t_opaque_structure(T2), VarMap);
 t_unify(T1, ?opaque(_) = T2, VarMap) ->
