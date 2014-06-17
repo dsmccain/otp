@@ -25,20 +25,40 @@ init_per_group(_GroupName, Config) ->
 end_per_group(_GroupName, Config) ->
     Config.
 
+call_elim_test_file(Config, FileName, Option) ->
+    TempOut = test_server:temp_name(filename:join(?config(priv_dir, Config), "call_elim_out")),
+    {ok, TestCase} = compile:file(FileName),
+    {ok, TestCase} = hipe:c(TestCase, [Option, {pp_range_icode, {file, TempOut}}]),
+    {ok, Icode} = file:read_file(TempOut),
+    file:delete(TempOut),
+    Icode.
+
+number_of_substring(Icode, Substring) ->
+    number_of_substring(Icode, Substring, 0).
+number_of_substring(Icode, Substring, N) ->
+    case string:str(Icode, Substring) of
+        0 ->
+            N;
+        I ->
+            number_of_substring(lists:nthtail(I, Icode), Substring, N+1)
+    end.
+
 call_elim() ->
     [{doc, "Test that the call elimination optimization pass is ok"}].
 call_elim(Config) ->
-    F = filename:join(?config(data_dir, Config), "call_elim_test.erl"),
-    FileNameElim = test_server:temp_name(filename:join(?config(priv_dir, Config), "call_elim_out")),
-    {ok, TestCase} = compile:file(F),
-    {ok, TestCase} = hipe:c(TestCase, [icode_call_elim, {pp_range_icode, {file, FileNameElim}}]),
-    {ok, ElimFile} = file:read_file(FileNameElim),
-    file:delete(FileNameElim),
-    ok = TestCase:test(),
-    FileNameNoElim = test_server:temp_name(filename:join(?config(priv_dir, Config), "no_call_elim_out")),
-    {ok, TestCase} = hipe:c(TestCase, [no_icode_call_elim, {pp_range_icode, {file, FileNameNoElim}}]),
-    {ok, NoElimFile} = file:read_file(FileNameNoElim),
-    file:delete(FileNameNoElim),
-    0 = string:str(binary:bin_to_list(ElimFile), "is_key"),
-    true = (0 /= string:str(binary:bin_to_list(NoElimFile), "is_key")),
+    F1 = filename:join(?config(data_dir, Config), "call_elim_test.erl"),
+    Icode1 = call_elim_test_file(Config, F1, icode_call_elim),
+    0 = number_of_substring(binary:bin_to_list(Icode1), "is_key"),
+    Icode2 = call_elim_test_file(Config, F1, no_icode_call_elim),
+    true = (0 /= number_of_substring(binary:bin_to_list(Icode2), "is_key")),
+    F2 = filename:join(?config(data_dir, Config), "call_elim_test_branches_no_opt_poss.erl"),
+    Icode3 = call_elim_test_file(Config, F2, icode_call_elim),
+    2 = number_of_substring(binary:bin_to_list(Icode3), "is_key"),
+    Icode4 = call_elim_test_file(Config, F2, no_icode_call_elim),
+    2 = number_of_substring(binary:bin_to_list(Icode4), "is_key"),
+    F3 = filename:join(?config(data_dir, Config), "call_elim_test_branches_opt_poss.erl"),
+    Icode5 = call_elim_test_file(Config, F3, icode_call_elim),
+    1 = number_of_substring(binary:bin_to_list(Icode5), "is_key"),
+    Icode6 = call_elim_test_file(Config, F3, no_icode_call_elim),
+    2 = number_of_substring(binary:bin_to_list(Icode6), "is_key"),
     ok.
