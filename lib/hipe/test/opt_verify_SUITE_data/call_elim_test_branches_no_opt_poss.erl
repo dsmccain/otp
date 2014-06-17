@@ -5,21 +5,28 @@
 test(A) ->
     if A > 0 ->
         false = has_a_field(#{b=>true}),
-        false = has_a_field(#{b=>1, c=>2}),
-        false = has_a_field(#{b=>3, c=>4}),
-        ok;
+        true  = has_a_field(#{b=>1, a=>"2"}),
+        false = has_a_field(#{b=>5, c=>4}),
+        false = has_tuple_field(#{{{a,b}, 2}=><<"qq">>, 1         =>0}),
+        false = has_tuple_field(#{up        =>down,     {{a,b}, 2}=>[]}),
+        false = has_tuple_field(#{{{a,b}, 2}=>42});
        A =< 0 ->
-        true = has_a_field(#{a=>q,     'A'=> nej}),
+        true = has_a_field(#{a=>q,     'A'  =>nej}),
         true = has_a_field(#{a=>"hej", false=>true}),
         true = has_a_field(#{a=>3}),
-        ok
+        true = has_tuple_field(#{{{a,b}, 1}=>q,     'A'  =>nej}),
+        true = has_tuple_field(#{{{a,b}, 1}=>"hej", false=>true}),
+        true = has_tuple_field(#{{{a,b}, 1}=>3})
     end,
-    true  = has_b_field(#{a=>3, b=>"seven"}),
-    false = has_b_field(#{"seventeen"=>17}),
+    true = has_nil_field(#{[]         =>3, b=>"seven"}),
+    true = has_nil_field(#{"seventeen"=>17}),
     ok.
+
+has_tuple_field(#{{{a,b}, 1}:=_}) -> true;
+has_tuple_field(#{}) -> false.
 
 has_a_field(#{a:=_}) -> true;
 has_a_field(#{}) -> false.
 
-has_b_field(#{b:=_}) -> true;
-has_b_field(#{}) -> false.
+has_nil_field(#{[]:=_}) -> true;
+has_nil_field(#{}) -> false.

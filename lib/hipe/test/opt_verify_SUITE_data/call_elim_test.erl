@@ -3,10 +3,10 @@
 -export([test/0]).
 
 test() ->
-    true = has_a_field(#{a=>true}),
-    true = has_a_field(#{a=>1, b=>2}),
-    true = has_a_field(#{b=>3, a=>4}),
+    true = has_1_field(#{1=>true}),
+    true = has_1_field(#{1=>"hej", b=>2}),
+    true = has_1_field(#{b=>3, 1=>4}),
     ok.
 
-has_a_field(#{a:=_}) -> true;
-has_a_field(#{}) -> false.
+has_1_field(#{1:=_}) -> true;
+has_1_field(#{}) -> false.
