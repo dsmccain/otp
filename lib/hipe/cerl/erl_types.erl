@@ -4814,6 +4814,13 @@ is_singleton_type(?nil) -> true;
 is_singleton_type(?atom(?any)) -> false;
 is_singleton_type(?atom(Set)) ->
   ordsets:size(Set) =:= 1;
+is_singleton_type(?int_range(V, V)) -> true;
+is_singleton_type(?int_set(Set)) ->
+  ordsets:size(Set) =:= 1;
+is_singleton_type(?tuple(Types, Arity, _)) when is_integer(Arity) ->
+  lists:all(fun is_singleton_type/1, Types);
+is_singleton_type(?tuple_set([{Arity, [OnlyTuple]}])) when is_integer(Arity) ->
+  is_singleton_type(OnlyTuple);
 is_singleton_type(_) ->
   false.
 
@@ -4828,7 +4835,18 @@ singleton_type_to_term(?atom(Set)) when Set =/= ?any ->
   case ordsets:size(Set) of
     1 -> hd(ordsets:to_list(Set));
     _ -> error(badarg)
-  end.
+  end;
+singleton_type_to_term(?int_range(V, V)) -> V;
+singleton_type_to_term(?int_set(Set)) ->
+  case ordsets:size(Set) of
+    1 -> hd(ordsets:to_list(Set));
+    _ -> error(badarg)
+  end;
+singleton_type_to_term(?tuple(Types, Arity, _)) when is_integer(Arity) ->
+  lists:map(fun singleton_type_to_term/1, Types);
+singleton_type_to_term(?tuple_set([{Arity, [OnlyTuple]}]))
+  when is_integer(Arity) ->
+  singleton_type_to_term(OnlyTuple).
 
 %% -----------------------------------
 %% Set
