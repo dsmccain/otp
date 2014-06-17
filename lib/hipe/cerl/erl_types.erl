@@ -3281,18 +3281,21 @@ t_unify(?tuple_set(List1) = T1, ?tuple_set(List2) = T2, VarMap) ->
     {Tuples, NewVarMap} -> {t_sup(Tuples), NewVarMap}
   catch _:_ -> throw({mismatch, T1, T2})
   end;
-t_unify(?map(A), ?map(B), VarMap) ->
-  %% XXX: ?var as keys are not handled yet
-  %% First handle the case of the same key existing in both maps.
+t_unify(?map(A0), ?map(B0), VarMap) ->
+  SubstMap = fun(K) -> t_subst_kv(K, VarMap) end,
+  A1 = lists:keymap(SubstMap, 1, A0),
+  B1 = lists:keymap(SubstMap, 1, B0),
+  %% We only handle the case of the same key existing in both maps by
+  %% aligning the keys and unifying the values.
   {KeysInBoth, ValsInBoth} =
     lists:unzip([{K, {V1, V2}} ||
-		  {K, V1} <- A, is_singleton_type(K),
-		  {_, V2} <- [lists:keyfind(K, 1, B)]]),
+		  {K, V1} <- A1, is_singleton_type(K),
+		  {_, V2} <- [lists:keyfind(K, 1, B1)]]),
   {BothValsLeft, BothValsRight} = lists:unzip(ValsInBoth),
   {UnifiedValues, NewVarMap} =
     unify_lists(BothValsLeft, BothValsRight, VarMap),
   CombinedEntries = lists:zip(KeysInBoth, UnifiedValues),
-  %% Non-precise (not known to be singleton) keys are discarded
+  %% Non-precise (not known to be singleton) keys are discarded.
   {t_map(CombinedEntries), NewVarMap};
 t_unify(?opaque(_) = T1, ?opaque(_) = T2, VarMap) ->
   t_unify(t_opaque_structure(T1), t_opaque_structure(T2), VarMap);
